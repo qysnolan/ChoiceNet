@@ -1,0 +1,15 @@
+<div modal="alertIsOpen" close="closeAlert()" options="alertOptions">
+    <div class="modal-header">
+        <h3>Warning!</h3>
+    </div>
+    <div class="modal-body">
+    	<p>You are about to <span class="text-error">delete</span> this <span class="text-error">{{ alert.type }}</span>:</p>
+        <h4 class="center">{{ alert.title }}</h4>
+        <br>
+        <p ng-show="alert.children.count > 0">This {{ alert.type }} has <span class="text-error">{{ alert.children.count }} {{ alert.children.type }}</span> that will be <span class="text-error">deleted</span> along with it.</p>
+    </div>
+    <div class="modal-footer">
+    	<button class="btn btn-danger" ng-click="closeAlert(true)">Delete</button>
+        <button class="btn" ng-click="closeAlert(false)">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div style="padding-top:30px;" class="container-fluid">
+	<div class="visible-phone">
+		<h1>Sorry!</h1>
+		<h1>The form builder does not support phones.</h1>
+		<img class="img-polaroid" src="/static/imgs/no-phones.png">
+	</div>
+	<div class="hidden-phone row">
+		<div class="span12" ng-animate="'fade'" ng-include ng-init="selection='/static/views/form_creator/partials/formBody.html'" src="selection">
+		</div>
+	</div>
+</div>

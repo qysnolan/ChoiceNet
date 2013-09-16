@@ -1,0 +1,21 @@
+<!-- FORMTYPE MODAL -->
+<div ng-controller="FormTypeModalCtrl">
+	<div modal="shouldBeOpen" close="close()" options="opts">
+		<div class="modal-header">
+			<h3>Change Form Type</h3>
+		</div>
+		<div class="modal-body">
+			<label class="checkbox">
+  				<input type="checkbox" ng-model="threeLevel">
+  				Is this a 3 level form?
+			</label>
+			<p ng-show="threeLevel" class="small text-warning"><small>This form only has 3 levels (i.e. Indicators/Elements are combined).</small></p>
+			<p ng-show="!threeLevel" class="muted"><small>By default a form in our system has 4 levels (Standards, Indicators, Elements, Descriptors). If your form only requires 3, select this option.</small></p>
+		</div>
+		<div class="modal-footer">
+			<button ng-click="save()" class="btn btn-primary">Save</button>
+			<button ng-click="close()" class="btn">Cancel</button>
+		</div>
+	</div>
+</div>
+<!-- END FORMTYPE MODAL -->

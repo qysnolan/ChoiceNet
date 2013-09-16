@@ -1,0 +1,20 @@
+<div ng-controller="RubricModalPopupCtrl">
+	<div modal="shouldBeOpen" close="close()" options="opts">
+		<div class="modal-header">
+			<h3>Apply Changes</h3>
+		</div>
+		<div class="modal-body">
+			<label class="checkbox">
+  				<input type="checkbox" ng-model="retroactive">
+  				Apply changes retroactively
+			</label>
+
+			<p ng-show="retroactive" class="text-warning"><small>You wold like to apply the changes to the rubric retroactively (overwrite previous descriptors).</small></p>
+			<p ng-show="!retroactive" class="muted"><small>You would like to apply this rubric to only future descriptors (doesn't affect current descriptors).</small></p>
+		</div>
+		<div class="modal-footer">
+			<button ng-click="save(retroactive)" class="btn btn-primary">Save</button>
+			<button ng-click="close()" class="btn">Cancel</button>
+		</div>
+	</div>
+</div>

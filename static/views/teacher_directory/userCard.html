@@ -1,0 +1,71 @@
+<div class="user-panel">
+	<a class="pull-left" ng-click="showTeacherInfo(user)" href="javascript:void(0)">
+		<img class="media-object" ng-src="http://robohash.org/{{user.id}}?size=64x64" style="width: 64px; height: 64px;">
+	</a>
+	<div>
+		<h4 class="user-name" style="">{{ user.first_name }} {{ user.last_name }}</h4>
+		<hr style="margin:0; margin-bottom:10px;">
+
+		<p>
+			<p><a data-toggle="tooltip" data-trigger="click" title="Email" class="unstyled-link"><i class="user-info-icon icon-envelope"></i></a> {{ user.username }}</p>
+			<p><a title="Groups" data-toggle="tooltip" data-trigger="click" class="unstyled-link"><i  class="user-info-icon icon-group"></i></a> <span ng-repeat="department in user.departments_names">[{{ department }}]</span></p>
+			<p><a title="Schools" data-toggle="tooltip" data-trigger="click" class="unstyled-link"><i  class="user-info-icon icon-hospital"></i></a> <span ng-repeat="school in user.schools_names">[{{ school }}]</span></p>
+		</p>
+		<div class="user-extra-info" ng-animate="'fade'" ng-show="user.shown" ng-init="extraInfo=false">
+			<a ng-show="false" class="pull-left" href="#">
+				<img class="media-object" ng-src="http://placehold.it/64/{{user.rating.number | ratingColor}}/000000&text={{user.rating.description}}" alt="64x64" style="width: 64px; height: 64px;">
+			</a>
+			<div>
+				<tabset>
+					<tab heading="Overview">
+						<img style="width:240px" src="http://i.imgur.com/CQdfQLc.png">
+						<img style="width:240px" src="http://i.imgur.com/LA5RaUL.png">
+						<img style="width:240px" src="http://i.imgur.com/9z6yr5Z.png">
+						<p class="center">Dummy graphs</p>
+					</tab>
+					<tab heading="Evaluations">
+						<p ng-show="user.evaluations.length < 1">There doesn't seem to be any evaluations for this user.</p>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th><a href="" ng-init="predicate = 'time_created'; reverse = true" ng-click="predicate = 'time_created'; reverse = !reverse">Time created <i class="pull-right" ng-class="{'icon-sort-down':reverse === true && predicate === 'time_created', 'icon-sort-up': reverse === false && predicate === 'time_created', 'icon-sort': predicate === 'score'}"></i></a></th>
+									<th></th>
+									<th>Evaluator</th>
+									<th>Evaluation Form</th>
+									<th>Signed</th>
+									<th><a href="" ng-click="predicate = 'score'; reverse = !reverse">Score <i class="pull-right" ng-class="{'icon-sort-down':reverse === true && predicate === 'score', 'icon-sort-up': reverse === false && predicate === 'score', 'icon-sort': predicate === 'time_created'}"></i></a></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="eval in user.evaluations | orderBy:predicate:reverse">
+									<td>{{ eval.time_created | date:'medium' }}</td>
+									<td><a class="btn" href="/viewEvaluation/{{ eval.id }}/" target="_blank"><i class="icon-external-link"></i></a></td>
+									<td>{{ eval.evaluator_name }}</td>
+									<td>{{ eval.form_name }}</td>
+									<td><i ng-class="{'icon-check': eval.teacher_signature !== null, 'icon-check-empty': eval.teacher_signature === null}"></i></td>
+									<td>{{ eval.score }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</tab>
+					<tab heading="Focus Areas">
+						<p class="lead">{{ user.focusAreas.form }}</p>
+						<table class="table table-striped">
+							<thead>
+								<th>Indicator</th>
+								<th ng-init="reverse = false"><a href="" ng-click="reverse = !reverse">Average Score <i style="margin-left:5px;" ng-class="{'icon-sort-down':reverse === true, 'icon-sort-up': reverse === false}"></i></a></th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="area in user.focusAreas.focus_areas | orderBy:'score':reverse">
+									<td>{{ area.indicator.title }}</td>
+									<td>{{ area.descriptor_title }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</tab>
+				</tabset>
+			</div>
+		</div>
+	</div>
+	<a title="Expand Info"  class="user-info-toggle" ng-click="showTeacherInfo(user)" href="javascript:void(0)"><i ng-class="{'icon-chevron-down' : !user.shown, 'icon-chevron-up': user.shown}"></i></a>
+</div>
