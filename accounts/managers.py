@@ -1,6 +1,6 @@
 from django.contrib.auth.models import BaseUserManager
 from django.db.models.query import QuerySet
-from teacher_evaluator.teacherEval.models import CustomManager
+from choiceNet.models import CustomManager
 
 
 class UserManager(BaseUserManager, CustomManager):

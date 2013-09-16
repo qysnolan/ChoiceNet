@@ -1,0 +1,95 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block page-css %}
+<style type="text/css">
+    .login-container
+    {
+        max-width: 700px;
+    }
+    
+    .learn-more
+    {
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block page-js %}
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        if (hash == "loggedout")
+        {
+            $("#loggedoutNotice").fadeIn();
+        }
+        if (hash == "changed")
+        {
+            $("#changedNotice").fadeIn();
+        }
+        if (cookies_enabled() == false)
+        {
+            $("#cookieNotice").fadeIn();
+        }
+    });
+    function cookies_enabled()
+    {
+        var cookieEnabled = !!(navigator.cookieEnabled);
+        if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled)
+        { 
+            document.cookie="testcookie";
+            cookieEnabled = !!(document.cookie.indexOf("testcookie") != -1);
+        }
+        return (cookieEnabled);
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container login-container">
+    <div class="page-header">
+        <h1>Welcome to ChoiceNet Shopper! Please sign in</h1>
+    </div>
+
+    <div class="alert alert-info" id="loggedoutNotice" style="display: none;">
+        You have been logged out successfully
+    </div>
+    <div class="alert alert-success" id="changedNotice" style="display: none;">
+        Your password has been changed successfully
+    </div>
+    <div class="alert" id="cookieNotice" style="display: none;">
+        <strong>Warning:</strong>
+        Your browser's cookie functionality is turned off.
+        You must enable them in order to login.
+    </div>
+    
+    <form action="{% url "login" %}?next={{ redirect_to }}" method="POST">
+        <div class="well">
+            {% csrf_token %}
+
+            {{ form.as_bootstrap }}
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <input type="submit" value="Sign in"
+                           class="btn btn-primary" />
+                </div>
+                <div class="span6 pull-right" style="text-align: right;">
+                    <a href="{% url "forgot_password" %}" class="btn btn-link">
+                        Can't access your account?
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <div class="row center hidden-from-app">
+        Not a ChoiceNet Shopper user?<br />
+        <a href="http://www.ecs.umass.edu/ece/wolf/nsl.html"
+           class="btn btn-success learn-more">
+            Sign up now.
+        </a>
+    </div>
+</div>
+{% endblock %}
