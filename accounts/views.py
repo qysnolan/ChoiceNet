@@ -20,7 +20,8 @@ class LoginView(View):
         if "next" in request.GET:
             redirect_to = request.GET["next"]
 
-        return render_with_user(request, "accounts/login.html", {"form": form, "redirect_to": redirect_to})
+        return render_with_user(request, "accounts/login.html",
+                                {"form": form, "redirect_to": redirect_to})
 
     def post(self, request):
         from django.contrib.auth import login
@@ -39,4 +40,5 @@ class LoginView(View):
 
             return redirect(redirect_to)
 
-        return render_with_user(request, "accounts/login.html", {"form": form, "redirect_to": redirect_to})
+        return render_with_user(request, "accounts/login.html",
+                                {"form": form, "redirect_to": redirect_to})

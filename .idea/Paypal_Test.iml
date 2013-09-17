@@ -3,8 +3,8 @@
   <component name="FacetManager">
     <facet type="django" name="Django">
       <configuration>
-        <option name="rootFolder" value="$MODULE_DIR$/../Paypal_Test" />
-        <option name="settingsModule" value="paypal_test/settings.py" />
+        <option name="rootFolder" value="$MODULE_DIR$" />
+        <option name="settingsModule" value="" />
         <option name="manageScript" value="manage.py" />
       </configuration>
     </facet>
