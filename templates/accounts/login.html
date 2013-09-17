@@ -49,7 +49,9 @@
 {% block content %}
 <div class="container login-container">
     <div class="page-header">
-        <h1>Welcome to ChoiceNet Shopper! Please sign in</h1>
+        <h1>Welcome to ChoiceNet Shopper! <br />
+            Please sign in
+        </h1>
     </div>
 
     <div class="alert alert-info" id="loggedoutNotice" style="display: none;">
@@ -76,7 +78,7 @@
                            class="btn btn-primary" />
                 </div>
                 <div class="span6 pull-right" style="text-align: right;">
-                    <a href="{% url "forgot_password" %}" class="btn btn-link">
+                    <a href="{% url "login" %}" class="btn btn-link">
                         Can't access your account?
                     </a>
                 </div>
@@ -88,7 +90,7 @@
         Not a ChoiceNet Shopper user?<br />
         <a href="http://www.ecs.umass.edu/ece/wolf/nsl.html"
            class="btn btn-success learn-more">
-            Sign up now.
+            Sign up now
         </a>
     </div>
 </div>

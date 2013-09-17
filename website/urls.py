@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from website.views import *
+from accounts.views import *
 from django.contrib import admin
 admin.autodiscover()
 
@@ -17,7 +18,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', hello),
+    url(r'^$', LoginView.as_view()),
+    url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^hello/', hello),
     url(r'^pay/', include('paypal.standard.ipn.urls')),
     # url(r'^pay/', view_that_asks_for_money),
