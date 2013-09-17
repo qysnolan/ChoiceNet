@@ -16,3 +16,15 @@ class AuthenticationForm(AuthenticationForm, forms.Form):
 
     def clean_username(self):
         return self.cleaned_data["username"].lower()
+
+
+class UserForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+
+        self.error_messages["invalid_login"] = "Please enter a valid email " \
+                                               "and password."
+
+        self.fields["username"].widget = widgets.EmailInput()
+        self.fields["password"].widget = widgets.PasswordInput()

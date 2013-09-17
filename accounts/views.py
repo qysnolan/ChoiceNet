@@ -42,3 +42,46 @@ class LoginView(View):
 
         return render_with_user(request, "accounts/login.html",
                                 {"form": form, "redirect_to": redirect_to})
+
+
+def CreateAccount(request, school=None, department=None):
+    """
+    *GET*
+    Allows a user to create an account.
+    *POST*
+    Saves account with selected attributes
+    *TEMPLATES*
+    'Accounts/AddAccount.html'
+    """
+
+    from accounts.forms import UserForm
+
+    if request.method == 'GET':
+        user = request.User
+
+        initialData = {
+            "departments": department,
+            "schools": school,
+        }
+
+        form = UserForm(current_user=user, initial=initialData)
+
+        return render_with_user(request, 'Accounts/AddAccount.html', {"form": form})
+
+    if request.method == 'POST':
+        user = request.User
+        form = UserForm(request.POST, current_user=user)
+
+        form_valid = False
+
+        if form.is_valid():
+            # FORM IS VALID, CREATE USER
+
+            form_valid = True
+            form.save()
+
+            # GIVE USER A BLANK FORM IF VALID
+
+            form = UserForm(current_user=user)
+
+        return render_with_user(request, 'Accounts/AddAccount.html', {'created': form_valid, "form": form})
