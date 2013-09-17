@@ -1,4 +1,6 @@
 from django.views.generic import View
+from django.shortcuts import render_to_response
+
 from choiceNet.functions import render_with_user
 
 
@@ -66,7 +68,7 @@ def CreateAccount(request, school=None, department=None):
 
         form = UserForm(current_user=user, initial=initialData)
 
-        return render_with_user(request, 'Accounts/AddAccount.html', {"form": form})
+        return render_to_response('accounts/sign_up.html', {"form": form})
 
     if request.method == 'POST':
         user = request.User
@@ -84,4 +86,4 @@ def CreateAccount(request, school=None, department=None):
 
             form = UserForm(current_user=user)
 
-        return render_with_user(request, 'Accounts/AddAccount.html', {'created': form_valid, "form": form})
+        return render_to_response('accounts/sign_up.html', {'created': form_valid, "form": form})
