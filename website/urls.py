@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     # For user login and related
     url(r'^$', home),
     url(r'^login/$', LoginView.as_view(), name="login"),
+    url(r'^logout/$', logout),
 
     # Shopping part
     url(r'^home/', home, name="home"),
