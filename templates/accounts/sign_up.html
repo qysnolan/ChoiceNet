@@ -1,0 +1,54 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block page-css %}
+<style type="text/css">
+    .login-container
+    {
+        max-width: 700px;
+    }
+    
+    .learn-more
+    {
+        margin-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+<div class="header center">
+    <a href="/">
+        <img src="/static/imgs/umass_150.png" alt="ChoiceNet Shopper"
+             height="180" width="380" />
+    </a>
+</div>
+
+<div class="container login-container">
+    <div class="page-header">
+        <h1>
+            Please sign up ...
+        </h1>
+    </div>
+    
+    <form action="{% url "home" %}" method="POST">
+
+        <div class="well">
+
+            {% csrf_token %}
+            {{ form }}
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <input type="submit" value="Sign up"
+                           class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

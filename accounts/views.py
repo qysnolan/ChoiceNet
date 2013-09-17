@@ -1,5 +1,6 @@
 from django.views.generic import View
 from django.shortcuts import render_to_response
+from django.core.context_processors import csrf
 
 from choiceNet.functions import render_with_user
 
@@ -46,7 +47,7 @@ class LoginView(View):
                                 {"form": form, "redirect_to": redirect_to})
 
 
-def CreateAccount(request, school=None, department=None):
+def CreateAccount(request):
     """
     *GET*
     Allows a user to create an account.
@@ -59,31 +60,28 @@ def CreateAccount(request, school=None, department=None):
     from accounts.forms import UserForm
 
     if request.method == 'GET':
-        user = request.User
 
-        initialData = {
-            "departments": department,
-            "schools": school,
-        }
-
-        form = UserForm(current_user=user, initial=initialData)
+        form = UserForm()
 
         return render_to_response('accounts/sign_up.html', {"form": form})
 
     if request.method == 'POST':
-        user = request.User
-        form = UserForm(request.POST, current_user=user)
 
-        form_valid = False
+        c = {}
+        c.update(csrf(request))
 
-        if form.is_valid():
-            # FORM IS VALID, CREATE USER
+        # form = UserForm()
+        #
+        # form_valid = False
+        #
+        # if form.is_valid():
+        #     # FORM IS VALID, CREATE USER
+        #
+        #     form_valid = True
+        #     form.save()
+        #
+        #     # GIVE USER A BLANK FORM IF VALID
+        #
+        #     form = UserForm()
 
-            form_valid = True
-            form.save()
-
-            # GIVE USER A BLANK FORM IF VALID
-
-            form = UserForm(current_user=user)
-
-        return render_to_response('accounts/sign_up.html', {'created': form_valid, "form": form})
+        return render_to_response('home.html', c)
