@@ -65,7 +65,7 @@
       <file leaf-file-name="login.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="22" selection-start="2028" selection-end="2028" vertical-scroll-proportion="0.2607313">
+            <state line="94" column="4" selection-start="2529" selection-end="2529" vertical-scroll-proportion="0.618442">
               <folding />
             </state>
           </provider>
@@ -650,7 +650,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="22" selection-start="2028" selection-end="2028" vertical-scroll-proportion="0.2607313">
+        <state line="94" column="4" selection-start="2529" selection-end="2529" vertical-scroll-proportion="0.618442">
           <folding />
         </state>
       </provider>
