@@ -1,7 +1,10 @@
 from django.conf.urls import patterns, include, url
+from django.contrib import admin
+
 from website.views import *
 from accounts.views import *
-from django.contrib import admin
+from choiceNet.views import *
+
 admin.autodiscover()
 
 # Uncomment the next two lines to enable the admin:
@@ -17,10 +20,20 @@ urlpatterns = patterns('',
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
+
+    # Admin site
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', LoginView.as_view()),
+
+    # For user login and related
+    url(r'^$', home),
     url(r'^login/$', LoginView.as_view(), name="login"),
+
+    # Shopping part
+    url(r'^home/', home, name="home"),
+
+    # Just for testing
     url(r'^hello/', hello),
-    url(r'^pay/', include('paypal.standard.ipn.urls')),
-    # url(r'^pay/', view_that_asks_for_money),
+
+    # PayPal
+    url(r'^you/cant/guess/this/url/', include('paypal.standard.ipn.urls')),
 )

@@ -25,5 +25,5 @@ def view_that_asks_for_money(request):
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox()}
-    return render_to_response("payment.html", context)
+    return render_to_response("paypal/payment.html", context)
 
