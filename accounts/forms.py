@@ -24,9 +24,3 @@ class UserForm(forms.Form):
     username = old_form.EmailField(required=True)
     first_name = old_form.CharField(required=True)
     last_name = old_form.CharField(required=True)
-
-    # def __init__(self, *args, **kwargs):
-    #     super(UserForm, self).__init__(*args, **kwargs)
-    #
-    #     self.fields["username"].widget = widgets.EmailInput()
-    #     self.fields["password"].widget = widgets.PasswordInput()

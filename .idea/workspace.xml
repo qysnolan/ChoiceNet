@@ -7,7 +7,7 @@
     <file path="/urls.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379444646632" ignored="false" />
     <file path="/Dummy.txt" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379428575012" ignored="false" />
     <file path="/settings.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379345493807" ignored="false" />
-    <file path="/views.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379445921476" ignored="false" />
+    <file path="/views.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379511544145" ignored="false" />
     <file path="/payment.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379341513154" ignored="false" />
     <file path="/manage.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379341265826" ignored="false" />
     <file path="/Base.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379442839890" ignored="false" />
@@ -17,7 +17,7 @@
     <file path="/forms.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379445746327" ignored="false" />
     <file path="/login.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379444687394" ignored="false" />
     <file path="/home.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379444113780" ignored="false" />
-    <file path="/sign_up.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379445799243" ignored="false" />
+    <file path="/sign_up.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379511764047" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +40,10 @@
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/website/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="32" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="23" column="38" selection-start="586" selection-end="586" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -60,7 +62,7 @@
       <file leaf-file-name="login.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="22" selection-start="2032" selection-end="2032" vertical-scroll-proportion="-6.8333335">
+            <state line="56" column="22" selection-start="1223" selection-end="1238" vertical-scroll-proportion="-9.333333">
               <folding />
             </state>
           </provider>
@@ -87,7 +89,7 @@
       <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounts/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="42" selection-start="1976" selection-end="1976" vertical-scroll-proportion="0.0">
+            <state line="77" column="21" selection-start="1937" selection-end="1945" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
@@ -98,7 +100,7 @@
       <file leaf-file-name="sign_up.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/accounts/sign_up.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="0" selection-start="748" selection-end="748" vertical-scroll-proportion="0.5945946">
+            <state line="42" column="35" selection-start="762" selection-end="762" vertical-scroll-proportion="0.5945946">
               <folding />
             </state>
           </provider>
@@ -107,7 +109,7 @@
       <file leaf-file-name="forms.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounts/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="708" selection-end="708" vertical-scroll-proportion="0.0">
+            <state line="20" column="0" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#56#0" expanded="true" />
               </folding>
@@ -147,8 +149,8 @@
         <option value="$PROJECT_DIR$/choiceNet/views.py" />
         <option value="$PROJECT_DIR$/templates/accounts/login.html" />
         <option value="$PROJECT_DIR$/website/urls.py" />
-        <option value="$PROJECT_DIR$/accounts/forms.py" />
         <option value="$PROJECT_DIR$/accounts/views.py" />
+        <option value="$PROJECT_DIR$/accounts/forms.py" />
         <option value="$PROJECT_DIR$/templates/accounts/sign_up.html" />
       </list>
     </option>
@@ -642,23 +644,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/website/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="32" selection-start="84" selection-end="84" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounts/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="69" selection-start="753" selection-end="753" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="22" selection-start="2032" selection-end="2032" vertical-scroll-proportion="-6.8333335">
           <folding />
         </state>
       </provider>
@@ -672,27 +660,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/forms.py">
+    <entry file="file://$PROJECT_DIR$/website/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="708" selection-end="708" vertical-scroll-proportion="0.0">
+        <state line="23" column="38" selection-start="586" selection-end="586" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#56#0" expanded="true" />
+            <element signature="e#0#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/accounts/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="42" selection-start="1976" selection-end="1976" vertical-scroll-proportion="0.0">
+        <state line="77" column="21" selection-start="1937" selection-end="1945" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="679" selection-end="679" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="22" selection-start="1223" selection-end="1238" vertical-scroll-proportion="-9.333333">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/accounts/sign_up.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="0" selection-start="748" selection-end="748" vertical-scroll-proportion="0.5945946">
+        <state line="42" column="35" selection-start="762" selection-end="762" vertical-scroll-proportion="0.5945946">
           <folding />
         </state>
       </provider>

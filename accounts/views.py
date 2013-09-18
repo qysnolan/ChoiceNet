@@ -6,6 +6,14 @@ from choiceNet.functions import render_with_user
 
 
 class LoginView(View):
+    """
+    *GET*
+    Allows a user to go to login page.
+    *POST*
+    Allows a user to login.
+    *TEMPLATES*
+    'accounts/login.html'
+    """
 
     def get(self, request):
         from django.contrib.auth import logout
@@ -54,7 +62,7 @@ def CreateAccount(request):
     *POST*
     Saves account with selected attributes
     *TEMPLATES*
-    'Accounts/AddAccount.html'
+    'accounts/sign_up.html'
     """
 
     from accounts.forms import UserForm
@@ -67,21 +75,15 @@ def CreateAccount(request):
 
     if request.method == 'POST':
 
-        c = {}
-        c.update(csrf(request))
+        form = UserForm()
 
-        # form = UserForm()
-        #
-        # form_valid = False
-        #
-        # if form.is_valid():
-        #     # FORM IS VALID, CREATE USER
-        #
-        #     form_valid = True
-        #     form.save()
-        #
-        #     # GIVE USER A BLANK FORM IF VALID
-        #
-        #     form = UserForm()
+        form_valid = False
 
-        return render_to_response('home.html', c)
+        if form.is_valid():
+            # FORM IS VALID, CREATE USER
+
+            form_valid = True
+            form.save()
+
+        return render_to_response("accounts/login.html",
+                                  {"form_valid": form_valid})
