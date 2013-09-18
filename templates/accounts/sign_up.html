@@ -33,12 +33,17 @@
             Please sign up ...
         </h1>
     </div>
-    
-    <form action="{% url "home" %}" method="POST">
+    {% if form.errors %}
+        <div class="alert alert-error">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </div>
+    {% endif %}
+    <form action="{% url "sign_up" %}?next={{ redirect_to }}" method="POST">
 
         <div class="well">
 
-            {{ form }}
+            {% csrf_token %}
+            {{ form.as_table }}
 
             <div class="row-fluid">
                 <div class="span12">

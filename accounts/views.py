@@ -1,6 +1,6 @@
 from django.views.generic import View
-from django.shortcuts import render_to_response
-from django.core.context_processors import csrf
+from django.shortcuts import render_to_response, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 from choiceNet.functions import render_with_user
 
@@ -36,7 +36,6 @@ class LoginView(View):
 
     def post(self, request):
         from django.contrib.auth import login
-        from django.shortcuts import redirect
         from .forms import AuthenticationForm
 
         form = AuthenticationForm(request, request.POST)
@@ -55,6 +54,7 @@ class LoginView(View):
                                 {"form": form, "redirect_to": redirect_to})
 
 
+@csrf_exempt
 def CreateAccount(request):
     """
     *GET*
@@ -71,19 +71,30 @@ def CreateAccount(request):
 
         form = UserForm()
 
-        return render_to_response('accounts/sign_up.html', {"form": form})
+        redirect_to = "/login/"
+
+        if "next" in request.GET:
+            redirect_to = request.GET["next"]
+
+        return render_to_response('accounts/sign_up.html',
+                                  {"form": form, "redirect_to": redirect_to})
 
     if request.method == 'POST':
 
-        form = UserForm()
+        form = UserForm(request.POST)
 
         form_valid = False
+
+        redirect_to = request.GET.get("next", "/login/")
 
         if form.is_valid():
             # FORM IS VALID, CREATE USER
 
             form_valid = True
-            form.save()
+            # form.save()
 
-        return render_to_response("accounts/login.html",
-                                  {"form_valid": form_valid})
+            return redirect(redirect_to)
+
+        return render_to_response('accounts/sign_up.html',
+                                  {"form": form, "form_valid": form_valid,
+                                   "redirect_to": redirect_to})
