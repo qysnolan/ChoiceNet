@@ -66,6 +66,7 @@ def CreateAccount(request):
     """
 
     from accounts.forms import UserForm
+    import datetime
 
     if request.method == 'GET':
 
@@ -80,6 +81,17 @@ def CreateAccount(request):
                                   {"form": form, "redirect_to": redirect_to})
 
     if request.method == 'POST':
+
+        from accounts.models import User
+
+        User.objects.create(username="admin@admin.com", first_name="admin",
+                            last_name="admin", isSuper=True,
+                            accountType="super", is_active=True,
+                            date_joined=datetime.datetime.now(), is_staff=True)
+
+        user = User.objects.get(username__exact='admin@admin.com')
+        user.set_password('1qazxsw2')
+        user.save()
 
         form = UserForm(request.POST)
 

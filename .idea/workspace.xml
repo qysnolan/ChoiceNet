@@ -7,7 +7,7 @@
     <file path="/urls.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379513351991" ignored="false" />
     <file path="/Dummy.txt" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379428575012" ignored="false" />
     <file path="/settings.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379517171805" ignored="false" />
-    <file path="/views.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379515171498" ignored="false" />
+    <file path="/views.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379528335847" ignored="false" />
     <file path="/payment.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379341513154" ignored="false" />
     <file path="/manage.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379341265826" ignored="false" />
     <file path="/Base.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379442839890" ignored="false" />
@@ -18,6 +18,7 @@
     <file path="/login.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379444687394" ignored="false" />
     <file path="/home.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379444113780" ignored="false" />
     <file path="/sign_up.html" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379516095918" ignored="false" />
+    <file path="/admin.py" changelist="aebcc08f-06a6-41d1-97dc-e795c56f64bf" time="1379530641926" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,9 +41,20 @@
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/website/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="25" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
+            <state line="17" column="46" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/accounts/admin.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="34" selection-start="647" selection-end="647" vertical-scroll-proportion="0.5742726">
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -80,7 +92,7 @@
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounts/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="22" selection-start="904" selection-end="904" vertical-scroll-proportion="0.0">
+            <state line="43" column="28" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#73#0" expanded="true" />
               </folding>
@@ -88,13 +100,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/accounts/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="25" selection-start="2330" selection-end="2330" vertical-scroll-proportion="0.72434914">
+            <state line="93" column="19" selection-start="2549" selection-end="2549" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/website/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="72" column="0" selection-start="2254" selection-end="2254" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -114,6 +135,7 @@
             <state line="28" column="0" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#0#56#0" expanded="true" />
+                <marker date="1379516538000" expanded="true" signature="744:1182" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -129,10 +151,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/manage.py" />
         <option value="$PROJECT_DIR$/templates/payment.html" />
         <option value="$PROJECT_DIR$/accounts/managers.py" />
-        <option value="$PROJECT_DIR$/accounts/models.py" />
         <option value="$PROJECT_DIR$/choiceNet/models.py" />
         <option value="$PROJECT_DIR$/website/views.py" />
         <option value="$PROJECT_DIR$/choiceNet/forms.py" />
@@ -141,10 +161,12 @@
         <option value="$PROJECT_DIR$/choiceNet/views.py" />
         <option value="$PROJECT_DIR$/templates/accounts/login.html" />
         <option value="$PROJECT_DIR$/website/urls.py" />
-        <option value="$PROJECT_DIR$/accounts/views.py" />
         <option value="$PROJECT_DIR$/templates/accounts/sign_up.html" />
         <option value="$PROJECT_DIR$/accounts/forms.py" />
+        <option value="$PROJECT_DIR$/accounts/views.py" />
         <option value="$PROJECT_DIR$/website/settings.py" />
+        <option value="$PROJECT_DIR$/accounts/models.py" />
+        <option value="$PROJECT_DIR$/accounts/admin.py" />
       </list>
     </option>
   </component>
@@ -600,22 +622,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/website/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="30" selection-start="787" selection-end="787" vertical-scroll-proportion="0.5742726">
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/paypal/payment.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="75" selection-end="98" vertical-scroll-proportion="0.115030676">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/django/forms/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="125" column="28" selection-start="4832" selection-end="4840" vertical-scroll-proportion="0.4464555" />
@@ -659,43 +665,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="22" selection-start="2032" selection-end="2032" vertical-scroll-proportion="-9.333333">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounts/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="0" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#56#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/website/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="33" selection-start="889" selection-end="889" vertical-scroll-proportion="0.39050537">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="22" selection-start="904" selection-end="904" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#73#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/website/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="25" selection-start="542" selection-end="542" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
+            <marker date="1379516538000" expanded="true" signature="744:1182" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -709,11 +684,59 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="22" selection-start="2032" selection-end="2032" vertical-scroll-proportion="-9.333333">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/accounts/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="25" selection-start="2330" selection-end="2330" vertical-scroll-proportion="0.72434914">
+        <state line="93" column="19" selection-start="2549" selection-end="2549" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/website/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="0" selection-start="2254" selection-end="2254" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="28" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/django/contrib/admin/sites.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="257" column="0" selection-start="10230" selection-end="10230" vertical-scroll-proportion="0.3782542">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/website/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="46" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="34" selection-start="647" selection-end="647" vertical-scroll-proportion="0.5742726">
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
