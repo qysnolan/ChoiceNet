@@ -21,8 +21,3 @@ class UserAdmin(UserAdmin):
 
 
 admin.site.register(User, UserAdmin)
-
-# from django.contrib import admin
-# from accounts.models import User
-#
-# admin.site.register(User)

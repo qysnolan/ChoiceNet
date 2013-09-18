@@ -42,9 +42,7 @@
         <entry file="file://$PROJECT_DIR$/website/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="17" column="46" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#51#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -52,7 +50,7 @@
       <file leaf-file-name="admin.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/accounts/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="34" selection-start="647" selection-end="647" vertical-scroll-proportion="0.5742726">
+            <state line="22" column="25" selection-start="565" selection-end="565" vertical-scroll-proportion="0.5053599">
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -64,9 +62,7 @@
         <entry file="file://$PROJECT_DIR$/choiceNet/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="11" column="40" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#57#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -74,7 +70,7 @@
       <file leaf-file-name="login.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="22" selection-start="2032" selection-end="2032" vertical-scroll-proportion="-9.333333">
+            <state line="79" column="22" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -83,7 +79,7 @@
       <file leaf-file-name="home.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="13" selection-start="271" selection-end="271" vertical-scroll-proportion="-10.625">
+            <state line="17" column="13" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -93,9 +89,7 @@
         <entry file="file://$PROJECT_DIR$/accounts/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="43" column="28" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#73#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -104,9 +98,7 @@
         <entry file="file://$PROJECT_DIR$/accounts/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="93" column="19" selection-start="2549" selection-end="2549" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#0#37#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -123,7 +115,7 @@
       <file leaf-file-name="sign_up.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/accounts/sign_up.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="12" selection-start="561" selection-end="561" vertical-scroll-proportion="-5.5833335">
+            <state line="31" column="12" selection-start="561" selection-end="561" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -134,7 +126,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state line="28" column="0" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#0#56#0" expanded="true" />
                 <marker date="1379516538000" expanded="true" signature="744:1182" placeholder="..." />
               </folding>
             </state>
@@ -200,7 +191,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -341,19 +331,20 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="com.jetbrains.django.DjangoModulesConfigurable" />
-    <property name="restartRequiresConfirmation" value="true" />
+    <property name="recentsLimit" value="5" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="true" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -387,29 +378,6 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="Paypal_Test" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -431,6 +399,29 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="Paypal_Test" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -544,7 +535,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19205834" sideWeight="0.67045456" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19529983" sideWeight="0.67045456" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4431818" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -639,28 +630,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="13" selection-start="271" selection-end="271" vertical-scroll-proportion="-10.625">
+        <state line="17" column="13" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/choiceNet/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="1" selection-end="1" vertical-scroll-proportion="0.022970904">
-          <folding />
-        </state>
+        <state line="1" column="0" selection-start="1" selection-end="1" vertical-scroll-proportion="0.022970904" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/Base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="58" selection-start="2925" selection-end="2925" vertical-scroll-proportion="0.38961038">
-          <folding />
-        </state>
+        <state line="73" column="58" selection-start="2925" selection-end="2925" vertical-scroll-proportion="0.38961038" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/accounts/sign_up.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="12" selection-start="561" selection-end="561" vertical-scroll-proportion="-5.5833335">
+        <state line="31" column="12" selection-start="561" selection-end="561" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -669,7 +656,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="0" selection-start="897" selection-end="897" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="e#0#56#0" expanded="true" />
             <marker date="1379516538000" expanded="true" signature="744:1182" placeholder="..." />
           </folding>
         </state>
@@ -678,15 +664,13 @@
     <entry file="file://$PROJECT_DIR$/choiceNet/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="40" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#57#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/accounts/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="22" selection-start="2032" selection-end="2032" vertical-scroll-proportion="-9.333333">
+        <state line="79" column="22" selection-start="2032" selection-end="2032" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -694,9 +678,7 @@
     <entry file="file://$PROJECT_DIR$/accounts/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="93" column="19" selection-start="2549" selection-end="2549" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -710,9 +692,7 @@
     <entry file="file://$PROJECT_DIR$/accounts/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="28" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#73#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -726,15 +706,13 @@
     <entry file="file://$PROJECT_DIR$/website/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="46" selection-start="403" selection-end="403" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/accounts/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="34" selection-start="647" selection-end="647" vertical-scroll-proportion="0.5742726">
+        <state line="22" column="25" selection-start="565" selection-end="565" vertical-scroll-proportion="0.5053599">
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
