@@ -50,7 +50,7 @@
       <file leaf-file-name="admin.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/accounts/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="25" selection-start="565" selection-end="565" vertical-scroll-proportion="0.5053599">
+            <state line="22" column="34" selection-start="574" selection-end="574" vertical-scroll-proportion="0.5053599">
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -712,7 +712,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/accounts/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="25" selection-start="565" selection-end="565" vertical-scroll-proportion="0.5053599">
+        <state line="22" column="34" selection-start="574" selection-end="574" vertical-scroll-proportion="0.5053599">
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
