@@ -31,6 +31,8 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = "accounts.User"
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -57,6 +59,8 @@ USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
+
+# FILE_UPLOAD_PERMISSIONS = 0644
 
 # Absolute filesystem path to the directory that will hold user-uploaded static.
 # Example: "/var/www/example.com/media/"
@@ -132,8 +136,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'paypal.standard.ipn',
     'django.contrib.admin',
+    'paypal.standard.ipn',
+    'accounts',
     'south',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',

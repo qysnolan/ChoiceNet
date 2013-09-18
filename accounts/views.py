@@ -1,8 +1,19 @@
 from django.views.generic import View
+from django.shortcuts import render_to_response, redirect
+from django.views.decorators.csrf import csrf_exempt
+
 from choiceNet.functions import render_with_user
 
 
 class LoginView(View):
+    """
+    *GET*
+    Allows a user to go to login page.
+    *POST*
+    Allows a user to login.
+    *TEMPLATES*
+    'accounts/login.html'
+    """
 
     def get(self, request):
         from django.contrib.auth import logout
@@ -25,7 +36,6 @@ class LoginView(View):
 
     def post(self, request):
         from django.contrib.auth import login
-        from django.shortcuts import redirect
         from .forms import AuthenticationForm
 
         form = AuthenticationForm(request, request.POST)
@@ -44,35 +54,38 @@ class LoginView(View):
                                 {"form": form, "redirect_to": redirect_to})
 
 
-def CreateAccount(request, school=None, department=None):
+@csrf_exempt
+def CreateAccount(request):
     """
     *GET*
     Allows a user to create an account.
     *POST*
     Saves account with selected attributes
     *TEMPLATES*
-    'Accounts/AddAccount.html'
+    'accounts/sign_up.html'
     """
 
     from accounts.forms import UserForm
 
     if request.method == 'GET':
-        user = request.User
 
-        initialData = {
-            "departments": department,
-            "schools": school,
-        }
+        form = UserForm()
 
-        form = UserForm(current_user=user, initial=initialData)
+        redirect_to = "/login/"
 
-        return render_with_user(request, 'Accounts/AddAccount.html', {"form": form})
+        if "next" in request.GET:
+            redirect_to = request.GET["next"]
+
+        return render_to_response('accounts/sign_up.html',
+                                  {"form": form, "redirect_to": redirect_to})
 
     if request.method == 'POST':
-        user = request.User
-        form = UserForm(request.POST, current_user=user)
+
+        form = UserForm(request.POST)
 
         form_valid = False
+
+        redirect_to = request.GET.get("next", "/login/")
 
         if form.is_valid():
             # FORM IS VALID, CREATE USER
@@ -80,8 +93,8 @@ def CreateAccount(request, school=None, department=None):
             form_valid = True
             form.save()
 
-            # GIVE USER A BLANK FORM IF VALID
+            return redirect(redirect_to)
 
-            form = UserForm(current_user=user)
-
-        return render_with_user(request, 'Accounts/AddAccount.html', {'created': form_valid, "form": form})
+        return render_to_response('accounts/sign_up.html',
+                                  {"form": form, "form_valid": form_valid,
+                                   "redirect_to": redirect_to})

@@ -6,7 +6,7 @@
 <style type="text/css">
     .login-container
     {
-        max-width: 700px;
+        max-width: 400px;
     }
     
     .learn-more
@@ -80,11 +80,11 @@
             {{ form }}
 
             <div class="row-fluid">
-                <div class="span6">
+                <div class="span7">
                     <input type="submit" value="Sign in"
                            class="btn btn-primary" />
                 </div>
-                <div class="span6 pull-right" style="text-align: right;">
+                <div class="span7 pull-right" style="text-align: right;">
                     <a href="{% url "login" %}" class="btn btn-link">
                         Can't access your account?
                     </a>
@@ -93,9 +93,9 @@
         </div>
     </form>
     
-    <div class="row center hidden-from-app">
+    <div class="row center hidden-from-app" style="padding-bottom: 30px">
         Not a ChoiceNet Shopper user?<br />
-        <a href="http://www.ecs.umass.edu/ece/wolf/nsl.html"
+        <a href="/sign_up/"
            class="btn btn-success learn-more">
             Sign up now
         </a>
