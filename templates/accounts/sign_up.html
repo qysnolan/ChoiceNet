@@ -6,7 +6,7 @@
 <style type="text/css">
     .login-container
     {
-        max-width: 400px;
+        max-width: 350px;
     }
 
 </style>
@@ -28,6 +28,13 @@
             Please correct the error{{ form.errors|pluralize }} below.
         </div>
     {% endif %}
+
+     <div class="row center hidden-from-app" style="padding-bottom: 10px">
+        Already a ChoiceNet user?
+        <a href="{% url "login" %}" class="learn-more">
+            Login now
+        </a>
+    </div>
 
     <form action="{% url "sign_up" %}?next={{ redirect_to }}" method="POST">
 

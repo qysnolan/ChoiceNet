@@ -6,7 +6,7 @@
 <style type="text/css">
     .login-container
     {
-        max-width: 400px;
+        max-width: 600px;
     }
     
     .learn-more
@@ -54,15 +54,13 @@
 <div class="header center">
     <a href="/">
         <img src="/static/imgs/umass_150.png" alt="ChoiceNet Shopper"
-             height="180" width="380" />
+             height="150" width="320" />
     </a>
 </div>
 
 <div class="container login-container">
     <div class="page-header">
-        <h1>Welcome to ChoiceNet Shopper! <br />
-            Please sign in ...
-        </h1>
+        <h1>Welcome to ChoiceNet Shopper! </h1>
     </div>
 
     <div class="alert alert-info" id="loggedoutNotice" style="display: none;">
@@ -79,6 +77,13 @@
         Your browser's cookie functionality is turned off.
         You must enable them in order to login.
     </div>
+
+     <div class="row center hidden-from-app" style="padding-bottom: 10px">
+        Not a ChoiceNet Shopper user?
+        <a href="{% url "sign_up" %}" class="learn-more">
+            Sign up now
+        </a>
+    </div>
     
     <form action="{% url "login" %}?next={{ redirect_to }}" method="POST">
         <div class="well">
@@ -87,25 +92,18 @@
             {{ form }}
 
             <div class="row-fluid">
-                <div class="span7">
+                <div class="span6">
                     <input type="submit" value="Sign in"
                            class="btn btn-primary" />
                 </div>
-                <div class="span7 pull-right" style="text-align: right;">
-                    <a href="{% url "login" %}" class="btn btn-link">
-                        Can't access your account?
+                <div class="span6 pull-right" style="text-align: right;">
+                    <a href="{% url "forget_password" %}" class="btn btn-link">
+                        Forget password?
                     </a>
                 </div>
             </div>
         </div>
     </form>
-    
-    <div class="row center hidden-from-app" style="padding-bottom: 30px">
-        Not a ChoiceNet Shopper user?<br />
-        <a href="/sign_up/"
-           class="btn btn-success learn-more">
-            Sign up now
-        </a>
-    </div>
+
 </div>
 {% endblock %}
