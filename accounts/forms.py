@@ -93,30 +93,46 @@ class SettingsForm(forms.Form):
         self.fields["password"].initial = None
         self.fields["email_address"].initial = user.username
         self.fields["first_name"].initial = user.first_name
-        self.fields["lastname"].initial = self.current_user.last_name
-        self.fields["username"].initial = self.current_user.username
+        self.fields["last_name"].initial = user.last_name
+        self.fields["new_password"].initial = None
+        self.fields["confirm_new_password"].initial = None
+
+    def clean_email_address(self):
+        username = self.cleaned_data['email_address']
+
+        if username != self.user.username:
+            users = User.objects.all()
+            for user in users:
+                if user.username == username:
+                    raise forms.ValidationError("Username has already exists!")
+
+        return username
 
     def clean_new_password(self):
         password = self.cleaned_data['new_password']
 
-        if password != self.data['confirm_password']:
+        if password != self.data['confirm_new_password']:
             raise forms.ValidationError("Passwords are not same!")
 
         return password
 
+    def check_password(self):
+        old_password = self.clean_data['password']
+
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError("Your current password is wrong!")
+
+        return old_password
+
     def save(self):
-        from accounts.models import User
-        import datetime
 
-        User.objects.create(username=self.cleaned_data['email_address'],
-                            first_name=self.cleaned_data['first_name'],
-                            last_name=self.cleaned_data['last_name'],
-                            isSuper=False,
-                            accountType="user",
-                            is_active=True,
-                            date_joined=datetime.datetime.now(),
-                            is_staff=False)
+        if self.check_password():
+            current_user = self.user
 
-        user = User.objects.get(username=self.cleaned_data['email_address'])
-        user.set_password(self.cleaned_data['password'])
-        user.save()
+            current_user.username = self.cleaned_data['email_address']
+            current_user.first_name = self.cleaned_data['first_name'],
+            current_user.last_name = self.cleaned_data['last_name'],
+            current_user.save()
+            if self.data['new_password'] is not None:
+                current_user.set_password(self.cleaned_data['password'])
+                current_user.save()
