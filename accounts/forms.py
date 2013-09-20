@@ -1,12 +1,11 @@
 from django.contrib.auth.forms import AuthenticationForm
-from django.forms import forms
-from django import forms as old_form
+from django import forms
 
 from accounts.models import User
 from choiceNet import widgets
 
 
-class AuthenticationForm(AuthenticationForm, forms.Form):
+class AuthenticationForm(AuthenticationForm, forms.forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(AuthenticationForm, self).__init__(*args, **kwargs)
@@ -21,19 +20,19 @@ class AuthenticationForm(AuthenticationForm, forms.Form):
         return self.cleaned_data["username"].lower()
 
 
-class UserForm(old_form.Form):
+class UserForm(forms.Form):
 
-    email_address = old_form.EmailField(required=True,
-                                        label='Your e-mail address')
+    email_address = forms.EmailField(required=True,
+                                     label='Your e-mail address')
     confirm_email_address = \
-        old_form.EmailField(required=True, label='Confirm your e-mail address')
-    first_name = old_form.CharField(required=True)
-    last_name = old_form.CharField(required=True)
-    password = old_form.CharField(widget=old_form.PasswordInput(),
-                                  required=True, label='Your password')
-    confirm_password = old_form.CharField(widget=old_form.PasswordInput(),
-                                          required=True,
-                                          label='Confirm your password')
+        forms.EmailField(required=True, label='Confirm your e-mail address')
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
+    password = forms.CharField(widget=forms.PasswordInput(),
+                               required=True, label='Your password')
+    confirm_password = forms.CharField(widget=forms.PasswordInput(),
+                                       required=True,
+                                       label='Confirm your password')
 
     def clean_email_address(self):
         username = self.cleaned_data['email_address']
@@ -50,6 +49,55 @@ class UserForm(old_form.Form):
 
     def clean_password(self):
         password = self.cleaned_data['password']
+
+        if password != self.data['confirm_password']:
+            raise forms.ValidationError("Passwords are not same!")
+
+        return password
+
+    def save(self):
+        from accounts.models import User
+        import datetime
+
+        User.objects.create(username=self.cleaned_data['email_address'],
+                            first_name=self.cleaned_data['first_name'],
+                            last_name=self.cleaned_data['last_name'],
+                            isSuper=False,
+                            accountType="user",
+                            is_active=True,
+                            date_joined=datetime.datetime.now(),
+                            is_staff=False)
+
+        user = User.objects.get(username=self.cleaned_data['email_address'])
+        user.set_password(self.cleaned_data['password'])
+        user.save()
+
+
+class SettingsForm(forms.Form):
+
+    password = forms.CharField(widget=forms.PasswordInput(),
+                               required=True,
+                               label='Your current password (Required field)')
+    email_address = forms.EmailField(label='Your new e-mail address')
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    new_password = forms.CharField(widget=forms.PasswordInput(),
+                                   label='Your new password')
+    confirm_new_password = forms.CharField(widget=forms.PasswordInput(),
+                                           label='Confirm your new password')
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(SettingsForm, self).__init__(*args, **kwargs)
+
+        self.fields["password"].initial = None
+        self.fields["email_address"].initial = user.username
+        self.fields["first_name"].initial = user.first_name
+        self.fields["lastname"].initial = self.current_user.last_name
+        self.fields["username"].initial = self.current_user.username
+
+    def clean_new_password(self):
+        password = self.cleaned_data['new_password']
 
         if password != self.data['confirm_password']:
             raise forms.ValidationError("Passwords are not same!")
