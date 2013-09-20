@@ -78,12 +78,14 @@ class SettingsForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(),
                                required=True,
                                label='Your current password (Required field)')
-    email_address = forms.EmailField(label='Your new e-mail address')
-    first_name = forms.CharField()
-    last_name = forms.CharField()
+    email_address = forms.EmailField(required=False,
+                                     label='Your new e-mail address')
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False, )
     new_password = forms.CharField(widget=forms.PasswordInput(),
-                                   label='Your new password')
+                                   required=False, label='Your new password')
     confirm_new_password = forms.CharField(widget=forms.PasswordInput(),
+                                           required=False,
                                            label='Confirm your new password')
 
     def __init__(self, user, *args, **kwargs):
@@ -116,8 +118,8 @@ class SettingsForm(forms.Form):
 
         return password
 
-    def check_password(self):
-        old_password = self.clean_data['password']
+    def clean_password(self):
+        old_password = self.data['password']
 
         if not self.user.check_password(old_password):
             raise forms.ValidationError("Your current password is wrong!")
@@ -125,14 +127,15 @@ class SettingsForm(forms.Form):
         return old_password
 
     def save(self):
+        current_user = self.user
 
-        if self.check_password():
-            current_user = self.user
+        if current_user.check_password(self.data['password']):
 
             current_user.username = self.cleaned_data['email_address']
-            current_user.first_name = self.cleaned_data['first_name'],
-            current_user.last_name = self.cleaned_data['last_name'],
+            current_user.first_name = self.cleaned_data['first_name']
+            current_user.last_name = self.cleaned_data['last_name']
             current_user.save()
+
             if self.data['new_password'] is not None:
-                current_user.set_password(self.cleaned_data['password'])
+                current_user.set_password(self.cleaned_data['new_password'])
                 current_user.save()
