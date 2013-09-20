@@ -11,13 +11,13 @@ def render_with_user(request, template_name, context={}):
 
     if user.is_authenticated():
         context["name"] = user.fullname()
-
         context["user"] = request.user
-
         context.update(csrf(request))
+
         return render(request, template_name, context)
 
     else:
-
+        context["user"] = None
         context["name"] = "Login or sign up"
+
         return render(request, template_name, context)

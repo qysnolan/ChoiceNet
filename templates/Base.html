@@ -105,10 +105,11 @@
                                            data-event-category="navbar"
                                            data-event-action="click"
                                            data-event-label="settings">
-                                            <i class="icon-cog"></i>
                                             {% if user %}
+                                            <i class="icon-cog"></i>
                                                Settings
                                             {% else %}
+                                            <i class="icon-signin"></i>
                                                Login
                                             {% endif %}
                                         </a>
@@ -123,10 +124,11 @@
                                            data-event-category="navbar"
                                            data-event-action="click"
                                            data-event-label="Help">
-                                            <i class="icon-question-sign"></i>
                                             {% if user %}
+                                            <i class="icon-question-sign"></i>
                                                Help
                                             {% else %}
+                                            <i class="icon-signout"></i>
                                                Sign up
                                             {% endif %}
                                         </a>
