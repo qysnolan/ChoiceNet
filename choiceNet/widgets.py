@@ -9,16 +9,18 @@ from time import strftime
 # CUSTOM BUTTONSET RENDER
 # SLIGHTLY MODIFIED CheckboxSelectMultiple
 
+
 class ButtonSetButton(widgets.RadioInput):
     """
-    An object that is similar to a radiu button but it formatted for Bootstrap
+    An object that is similar to a radio button but it formatted for Bootstrap
     """
 
     def tag(self):
         if 'id' in self.attrs:
             self.attrs['id'] = '%s_%s' % (self.attrs['id'], self.index)
             
-        final_attrs = dict(self.attrs, type='button', name=self.name, value=self.choice_value)
+        final_attrs = dict(self.attrs, type='button', name=self.name,
+                           value=self.choice_value)
             
         final_attrs["class"] = "btn"
         
@@ -27,7 +29,8 @@ class ButtonSetButton(widgets.RadioInput):
 
         choice_label = conditional_escape(force_unicode(self.choice_label))
         
-        return mark_safe(u'<button%s>%s</button>' % (flatatt(final_attrs), choice_label))
+        return mark_safe(u'<button%s>%s</button>' %
+                         (flatatt(final_attrs), choice_label))
         
     def render(self, name=None, value=None, attrs=None, choices=()):
         name = name or self.name
@@ -42,6 +45,7 @@ class ButtonSetButton(widgets.RadioInput):
         
         return mark_safe(u'%s' % (self.tag(), ))
 
+
 class ButtonSetRenderer(widgets.RadioFieldRenderer):
     """
     An object used by ButtonSet to enable custom Bootstrap-based radio buttons
@@ -49,19 +53,26 @@ class ButtonSetRenderer(widgets.RadioFieldRenderer):
     
     def __iter__(self):
         for i, choice in enumerate(self.choices):
-            yield ButtonSetButton(self.name, self.value, self.attrs.copy(), choice, i)
+            yield ButtonSetButton(self.name, self.value,
+                                  self.attrs.copy(), choice, i)
 
     def __getitem__(self, idx):
         choice = self.choices[idx] # Let the IndexError propogate
-        return ButtonSetButton(self.name, self.value, self.attrs.copy(), choice, idx)
+        return ButtonSetButton(self.name, self.value,
+                               self.attrs.copy(), choice, idx)
         
     def render(self):
-        output = mark_safe(u"<div class=\"btn-group form-btn-group\" data-toggle-for=\"#%s\" data-toggle=\"buttons-radio\">" % (self.attrs["id"], ))
-        output = output + u'\n'.join([u'%s\n' % w for w in self])
-        output = output + u"</div>"
-        output = output + mark_safe(u"<input type=\"hidden\" id=\"%s\" name=\"%s\" value=\"%s\" />" % (self.attrs["id"], self.name, self.value))
+        output = mark_safe(u"<div class=\"btn-group form-btn-group\" "
+                           u"data-toggle-for=\"#%s\" data-toggle=\""
+                           u"buttons-radio\">" % (self.attrs["id"], ))
+        output += u'\n'.join([u'%s\n' % w for w in self])
+        output += u"</div>"
+        output += mark_safe(u"<input type=\"hidden\" id=\"%s\" name=\"%s\" "
+                            u"value=\"%s\" />" %
+                            (self.attrs["id"], self.name, self.value))
         
         return mark_safe(output)
+
 
 class ButtonSet(widgets.RadioSelect):
     renderer = ButtonSetRenderer
@@ -70,6 +81,7 @@ class ButtonSet(widgets.RadioSelect):
         # RESETS ID SO IT DOES NOT MESS ANYTHING UP
         
         return id_
+
 
 class Input(widgets.Input):
     """
@@ -98,9 +110,11 @@ class Input(widgets.Input):
             final_attrs["required"] = "required"
             
         return mark_safe(u'<input%s />' % flatatt(final_attrs))
-        
+
+
 class TextInput(Input, widgets.TextInput):
     pass
+
 
 class NumberInput(TextInput):
     input_type = "number"
@@ -165,9 +179,11 @@ class Textarea(widgets.Textarea):
         if self.is_required:
             final_attrs["required"] = "required"
         
-        return mark_safe(u'<textarea%s>%s</textarea>' % (flatatt(final_attrs),
-                conditional_escape(force_unicode(value))))
-                
+        return mark_safe(u'<textarea%s>%s</textarea>' %
+                         (flatatt(final_attrs),
+                          conditional_escape(force_unicode(value))))
+
+
 class CheckboxInput(widgets.CheckboxInput):
 
     def render(self, name, value, attrs=None):
@@ -175,7 +191,7 @@ class CheckboxInput(widgets.CheckboxInput):
         
         try:
             result = self.check_test(value)
-        except: # Silently catch exceptions
+        except:  # Silently catch exceptions
             result = False
             
         if result:
@@ -189,13 +205,13 @@ class CheckboxInput(widgets.CheckboxInput):
 
 
 class BootstrapSplitDateTimeWidget(MultiWidget):
-    '''
+    """
     Bootstrap Split DateTime Widget
 
     github.com/stholmes/django-bootstrap-datetime-widgets/
 
     format_output slightly modified.
-    '''
+    """
     
     def __init__(self, attrs=None, date_format=None, time_format=None):
         from django.forms.widgets import DateInput, TimeInput
@@ -211,7 +227,8 @@ class BootstrapSplitDateTimeWidget(MultiWidget):
         date_attrs = attrs.copy()
         date_attrs['class'] = date_class
 
-        widgets = (DateInput(attrs=date_attrs, format=date_format), TimeInput(attrs=time_attrs))
+        widgets = (DateInput(attrs=date_attrs, format=date_format),
+                   TimeInput(attrs=time_attrs))
 
         super(BootstrapSplitDateTimeWidget, self).__init__(widgets, attrs)
 
@@ -221,9 +238,9 @@ class BootstrapSplitDateTimeWidget(MultiWidget):
             hour = strftime("%H", value.timetuple())
             minute = strftime("%M", value.timetuple())
             meridian = strftime("%p", value.timetuple())
-            return (d, hour+":"+minute, meridian)
+            return d, hour+":"+minute, meridian
         else:
-            return (None, None, None)
+            return None, None, None
 
     def format_output(self, rendered_widgets):
         """
@@ -232,4 +249,5 @@ class BootstrapSplitDateTimeWidget(MultiWidget):
 
         Returns a Unicode string representing the HTML for the whole lot.
         """
-        return "<label>Date:</label> %s<br/><label>Time:</label> %s" % (rendered_widgets[0], rendered_widgets[1])
+        return "<label>Date:</label> %s<br/><label>Time:</label> %s" % \
+               (rendered_widgets[0], rendered_widgets[1])

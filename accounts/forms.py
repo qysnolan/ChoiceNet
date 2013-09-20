@@ -23,14 +23,16 @@ class AuthenticationForm(AuthenticationForm, forms.forms.Form):
 class UserForm(forms.Form):
 
     email_address = forms.EmailField(required=True,
-                                     label='Your e-mail address')
+                                     label='Your e-mail address',
+                                     widget=widgets.EmailInput())
     confirm_email_address = \
-        forms.EmailField(required=True, label='Confirm your e-mail address')
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
-    password = forms.CharField(widget=forms.PasswordInput(),
+        forms.EmailField(required=True, label='Confirm your e-mail address',
+                         widget=widgets.EmailInput())
+    first_name = forms.CharField(required=True, widget=widgets.TextInput())
+    last_name = forms.CharField(required=True, widget=widgets.TextInput())
+    password = forms.CharField(widget=widgets.PasswordInput(),
                                required=True, label='Your password')
-    confirm_password = forms.CharField(widget=forms.PasswordInput(),
+    confirm_password = forms.CharField(widget=widgets.PasswordInput(),
                                        required=True,
                                        label='Confirm your password')
 
