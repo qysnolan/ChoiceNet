@@ -1,6 +1,5 @@
 from django.views.generic import View
-from django.shortcuts import render_to_response, redirect
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect
 
 from choiceNet.functions import render_with_user
 
@@ -54,6 +53,11 @@ class LoginView(View):
                                 {"form": form, "redirect_to": redirect_to})
 
 
+def logout(request):
+
+    return redirect("/login/#loggedout")
+
+
 def CreateAccount(request):
     """
     *GET*
@@ -70,7 +74,7 @@ def CreateAccount(request):
 
         form = UserForm()
 
-        redirect_to = "/login/"
+        redirect_to = "/login/#create"
 
         if "next" in request.GET:
             redirect_to = request.GET["next"]
@@ -84,7 +88,7 @@ def CreateAccount(request):
 
         form_valid = False
 
-        redirect_to = request.GET.get("next", "/login/")
+        redirect_to = request.GET.get("next", "/login/#create")
 
         if form.is_valid():
             # FORM IS VALID, CREATE USER

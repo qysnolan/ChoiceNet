@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
-from paypal.standard.forms import PayPalPaymentsForm
 from django.core.urlresolvers import reverse
 from django.conf import settings
+
+from paypal.standard.forms import PayPalPaymentsForm
+from choiceNet.functions import render_with_user
 
 
 def hello(request):
@@ -18,12 +19,12 @@ def view_that_asks_for_money(request):
         "item_name": "name of the item",
         "invoice": "unique-invoice-id",
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
-        "return_url": "http://localhost:8000/hello/",
-        "cancel_return": "http://localhost:8000/hello/",
+        "return_url": "http://0.0.0.0:8008/hello/",
+        "cancel_return": "http://0.0.0.0:8008/hello/",
     }
 
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox()}
-    return render_to_response("paypal/payment.html", context)
+    return render_with_user(request, "paypal/payment.html", context)
 
