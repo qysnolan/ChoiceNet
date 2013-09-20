@@ -54,7 +54,6 @@ class LoginView(View):
                                 {"form": form, "redirect_to": redirect_to})
 
 
-@csrf_exempt
 def CreateAccount(request):
     """
     *GET*
@@ -76,8 +75,8 @@ def CreateAccount(request):
         if "next" in request.GET:
             redirect_to = request.GET["next"]
 
-        return render_to_response('accounts/sign_up.html',
-                                  {"form": form, "redirect_to": redirect_to})
+        return render_with_user(request, 'accounts/sign_up.html',
+                                {"form": form, "redirect_to": redirect_to})
 
     if request.method == 'POST':
 
@@ -95,6 +94,6 @@ def CreateAccount(request):
 
             return redirect(redirect_to)
 
-        return render_to_response('accounts/sign_up.html',
-                                  {"form": form, "form_valid": form_valid,
-                                   "redirect_to": redirect_to})
+        return render_with_user(request, 'accounts/sign_up.html',
+                                {"form": form, "form_valid": form_valid,
+                                "redirect_to": redirect_to})

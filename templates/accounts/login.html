@@ -16,35 +16,35 @@
 </style>
 {% endblock %}
 
-{% block page-js %}
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-        if (hash == "loggedout")
-        {
-            $("#loggedoutNotice").fadeIn();
-        }
-        if (hash == "changed")
-        {
-            $("#changedNotice").fadeIn();
-        }
-        if (cookies_enabled() == false)
-        {
-            $("#cookieNotice").fadeIn();
-        }
-    });
-    function cookies_enabled()
-    {
-        var cookieEnabled = !!(navigator.cookieEnabled);
-        if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled)
-        { 
-            document.cookie="testcookie";
-            cookieEnabled = !!(document.cookie.indexOf("testcookie") != -1);
-        }
-        return (cookieEnabled);
-    }
-</script>
-{% endblock %}
+{#{% block page-js %}#}
+{#<script type="text/javascript">#}
+{#    $(document).ready(function()#}
+{#    {#}
+{#        if (hash == "loggedout")#}
+{#        {#}
+{#            $("#loggedoutNotice").fadeIn();#}
+{#        }#}
+{#        if (hash == "changed")#}
+{#        {#}
+{#            $("#changedNotice").fadeIn();#}
+{#        }#}
+{#        if (cookies_enabled() == false)#}
+{#        {#}
+{#            $("#cookieNotice").fadeIn();#}
+{#        }#}
+{#    });#}
+{#    function cookies_enabled()#}
+{#    {#}
+{#        var cookieEnabled = !!(navigator.cookieEnabled);#}
+{#        if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled)#}
+{#        { #}
+{#            document.cookie="testcookie";#}
+{#            cookieEnabled = !!(document.cookie.indexOf("testcookie") != -1);#}
+{#        }#}
+{#        return (cookieEnabled);#}
+{#    }#}
+{#</script>#}
+{#{% endblock %}#}
 
 {% block content %}
 <div class="header center">
