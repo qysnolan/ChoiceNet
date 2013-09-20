@@ -2,6 +2,7 @@ from django.views.generic import View
 from django.shortcuts import redirect
 
 from choiceNet.functions import render_with_user
+from choiceNet.decorators import *
 
 
 class LoginView(View):
@@ -103,6 +104,7 @@ def create_account(request):
                                 "redirect_to": redirect_to})
 
 
+@login_required
 def account_settings(request):
     """
     *GET*

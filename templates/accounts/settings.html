@@ -1,0 +1,53 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block page-css %}
+<style type="text/css">
+    .login-container
+    {
+        max-width: 400px;
+    }
+
+</style>
+{% endblock %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container login-container center">
+    <div class="page-header">
+        <h1>
+            User Settings
+        </h1>
+    </div>
+    {% if form.errors %}
+        <div class="alert alert-error">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </div>
+    {% endif %}
+
+    <form action="{% url "sign_up" %}?next={{ redirect_to }}" method="POST">
+
+        <div class="well">
+            <div>
+                <h5> {{ user.fullname }}</h5>
+            </div>
+
+            {% csrf_token %}
+            {{ form.as_table }}
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <input type="submit" value="Sign up"
+                           class="btn btn-primary" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>
+{% endblock %}
