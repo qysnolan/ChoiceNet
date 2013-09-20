@@ -29,7 +29,7 @@
         </div>
     {% endif %}
 
-    <form action="{% url "sign_up" %}?next={{ redirect_to }}" method="POST">
+    <form action="{% url "settings" %}?next={{ redirect_to }}" method="POST">
 
         <div class="well">
             <div>
@@ -41,7 +41,7 @@
 
             <div class="row-fluid">
                 <div class="span12">
-                    <input type="submit" value="Sign up"
+                    <input type="submit" value="Submit"
                            class="btn btn-primary" />
                 </div>
             </div>
