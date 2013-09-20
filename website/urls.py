@@ -21,7 +21,8 @@ urlpatterns = patterns(
     url(r'^$', home),
     url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^logout/$', logout),
-    url(r'^sign_up/$', CreateAccount, name="sign_up"),
+    url(r'^sign_up/$', create_account, name="sign_up"),
+    url(r'^settings/$', account_settings, name="settings"),
 
     # Shopping part
     url(r'^home/', home, name="home"),

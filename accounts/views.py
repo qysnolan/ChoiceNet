@@ -2,6 +2,7 @@ from django.views.generic import View
 from django.shortcuts import redirect
 
 from choiceNet.functions import render_with_user
+from choiceNet.decorators import *
 
 
 class LoginView(View):
@@ -58,7 +59,7 @@ def logout(request):
     return redirect("/login/#loggedout")
 
 
-def CreateAccount(request):
+def create_account(request):
     """
     *GET*
     Allows a user to create an account.
@@ -99,5 +100,51 @@ def CreateAccount(request):
             return redirect(redirect_to)
 
         return render_with_user(request, 'accounts/sign_up.html',
+                                {"form": form, "form_valid": form_valid,
+                                "redirect_to": redirect_to})
+
+
+@login_required
+def account_settings(request):
+    """
+    *GET*
+    Allows a user to change an account.
+    *POST*
+    Saves account with selected attributes
+    *TEMPLATES*
+    'accounts/settings.html'
+    """
+
+    from accounts.forms import SettingsForm
+
+    if request.method == 'GET':
+
+        form = SettingsForm(request.user)
+
+        redirect_to = "/home/#settings"
+
+        if "next" in request.GET:
+            redirect_to = request.GET["next"]
+
+        return render_with_user(request, 'accounts/settings.html',
+                                {"form": form, "redirect_to": redirect_to})
+
+    if request.method == 'POST':
+
+        form = SettingsForm(request.user, request.POST)
+
+        form_valid = False
+
+        redirect_to = request.GET.get("next", "/home/#settings")
+
+        if form.is_valid():
+            # FORM IS VALID, CREATE USER
+
+            form_valid = True
+            form.save()
+
+            return redirect(redirect_to)
+
+        return render_with_user(request, 'accounts/settings.html',
                                 {"form": form, "form_valid": form_valid,
                                 "redirect_to": redirect_to})
