@@ -1,5 +1,5 @@
 from django.views.generic import View
-from django.shortcuts import redirect
+from django.shortcuts import redirect, HttpResponse
 
 from choiceNet.functions import render_with_user
 from choiceNet.decorators import *
@@ -148,3 +148,8 @@ def account_settings(request):
         return render_with_user(request, 'accounts/settings.html',
                                 {"form": form, "form_valid": form_valid,
                                 "redirect_to": redirect_to})
+
+
+def forget_password(request):
+
+    return HttpResponse("We are working hard on this function now!")

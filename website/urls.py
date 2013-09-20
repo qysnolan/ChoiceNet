@@ -23,6 +23,7 @@ urlpatterns = patterns(
     url(r'^logout/$', logout),
     url(r'^sign_up/$', create_account, name="sign_up"),
     url(r'^settings/$', account_settings, name="settings"),
+    url(r'^forget_password', forget_password, name="forget_password"),
 
     # Shopping part
     url(r'^home/', home, name="home"),
