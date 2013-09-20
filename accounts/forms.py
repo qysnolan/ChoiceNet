@@ -117,7 +117,7 @@ class SettingsForm(forms.Form):
     def clean_new_password(self):
         password = self.cleaned_data['new_password']
 
-        if len(password) <= 6:
+        if len(password) <= 6 & len(password) > 0:
             raise forms.ValidationError("Passwords is too short! "
                                         "At least 6 characters")
 

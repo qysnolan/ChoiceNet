@@ -7,16 +7,29 @@
 {% endblock %}
 
 {% block page-js %}
-
+<script type="text/javascript">
+$(document).ready(function()
+    {
+        if (hash == "settings")
+        {
+            $("#settingsNotice").fadeIn();
+        }
+    });
+</script>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="page-header">
-            <h1>Kidding you!</h1>
-	    </div>
-        <div>
-            <a href="/you/cant/guess/this/url/pay/">Buy me!</a>
-        </div>
+<div class="container">
+
+    <div class="alert alert-info" id="settingsNotice" style="display: none;">
+        Your account has been changed successfully
     </div>
+
+    <div class="page-header">
+        <h1>Good product!</h1>
+    </div>
+    <div>
+        <a href="/you/cant/guess/this/url/pay/">Buy me!</a>
+    </div>
+</div>
 {% endblock %}
