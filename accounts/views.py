@@ -59,6 +59,7 @@ def logout(request):
     return redirect("/login/#loggedout")
 
 
+@logout_required
 def create_account(request):
     """
     *GET*
