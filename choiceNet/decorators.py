@@ -17,8 +17,6 @@ def logout_required(function):
 
     def decorator(request, *args, **kwargs):
         auth.logout(request)
-        if not request.user.is_authenticated():
-            return redirect("/sign_up#loggedout")
 
         return function(request, *args, **kwargs)
     return decorator
