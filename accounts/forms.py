@@ -81,16 +81,17 @@ class UserForm(forms.Form):
 
 class SettingsForm(forms.Form):
 
-    password = forms.CharField(widget=forms.PasswordInput(),
+    password = forms.CharField(widget=widgets.PasswordInput(),
                                required=True,
                                label='Your current password (Required field)')
     email_address = forms.EmailField(required=False,
-                                     label='Your new e-mail address')
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False, )
-    new_password = forms.CharField(widget=forms.PasswordInput(),
+                                     label='Your new e-mail address',
+                                     widget=widgets.EmailInput())
+    first_name = forms.CharField(required=False, widget=widgets.TextInput())
+    last_name = forms.CharField(required=False, widget=widgets.TextInput())
+    new_password = forms.CharField(widget=widgets.PasswordInput(),
                                    required=False, label='Your new password')
-    confirm_new_password = forms.CharField(widget=forms.PasswordInput(),
+    confirm_new_password = forms.CharField(widget=widgets.PasswordInput(),
                                            required=False,
                                            label='Confirm your new password')
 
