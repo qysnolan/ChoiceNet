@@ -38,17 +38,14 @@
 
     <form action="{% url "sign_up" %}?next={{ redirect_to }}" method="POST">
 
-        <div class="well">
+        <div class="well" style="text-align: left">
             <div>
-                <h5> Email Address is also your unique Username.</h5>
+                <h6><i class="icon-angle-right"></i>  Email Address is also your unique Username.</h6>
+                <h6><i class="icon-angle-right"></i>  All of the fields are required!</h6>
             </div>
 
             {% csrf_token %}
             {{ form.as_table }}
-
-            <div>
-                <h5> All of the fields are required!</h5>
-            </div>
 
             <div class="row-fluid">
                 <div class="span12">

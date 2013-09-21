@@ -103,8 +103,6 @@ class SettingsForm(forms.Form):
         self.fields["email_address"].initial = str(user.username)
         self.fields["first_name"].initial = str(user.first_name)
         self.fields["last_name"].initial = str(user.last_name)
-        # self.fields["new_password"].initial = None
-        # self.fields["confirm_new_password"].initial = None
 
     def clean_email_address(self):
         username = self.cleaned_data['email_address']
