@@ -1,5 +1,4 @@
 from django.shortcuts import redirect
-from django.contrib import auth
 
 
 def login_required(function):
@@ -16,7 +15,7 @@ def login_required(function):
 def logout_required(function):
 
     def decorator(request, *args, **kwargs):
-        auth.logout(request)
-
+        if request.user.is_active:
+            return redirect("/home#mustlogout")
         return function(request, *args, **kwargs)
     return decorator
