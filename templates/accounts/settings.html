@@ -6,7 +6,7 @@
 <style type="text/css">
     .login-container
     {
-        max-width: 350px;
+        max-width: 600px;
     }
 
 </style>
@@ -31,8 +31,8 @@
 
     <form action="{% url "settings" %}?next={{ redirect_to }}" method="POST">
 
-        <div class="well">
-            <div>
+        <div class="well" style="text-align: left">
+            <div style="text-align: center">
                 <h5> {{ user.fullname }}</h5>
             </div>
 

@@ -23,14 +23,16 @@ class AuthenticationForm(AuthenticationForm, forms.forms.Form):
 class UserForm(forms.Form):
 
     email_address = forms.EmailField(required=True,
-                                     label='Your e-mail address')
+                                     label='Your e-mail address',
+                                     widget=widgets.EmailInput())
     confirm_email_address = \
-        forms.EmailField(required=True, label='Confirm your e-mail address')
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
-    password = forms.CharField(widget=forms.PasswordInput(),
+        forms.EmailField(required=True, label='Confirm your e-mail address',
+                         widget=widgets.EmailInput())
+    first_name = forms.CharField(required=True, widget=widgets.TextInput())
+    last_name = forms.CharField(required=True, widget=widgets.TextInput())
+    password = forms.CharField(widget=widgets.PasswordInput(),
                                required=True, label='Your password')
-    confirm_password = forms.CharField(widget=forms.PasswordInput(),
+    confirm_password = forms.CharField(widget=widgets.PasswordInput(),
                                        required=True,
                                        label='Confirm your password')
 
@@ -79,16 +81,17 @@ class UserForm(forms.Form):
 
 class SettingsForm(forms.Form):
 
-    password = forms.CharField(widget=forms.PasswordInput(),
+    password = forms.CharField(widget=widgets.PasswordInput(),
                                required=True,
                                label='Your current password (Required field)')
     email_address = forms.EmailField(required=False,
-                                     label='Your new e-mail address')
-    first_name = forms.CharField(required=False)
-    last_name = forms.CharField(required=False, )
-    new_password = forms.CharField(widget=forms.PasswordInput(),
+                                     label='Your new e-mail address',
+                                     widget=widgets.EmailInput())
+    first_name = forms.CharField(required=False, widget=widgets.TextInput())
+    last_name = forms.CharField(required=False, widget=widgets.TextInput())
+    new_password = forms.CharField(widget=widgets.PasswordInput(),
                                    required=False, label='Your new password')
-    confirm_new_password = forms.CharField(widget=forms.PasswordInput(),
+    confirm_new_password = forms.CharField(widget=widgets.PasswordInput(),
                                            required=False,
                                            label='Confirm your new password')
 
@@ -100,8 +103,6 @@ class SettingsForm(forms.Form):
         self.fields["email_address"].initial = str(user.username)
         self.fields["first_name"].initial = str(user.first_name)
         self.fields["last_name"].initial = str(user.last_name)
-        # self.fields["new_password"].initial = None
-        # self.fields["confirm_new_password"].initial = None
 
     def clean_email_address(self):
         username = self.cleaned_data['email_address']
