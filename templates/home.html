@@ -28,13 +28,15 @@ $(document).ready(function()
     <div class="alert alert-info" id="settingsNotice" style="display: none;">
         Your account has been changed successfully
     </div>
-    <div class="alert alert-warning" id="logoutNotice" style="display: none;">
-        Your must
+    <div class="alert alert-error" id="logoutNotice" style="display: none;">
+
         <form action="/logout/?next={{ redirect_to }}" method="POST">
             {% csrf_token %}
-            <input type="submit" value="Sign out" />
+            Your must <b>sign out</b> first before to direct to that page.
+            Are you sure to
+            <input type="submit"  class="btn-link" value="Sign out" />
         </form>
-        first before to direct to that page
+git
     </div>
 
     <div class="page-header">
