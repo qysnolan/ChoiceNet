@@ -128,9 +128,21 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
+                                    {% if user %}
+                                    <li>
+                                        <a href="/orders/"
+                                           data-event-trigger="click"
+                                           data-event-category="navbar"
+                                           data-event-action="click"
+                                           data-event-label="orders">
+                                            <i class="icon-reorder"></i>
+                                               Orders
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     <li>
                                         <a href={% if user %}
-                                                       "/settings/"
+                                                       "{% url "settings" %}"
                                                    {% else %}
                                                        {% url "login" %}
                                                    {% endif %}
