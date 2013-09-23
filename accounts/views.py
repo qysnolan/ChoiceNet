@@ -154,3 +154,8 @@ def account_settings(request):
 def forget_password(request):
 
     return HttpResponse("We are working hard on this function now!")
+
+
+def orders(request):
+
+    return HttpResponse("We are working hard on this function now!")
