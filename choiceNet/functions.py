@@ -56,27 +56,28 @@ def render_with_user(request, template_name, context={}):
 
         speedMenu = MenuObject("High Speed")
         speedMenu.addSubitem("Normal High Speed", "help")
-        speedMenu.addSubitem("Very High Speed", "settings")
-        speedMenu.addSubitem("Extreme High Speed", "welcome")
-
-        stateMenu = MenuObject("States")
-        stateMenu.addSubitem("Massachusetts", "help")
-        stateMenu.addSubitem("Other states", "help")
-        speedMenu.addSubMenu(stateMenu)
-
+        speedMenu.addSubitem("Very High Speed", "help")
+        speedMenu.addSubitem("Extreme High Speed", "help")
         context["menu"].append(speedMenu)
 
         priceMenu = MenuObject("Low price")
         priceMenu.addSubitem("Normal Low price", "help")
-        priceMenu.addSubitem("Very Low price", "settings")
-        priceMenu.addSubitem("Extreme Low price", "welcome")
+        priceMenu.addSubitem("Very Low price", "help")
+        priceMenu.addSubitem("Extreme Low price", "help")
         context["menu"].append(priceMenu)
 
         securityMenu = MenuObject("High Security")
         securityMenu.addSubitem("Normal High Security", "help")
-        securityMenu.addSubitem("Very High Security", "settings")
-        securityMenu.addSubitem("Extreme High Security", "welcome")
+        securityMenu.addSubitem("Very High Security", "help")
+        securityMenu.addSubitem("Extreme High Security", "help")
         context["menu"].append(securityMenu)
+
+        worldMenu = MenuObject("World Network")
+        stateMenu = MenuObject("States")
+        stateMenu.addSubitem("Massachusetts", "help")
+        stateMenu.addSubitem("Other states", "help")
+        worldMenu.addSubMenu(stateMenu)
+        context["menu"].append(worldMenu)
 
         return render(request, template_name, context)
 
