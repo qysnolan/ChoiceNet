@@ -55,21 +55,27 @@ def render_with_user(request, template_name, context={}):
         context.update(csrf(request))
 
         speedMenu = MenuObject("High Speed")
-        speedMenu.addSubitem("Normal High Speed", "home")
-        speedMenu.addSubitem("Very High Speed", "home")
-        speedMenu.addSubitem("Extreme High Speed", "home")
+        speedMenu.addSubitem("Normal High Speed", "help")
+        speedMenu.addSubitem("Very High Speed", "settings")
+        speedMenu.addSubitem("Extreme High Speed", "welcome")
+
+        stateMenu = MenuObject("States")
+        stateMenu.addSubitem("Massachusetts", "help")
+        stateMenu.addSubitem("Other states", "help")
+        speedMenu.addSubMenu(stateMenu)
+
         context["menu"].append(speedMenu)
 
         priceMenu = MenuObject("Low price")
-        priceMenu.addSubitem("Normal Low price", "home")
-        priceMenu.addSubitem("Very Low price", "home")
-        priceMenu.addSubitem("Extreme Low price", "home")
+        priceMenu.addSubitem("Normal Low price", "help")
+        priceMenu.addSubitem("Very Low price", "settings")
+        priceMenu.addSubitem("Extreme Low price", "welcome")
         context["menu"].append(priceMenu)
 
         securityMenu = MenuObject("High Security")
-        securityMenu.addSubitem("Normal High Security", "home")
-        securityMenu.addSubitem("Very High Security", "home")
-        securityMenu.addSubitem("Extreme High Security", "home")
+        securityMenu.addSubitem("Normal High Security", "help")
+        securityMenu.addSubitem("Very High Security", "settings")
+        securityMenu.addSubitem("Extreme High Security", "welcome")
         context["menu"].append(securityMenu)
 
         return render(request, template_name, context)
@@ -77,5 +83,8 @@ def render_with_user(request, template_name, context={}):
     else:
         context["user"] = None
         context["name"] = "Login or sign up"
+
+        loginMenu = MenuObject("Login to get full function", "login")
+        context["menu"].append(loginMenu)
 
         return render(request, template_name, context)
