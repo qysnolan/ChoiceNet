@@ -99,26 +99,77 @@
                     </a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle"
-                                   data-toggle="dropdown">
-                                    <i class="icon-usd"> Give me your money!</i>
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-submenu">
-                                        <a tabindex="-1" href="#">Quick</a>
-{#                                        <ul class="dropdown-menu">#}
-{#                                            <li {% if subSubMenu.disabled %}class="disabled"{% endif %}><a {% if not subSubMenu.disabled %}href="/{{ subSubMenu.url }}/" data-event-trigger="click" data-event-category="navbar" data-event-action="click" data-event-label="{{ m.name }}-{{ sub.name }}-{{ subSubMenu.name }}"{% endif %}>{{ subSubMenu.name }}</a></li>#}
-{#                                        </ul>#}
-
-                                    <li>
-{#                                    <a href="/home/" data-event-trigger="click" data-event-category="navbar" data-event-action="click" data-event-label="{{ m.name }}-{{ sub.name }}">{{ sub.name }}</a>#}
-                                    </li>
-                                </ul>
-                            </li>
-{#                            <li><a href="/home/" data-event-trigger="click" data-event-category="navbar" data-event-action="click" data-event-label="navbar-{{ m.name }}">{% if m.icon %}<i class="{{ m.icon }}"></i> {% endif %}{{ m.name }}</a></li>#}
+                        {% for m in menu %}
+                            {% if m.canShow %}
+                                {% if m.hasSubmenu %}
+                                <li class="dropdown">
+                                    <a href="#"
+                                       class="dropdown-toggle"
+                                       data-toggle="dropdown">
+                                        {% if m.icon %}
+                                            <i class="{{ m.icon }}"></i>
+                                        {% endif %}
+                                        {{ m.name }}
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        {% for sub in m.submenu %}
+                                        {% if sub.hasSubmenu %}
+                                        <li class="dropdown-submenu">
+                                            <a tabindex="-1" href="#">
+                                                {{ sub.name }}
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                {% for subSubMenu in sub.submenu %}
+                                                <li {% if subSubMenu.disabled %}
+                                                    class="disabled"
+                                                    {% endif %}>
+                                                    <a {% if not subSubMenu.disabled %}
+                                                       href="/{{ subSubMenu.url }}/"
+                                                       data-event-trigger="click"
+                                                       data-event-category="navbar"
+                                                       data-event-action="click"
+                                                       data-event-label="{{ m.name }}-{{ sub.name }}-{{ subSubMenu.name }}"
+                                                    {% endif %}>
+                                                        {{ subSubMenu.name }}
+                                                    </a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        {% else %}
+                                        <li>
+                                            <a href="/{{ sub.url }}/"
+                                               data-event-trigger="click"
+                                               data-event-category="navbar"
+                                               data-event-action="click"
+                                               data-event-label="{{ m.name }}-{{ sub.name }}">
+                                                {{ sub.name }}
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="/{{ m.url }}/"
+                                       data-event-trigger="click"
+                                       data-event-category="navbar"
+                                       data-event-action="click"
+                                       data-event-label="navbar-{{ m.name }}">
+                                        {% if m.icon %}
+                                        <i class="{{ m.icon }}"></i>
+                                        {% endif %}
+                                        {{ m.name }}
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if not forloop.last %}
                                 <li class="divider-vertical"></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
                         </ul>
                         <ul class="nav pull-right">
                             <li class="dropdown">
