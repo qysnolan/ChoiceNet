@@ -74,6 +74,24 @@
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(ga, s);
         })();
+
+    $(function () {
+         $('#scrlBotm').click(function () {
+             $('html, body').animate({
+                 scrollTop: $(document).height()
+             },
+             1500);
+             return false;
+         });
+
+         $('#scrlTop').click(function () {
+             $('html, body').animate({
+                 scrollTop: '0px'
+             },
+             1500);
+             return false;
+         });
+     });
     </script>
         
 	{% block page-js %}
@@ -373,6 +391,17 @@
             </div>
         </div>
         {% endif %}
+        <div>
+            <a id="scrlTop" class="nav-scroll" title="Top" href="#" style="bottom: 377px;">
+                <i class="icon-chevron-up"></i>
+            </a>
+            <a class="nav-scroll" href="{% url "home" %}" title="Home" style="bottom: 339px;">
+                <i class="icon-home"></i>
+            </a>
+            <a id="scrlBotm" class="nav-scroll" title="Bottom" href="#" style="bottom: 300px;">
+                <i class="icon-chevron-down"></i>
+            </a>
+        </div>
     </div>
 </body>
 </html>
