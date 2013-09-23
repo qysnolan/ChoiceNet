@@ -269,8 +269,10 @@
                            data-event-label="Feedback">
                             Feedback
                         </a>
-                        {% endif %}|
-                            <a href="/help/">Help</a> <br />
+                        {% endif %}
+                        {% if not user %}|
+                            <a href="/help/">Help</a>
+                        {% endif %}<br />
                         Copyright &copy; 2013 Network Systems Laboratory<br />
                         All rights reserved.
                     </div>
