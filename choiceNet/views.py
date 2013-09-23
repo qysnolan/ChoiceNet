@@ -11,7 +11,11 @@ def welcome(request):
 
 def home(request):
 
-    return render_with_user(request, "home.html")
+    redirect_to = "/home/"
+    if "next" in request.GET:
+        redirect_to = request.GET["next"]
+
+    return render_with_user(request, "home.html", {"redirect_to": redirect_to})
 
 
 def user_help(request):

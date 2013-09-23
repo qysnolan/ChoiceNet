@@ -55,6 +55,12 @@ class LoginView(View):
 
 
 def logout(request):
+    from django.contrib import auth
+
+    auth.logout(request)
+    if "next" in request.GET:
+        redirect_to = request.GET["next"]
+        return redirect(redirect_to)
 
     return redirect("/login/#loggedout")
 

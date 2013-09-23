@@ -30,7 +30,10 @@ $(document).ready(function()
     </div>
     <div class="alert alert-warning" id="logoutNotice" style="display: none;">
         Your must
-        <a href="/logout/"> sign out </a>
+        <form action="/logout/?next={{ redirect_to }}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Sign out" />
+        </form>
         first before to direct to that page
     </div>
 
