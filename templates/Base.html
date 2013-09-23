@@ -63,7 +63,6 @@
            document.getElementsByTagName('body')[0] )
                 .appendChild(googleTranslateScript);
         googleTranslateScript.async = true;
-
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-37132105-1']);
         _gaq.push(['_trackPageview']);
@@ -231,7 +230,12 @@
                                data-event-label="Twitter">
                                 <i class="icon-gittip"></i> Prof. Wolf Homepage
                             </a>
-                            <button class="btn btn-small dropdown-toggle" onclick="$('.goog-te-gadget-simple').click()" data-event-trigger="click" data-event-category="social" data-event-action="click" data-event-label="Translate">
+                            <button class="btn btn-small dropdown-toggle"
+                                    onclick="$('.goog-te-gadget-simple').click()"
+                                    data-event-trigger="click"
+                                    data-event-category="social"
+                                    data-event-action="click"
+                                    data-event-label="Translate">
                                 <i class="icon-globe"></i> Translate
                                 <span class="caret"></span>
                             </button>
