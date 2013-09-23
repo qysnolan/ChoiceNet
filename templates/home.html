@@ -42,7 +42,7 @@ $(document).ready(function()
             {% csrf_token %}
             Your must <b>sign out</b> first before to direct to that page.
             Are you sure to
-            <input type="submit"  class="btn-link" value="Sign out" />
+            <input type="submit"  class="btn-link" value="Sign out"/>
         </form>
     </div>
 
@@ -52,11 +52,13 @@ $(document).ready(function()
     <div class="tab-content">
         {% for p in products %}
         <div class="product span4 center">
-            <a href="/you/cant/guess/this/url/pay/">
+            <form action="/you/cant/guess/this/url/pay/" method="POST">
+                {% csrf_token %}
                 <img src="/static/imgs/network.gif" alt="Product {{ p }}"/>
-            </a>
-            <p>Product {{ p }}</p>
-            <a href="/you/cant/guess/this/url/pay/" class="btn btn-success">Buy</a>
+                <p>Product {{ p }}</p>
+                <input type="submit"  class="btn btn-success" value="Buy"/>
+                <input type="hidden"  name="productID" value={{ p }} />
+            </form>
         </div>
         {% endfor %}
     </div>
