@@ -84,6 +84,13 @@
             Sign up now
         </a>
     </div>
+
+    <div class="row center hidden-from-app" style="padding-bottom: 10px">
+        Or shopping as a guest?
+        <a href="{% url "home" %}" class="learn-more">
+            Home page
+        </a>
+    </div>
     
     <form action="{% url "login" %}?next={{ redirect_to }}" method="POST">
         <div class="well">
