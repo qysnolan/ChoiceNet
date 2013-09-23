@@ -3,7 +3,15 @@
 {% load url from future %}
 
 {% block page-css %}
-
+<style type="text/css">
+div.product
+{
+    margin: 10px;
+    padding: 10px;
+    border: solid lightgrey 1px;
+    box-shadow: 6px 6px 3px #afafaf;
+}
+</style>
 {% endblock %}
 
 {% block page-js %}
@@ -34,16 +42,25 @@ $(document).ready(function()
             {% csrf_token %}
             Your must <b>sign out</b> first before to direct to that page.
             Are you sure to
-            <input type="submit"  class="btn-link" value="Sign out" />
+            <input type="submit"  class="btn-link" value="Sign out"/>
         </form>
-git
     </div>
 
     <div class="page-header">
-        <h1>Good product!</h1>
+        <h1>Products</h1>
     </div>
-    <div>
-        <a href="/you/cant/guess/this/url/pay/" class="btn">Buy me!</a>
+    <div class="tab-content">
+        {% for p in products %}
+        <div class="product span4 center">
+            <form action="/you/cant/guess/this/url/pay/" method="POST">
+                {% csrf_token %}
+                <img src="/static/imgs/network.gif" alt="Product {{ p }}"/>
+                <p>Product {{ p }}</p>
+                <input type="submit"  class="btn btn-success" value="Buy"/>
+                <input type="hidden"  name="productID" value={{ p }} />
+            </form>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

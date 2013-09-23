@@ -4,11 +4,12 @@
 {% block content %}
 
 <div class="container">
-
-    <h1>Buy it! Hurry up! </h1>
-
-    {{ form }}
-
+    <div class="center">
+        <h1>Almost Gone! </h1>
+        <img src="/static/imgs/network.gif" alt="Product {{ p }}"/>
+        <p>Product {{ productID }}</p>
+        {{ form }}
+    </div>
 </div>
 
 {% endblock %}

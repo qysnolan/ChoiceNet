@@ -15,7 +15,13 @@ def home(request):
     if "next" in request.GET:
         redirect_to = request.GET["next"]
 
-    return render_with_user(request, "home.html", {"redirect_to": redirect_to})
+    products = []
+    import random
+    for i in range(0, 20):
+        products.append(random.randrange(1, 1000))
+
+    return render_with_user(request, "home.html", {"redirect_to": redirect_to,
+                                                   "products": products})
 
 
 def user_help(request):
