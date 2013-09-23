@@ -3,7 +3,15 @@
 {% load url from future %}
 
 {% block page-css %}
-
+<style type="text/css">
+div.product
+    {
+    margin: 10px;
+    padding: 10px;
+    border: solid lightgrey 1px;
+    box-shadow: 6px 6px 3px #afafaf;
+    }
+</style>
 {% endblock %}
 
 {% block page-js %}
@@ -36,14 +44,18 @@ $(document).ready(function()
             Are you sure to
             <input type="submit"  class="btn-link" value="Sign out" />
         </form>
-git
     </div>
 
     <div class="page-header">
-        <h1>Good product!</h1>
+        <h1>Products</h1>
     </div>
-    <div>
-        <a href="/you/cant/guess/this/url/pay/" class="btn">Buy me!</a>
+    <div class="tab-content">
+        {% for p in products %}
+        <div class="product span4 center">
+            <p>Product {{ p }}</p>
+            <a href="/you/cant/guess/this/url/pay/" class="btn btn-success">Buy</a>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
