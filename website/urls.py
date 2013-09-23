@@ -26,7 +26,7 @@ urlpatterns = patterns(
     url(r'^orders/', orders, name="orders"),
 
     # Shopping part
-    url(r'^$', home),
+    url(r'^$', welcome, name="welcome"),
     url(r'^home/', home, name="home"),
 
     # Just for testing
