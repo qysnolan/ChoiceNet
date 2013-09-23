@@ -7,6 +7,6 @@ def home(request):
     return render_with_user(request, "home.html")
 
 
-def forget_password(request):
+def user_help(request):
 
     return HttpResponse("We are working hard on this function now!")

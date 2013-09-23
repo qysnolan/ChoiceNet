@@ -35,5 +35,5 @@ urlpatterns = patterns(
     url(r'^you/cant/guess/this/url/', include('paypal.standard.ipn.urls')),
 
     # Help
-    url(r'^help/', forget_password, name="help"),
+    url(r'^help/', user_help, name="help"),
 )
