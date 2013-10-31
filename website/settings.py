@@ -162,7 +162,7 @@ INSTALLED_APPS = (
     'paypal.standard.ipn',
     'accounts',
     'south',
-    'services',
+    'service',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
