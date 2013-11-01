@@ -54,10 +54,10 @@ $(document).ready(function()
         <div class="product span4 center">
             <form action="/you/cant/guess/this/url/pay/" method="POST">
                 {% csrf_token %}
-                <img src="/static/imgs/network.gif" alt="Product {{ p }}"/>
-                <p>Product {{ p }}</p>
+                <img src="/static/imgs/network.gif" alt="Product {{ p.id }}"/>
+                <p>{{ p.name }}</p>
                 <input type="submit"  class="btn btn-success" value="Buy"/>
-                <input type="hidden"  name="productID" value={{ p }} />
+                <input type="hidden"  name="productID" value={{ p.name }} />
             </form>
         </div>
         {% endfor %}
