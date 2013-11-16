@@ -16,6 +16,7 @@ def logout_required(function):
 
     def decorator(request, *args, **kwargs):
         if request.user.is_active:
-            return redirect("/home#mustlogout")
+            return redirect("/home/?next=%s#mustlogout" %
+                            (request.get_full_path(), ))
         return function(request, *args, **kwargs)
     return decorator

@@ -20,6 +20,13 @@
     
     {% block global-css %}
 	   <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+       <style type="text/css">
+        a.nav-scroll
+        {
+            position: fixed;
+            right: 30px
+        }
+       </style>
     {% endblock %}
     
 	{% block page-css %}
@@ -33,15 +40,15 @@
     
 	<script type="text/javascript"
             src="/static/js/all/plugins/jquery.dataTables.min.js"></script>
-    <script type="text/javascript"
-            src="/static/js/all/min/select2.min.js"></script>
-    <script type="text/javascript"
-            src="/static/js/all/plugins/jquery.multi-select.js"></script>
+{#    <script type="text/javascript"#}
+{#            src="/static/js/all/min/select2.min.js"></script>#}
+{#    <script type="text/javascript"#}
+{#            src="/static/js/all/plugins/jquery.multi-select.js"></script>#}
     
-    <script type="text/javascript"
-            src="/static/js/all/plugins/bootstrap.datepicker.js"></script>
-    <script type="text/javascript"
-            src="/static/js/all/plugins/bootstrap-timepicker.js"></script>
+{#    <script type="text/javascript"#}
+{#            src="/static/js/all/plugins/bootstrap.datepicker.js"></script>#}
+{#    <script type="text/javascript"#}
+{#            src="/static/js/all/plugins/bootstrap-timepicker.js"></script>#}
 
 	<script type="text/javascript"
             src="/static/js/all/global.js"></script>
@@ -74,6 +81,24 @@
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(ga, s);
         })();
+
+    $(function () {
+         $('#scrlBotm').click(function () {
+             $('html, body').animate({
+                 scrollTop: $(document).height()
+             },
+             1500);
+             return false;
+         });
+
+         $('#scrlTop').click(function () {
+             $('html, body').animate({
+                 scrollTop: '0px'
+             },
+             1500);
+             return false;
+         });
+     });
     </script>
         
 	{% block page-js %}
@@ -94,31 +119,83 @@
                     <a href="/home/" class="brand" data-event-trigger="click"
                        data-event-category="navbar" data-event-action="click"
                        data-event-label="Home">
-                        <img class="logo" src="/static/imgs/app.png" />
-                        ChioceNet Shopper
+                        <img class="logo" src="/static/imgs/app.png"
+                             style="height: 21px; width: 34px" />
+                        ChoiceNet Shopper
                     </a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle"
-                                   data-toggle="dropdown">
-                                    <i class="icon-usd"> Give me your money!</i>
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-submenu">
-                                        <a tabindex="-1" href="#">Quick</a>
-{#                                        <ul class="dropdown-menu">#}
-{#                                            <li {% if subSubMenu.disabled %}class="disabled"{% endif %}><a {% if not subSubMenu.disabled %}href="/{{ subSubMenu.url }}/" data-event-trigger="click" data-event-category="navbar" data-event-action="click" data-event-label="{{ m.name }}-{{ sub.name }}-{{ subSubMenu.name }}"{% endif %}>{{ subSubMenu.name }}</a></li>#}
-{#                                        </ul>#}
-
-                                    <li>
-{#                                    <a href="/home/" data-event-trigger="click" data-event-category="navbar" data-event-action="click" data-event-label="{{ m.name }}-{{ sub.name }}">{{ sub.name }}</a>#}
-                                    </li>
-                                </ul>
-                            </li>
-{#                            <li><a href="/home/" data-event-trigger="click" data-event-category="navbar" data-event-action="click" data-event-label="navbar-{{ m.name }}">{% if m.icon %}<i class="{{ m.icon }}"></i> {% endif %}{{ m.name }}</a></li>#}
+                        {% for m in menu %}
+                            {% if m.canShow %}
+                                {% if m.hasSubmenu %}
+                                <li class="dropdown">
+                                    <a href="#"
+                                       class="dropdown-toggle"
+                                       data-toggle="dropdown">
+                                        {% if m.icon %}
+                                            <i class="{{ m.icon }}"></i>
+                                        {% endif %}
+                                        {{ m.name }}
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        {% for sub in m.submenu %}
+                                        {% if sub.hasSubmenu %}
+                                        <li class="dropdown-submenu">
+                                            <a tabindex="-1" href="#">
+                                                {{ sub.name }}
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                {% for subSubMenu in sub.submenu %}
+                                                <li {% if subSubMenu.disabled %}
+                                                    class="disabled"
+                                                    {% endif %}>
+                                                    <a {% if not subSubMenu.disabled %}
+                                                       href="/{{ subSubMenu.url }}/"
+                                                       data-event-trigger="click"
+                                                       data-event-category="navbar"
+                                                       data-event-action="click"
+                                                       data-event-label="{{ m.name }}-{{ sub.name }}-{{ subSubMenu.name }}"
+                                                    {% endif %}>
+                                                        {{ subSubMenu.name }}
+                                                    </a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        {% else %}
+                                        <li>
+                                            <a href="/{{ sub.url }}/"
+                                               data-event-trigger="click"
+                                               data-event-category="navbar"
+                                               data-event-action="click"
+                                               data-event-label="{{ m.name }}-{{ sub.name }}">
+                                                {{ sub.name }}
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="/{{ m.url }}/"
+                                       data-event-trigger="click"
+                                       data-event-category="navbar"
+                                       data-event-action="click"
+                                       data-event-label="navbar-{{ m.name }}">
+                                        {% if m.icon %}
+                                        <i class="{{ m.icon }}"></i>
+                                        {% endif %}
+                                        {{ m.name }}
+                                    </a>
+                                </li>
+                                {% endif %}
+                                {% if not forloop.last %}
                                 <li class="divider-vertical"></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
                         </ul>
                         <ul class="nav pull-right">
                             <li class="dropdown">
@@ -128,9 +205,21 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
+                                    {% if user %}
+                                    <li>
+                                        <a href="/orders/"
+                                           data-event-trigger="click"
+                                           data-event-category="navbar"
+                                           data-event-action="click"
+                                           data-event-label="orders">
+                                            <i class="icon-reorder"></i>
+                                               Orders
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     <li>
                                         <a href={% if user %}
-                                                       "/settings/"
+                                                       "{% url "settings" %}"
                                                    {% else %}
                                                        {% url "login" %}
                                                    {% endif %}
@@ -149,7 +238,7 @@
                                     </li>
                                     <li>
                                         <a href={% if user %}
-                                                       "/help/"
+                                                       "{% url "help" %}"
                                                    {% else %}
                                                        {% url "sign_up" %}
                                                    {% endif %}
@@ -186,7 +275,7 @@
                 </div>
             </div>
         </div>
-        <div class="content" style="padding-top: 60px;">
+        <div class="content" style="padding-top: 30px;">
 
             {% block content %}
             {% endblock %}
@@ -260,7 +349,7 @@
                            data-event-label="Terms of Use">
                             Terms of Use
                         </a>
-                        {% if user %} | 
+                        {% if user %}|
                         <a href="#" data-toggle="modal"
                            data-target="#feedback-modal"
                            data-event-trigger="click"
@@ -270,7 +359,7 @@
                             Feedback
                         </a>
                         {% endif %}
-                        {% if not user %} |
+                        {% if not user %}|
                             <a href="/help/">Help</a>
                         {% endif %}<br />
                         Copyright &copy; 2013 Network Systems Laboratory<br />
@@ -310,6 +399,17 @@
             </div>
         </div>
         {% endif %}
+        <div>
+            <a id="scrlTop" class="nav-scroll" title="Top" href="#" style="bottom: 377px;">
+                <i class="icon-chevron-up"></i>
+            </a>
+            <a class="nav-scroll" href="{% url "home" %}" title="Home" style="bottom: 339px;">
+                <i class="icon-home"></i>
+            </a>
+            <a id="scrlBotm" class="nav-scroll" title="Bottom" href="#" style="bottom: 300px;">
+                <i class="icon-chevron-down"></i>
+            </a>
+        </div>
     </div>
 </body>
 </html>

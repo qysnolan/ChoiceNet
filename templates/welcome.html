@@ -1,0 +1,46 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="header center">
+    <a href="/">
+        <img src="/static/imgs/umass_150.png" alt="ChoiceNet Shopper"
+             height="141" width="300" />
+    </a>
+</div>
+
+<div class="container login-container center">
+    <div class="page-header">
+        <h1>
+            Welcome to ChoiceNet Shopper!
+        </h1>
+    </div>
+
+     <div class="row center hidden-from-app" style="padding-bottom: 10px">
+        Already a ChoiceNet user?
+        <a href="{% url "login" %}" class="learn-more">
+            Login now
+        </a>
+    </div>
+
+    <div class="row center hidden-from-app" style="padding-bottom: 10px">
+        Or become a ChoiceNet user?
+        <a href="{% url "sign_up" %}" class="learn-more">
+            Sign up now
+        </a>
+    </div>
+
+    <div class="row center hidden-from-app" style="padding-bottom: 10px">
+        Or shopping as a guest?
+        <a href="{% url "home" %}" class="learn-more">
+            Home page
+        </a>
+    </div>
+
+</div>
+{% endblock %}
