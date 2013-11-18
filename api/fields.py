@@ -1,5 +1,5 @@
 from rest_framework.serializers import HyperlinkedIdentityField, \
-HyperlinkedRelatedField
+    HyperlinkedRelatedField
 
 
 class NestedHyperlinkedField(object):

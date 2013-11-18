@@ -45,7 +45,3 @@ router = ApiRouter()
 router.register(r"users", views.UserViewSet)
 
 urlpatterns = router.urls
-
-urlpatterns += patterns("", url("^me", views.MeRedirect.as_view(),
-                        name="api-me-redirect"))
-
