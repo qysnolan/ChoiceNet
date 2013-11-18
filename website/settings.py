@@ -171,15 +171,22 @@ INSTALLED_APPS = (
 )
 
 REST_FRAMEWORK = {
-    # Use hyperlinked styles by default.
-    # Only used if the `serializer_class` attribute is not set on a view.
-    'DEFAULT_MODEL_SERIALIZER_CLASS':
-        'rest_framework.serializers.HyperlinkedModelSerializer',
-
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+    "DEFAULT_FILTER_BACKENDS": (
+        "rest_framework.filters.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+    ),
+    "PAGINATE_BY": 25,
+    "PAGINATE_BY_PARAM": "page_size",
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.UnicodeJSONRenderer",
+        "rest_framework.renderers.XMLRenderer",
     ]
 
 }
