@@ -37,4 +37,7 @@ urlpatterns = patterns(
 
     # Help
     url(r'^help/', user_help, name="help"),
+
+    # REST framework
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )
