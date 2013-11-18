@@ -43,5 +43,6 @@ class ApiRouter(routers.DefaultRouter):
 router = ApiRouter()
 
 router.register(r"users", views.UserViewSet)
+router.register(r"services", views.ServiceViewSet)
 
 urlpatterns = router.urls
