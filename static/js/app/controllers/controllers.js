@@ -2,15 +2,12 @@
 
 /* Controllers */
 
-var phonecatApp = angular.module('phonecatApp', []);
+var serviceApp = angular.module('serviceApp', []);
 
-phonecatApp.controller('PhoneListCtrl', function($scope) {
-  $scope.phones = [
-    {'name': 'Nexus S',
-     'snippet': 'Fast just got faster with Nexus S.'},
-    {'name': 'Motorola XOOM™ with Wi-Fi',
-     'snippet': 'The Next, Next Generation tablet.'},
-    {'name': 'MOTOROLA XOOM™',
-     'snippet': 'The Next, Next Generation tablet.'}
-  ];
+serviceApp.controller('ServiceListCtrl', function ($scope, $http) {
+  $http.get('api/services.json').success(function(data) {
+    $scope.services = data.results;
+  });
+
+  $scope.orderProp = 'date_modified';
 });
