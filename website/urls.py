@@ -5,6 +5,7 @@ from website.views import *
 from accounts.views import *
 from choiceNet.views import *
 from service.APIViews import *
+from service.views import *
 
 admin.autodiscover()
 
@@ -29,6 +30,7 @@ urlpatterns = patterns(
     # Shopping part
     url(r'^$', welcome, name="welcome"),
     url(r'^home/', home, name="home"),
+    url(r'^services', ServicesList, name="services"),
 
     # Just for testing
     url(r'^hello/', hello),
@@ -43,5 +45,4 @@ urlpatterns = patterns(
     url(r'^api-auth/', include('rest_framework.urls',
                                namespace='rest_framework')),
     url(r"^api/", include("api.urls"), name="api_base"),
-    # url(r'^api/json/users/$', JsonUsers),
 )
