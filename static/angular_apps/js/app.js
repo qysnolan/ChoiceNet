@@ -14,12 +14,12 @@ var serviceApp = angular.module('serviceApp', [
 serviceApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-              when('/services', {
-                templateUrl: 'templates/services/service-list.html',
+              when('/', {
+                templateUrl: '/static/angular_apps/templates/service-list.html',
                 controller: 'ServiceAppListCtrl'
               }).
-              when('/services/serviceID', {
-                templateUrl: 'templates/services/service-detail.html',
+              when('/serviceID', {
+                templateUrl: '/static/angular_apps/templates/service-detail.html',
                 controller: 'ServiceDetailCtrl'
               }).
               otherwise({
