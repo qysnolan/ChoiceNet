@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2" style="margin-right: 20px">
+      <!--Sidebar content-->
+
+      Search: <input ng-model="query">
+      Sort by:
+      <select ng-model="orderProp">
+        <option value="name">Alphabetical</option>
+        <option value="date">Newest</option>
+      </select>
+
+    </div>
+    <div class="span9">
+      <!--Body content-->
+
+      <ul>
+        <li ng-repeat="service in services | filter:query | orderBy:orderProp"
+            class="thumbnail">
+          <a href="#/phones/{{service.id}}" class="thumb"><img ng-src="/static/imgs/network.gif"></a>
+          <a href="#/phones/{{service.id}}">{{service.name}}</a>
+          <p>{{service.process_id}}</p>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

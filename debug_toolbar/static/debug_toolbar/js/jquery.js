@@ -8361,7 +8361,7 @@ jQuery.fn.extend({
 				parts, start, end, unit,
 				method;
 
-			// will store per property easing and be used to determine when an animation is complete
+			// will store per property easing and be used to determine when an animations is complete
 			opt.animatedProperties = {};
 
 			for ( p in prop ) {
@@ -8446,7 +8446,7 @@ jQuery.fn.extend({
 							jQuery.style( this, p, start + unit);
 						}
 
-						// If a +=/-= token was provided, we're doing a relative animation
+						// If a +=/-= token was provided, we're doing a relative animations
 						if ( parts[1] ) {
 							end = ( (parts[ 1 ] === "-=" ? -1 : 1) * end ) + start;
 						}
@@ -8540,7 +8540,7 @@ function clearFxNow() {
 	fxNow = undefined;
 }
 
-// Generate parameters to create a standard animation
+// Generate parameters to create a standard animations
 function genFx( type, num ) {
 	var obj = {};
 
@@ -8645,7 +8645,7 @@ jQuery.fx.prototype = {
 		return isNaN( parsed = parseFloat( r ) ) ? !r || r === "auto" ? 0 : r : parsed;
 	},
 
-	// Start an animation from one number to another
+	// Start an animations from one number to another
 	custom: function( from, to, unit ) {
 		var self = this,
 			fx = jQuery.fx;
@@ -8681,7 +8681,7 @@ jQuery.fx.prototype = {
 		this.options.orig[ this.prop ] = dataShow || jQuery.style( this.elem, this.prop );
 		this.options.show = true;
 
-		// Begin the animation
+		// Begin the animations
 		// Make sure that we start at a small width/height to avoid any flash of content
 		if ( dataShow !== undefined ) {
 			// This show is picking up where a previous hide or show left off
@@ -8700,11 +8700,11 @@ jQuery.fx.prototype = {
 		this.options.orig[ this.prop ] = jQuery._data( this.elem, "fxshow" + this.prop ) || jQuery.style( this.elem, this.prop );
 		this.options.hide = true;
 
-		// Begin the animation
+		// Begin the animations
 		this.custom( this.cur(), 0 );
 	},
 
-	// Each step of an animation
+	// Each step of an animations
 	step: function( gotoEnd ) {
 		var p, n, complete,
 			t = fxNow || createFxNow(),
@@ -8775,7 +8775,7 @@ jQuery.fx.prototype = {
 				this.pos = jQuery.easing[ options.animatedProperties[this.prop] ]( this.state, n, 0, 1, options.duration );
 				this.now = this.start + ( (this.end - this.start) * this.pos );
 			}
-			// Perform the next step of the animation
+			// Perform the next step of the animations
 			this.update();
 		}
 

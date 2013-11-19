@@ -777,9 +777,9 @@ angular.mock.animate = angular.module('mock.animate', ['ng'])
         flushNext : function(name) {
           var tick = animate.queue.shift();
 
-          if (!tick) throw new Error('No animation to be flushed');
+          if (!tick) throw new Error('No animations to be flushed');
           if(tick.method !== name) {
-            throw new Error('The next animation is not "' + name +
+            throw new Error('The next animations is not "' + name +
               '", but is "' + tick.method + '"');
           }
           tick.fn();

@@ -87,8 +87,8 @@
 
   // we can't have this transition here
   // because webkit cancels the carousel
-  // animation if you trip this while
-  // in the middle of another animation
+  // animations if you trip this while
+  // in the middle of another animations
   // ;_;
   // .transition(opacity .2s linear);
 

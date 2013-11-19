@@ -75,7 +75,7 @@
   @include background-size(40px 40px);
 }
 
-// Call animation for the active one
+// Call animations for the active one
 .progress.active .bar {
   -webkit-animation: progress-bar-stripes 2s linear infinite;
      -moz-animation: progress-bar-stripes 2s linear infinite;

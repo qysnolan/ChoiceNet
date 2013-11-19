@@ -2,6 +2,13 @@
 
 {% load url from future %}
 
+{% block page-css %}
+<style type="text/css">
+
+
+</style>
+{% endblock %}
+
 {% block page-js %}
 {#    <script src="/static/js/all/min/jquery-1.10.2.min.js"></script>#}
     <script src="/static/js/libs/angular.min.js"></script>
@@ -11,31 +18,24 @@
     <script src="/static/js/libs/angular-route.min.js"></script>
     <script type="text/javascript" src="/static/js/libs/angular-ui.js"></script>
     <script type="text/javascript" src="/static/js/libs/ui-bootstrap-tpls-0.4.0.js"></script>
-{#    <link rel="stylesheet" href="/static/angular_apps/css/app.css">#}
-{#    <link rel="stylesheet" href="/static/angular_apps/css/bootstrap.css">#}
 
-{#    <!-- build:js /angular_apps/js/scripts.js -->#}
+    <!-- build:js /angular_apps/js/scripts.js -->
     <script src="/static/js/app/app.js"></script>
-{#    <script src="/static/angular_apps/js/animations.js"></script>#}
-    <script src="/static/js/app/controllers/controllers.js"></script>
-{#    <script src="/static/angular_apps/js/filters.js"></script>#}
-{#    <script src="/static/angular_apps/js/services.js"></script>#}
-{#    <!-- endbuild -->#}
+    <script src="/static/js/app/animations/service_animations.js"></script>
+    <script src="/static/js/app/controllers/service_controllers.js"></script>
+    <script src="/static/js/app/filters/service_filters.js"></script>
+    <script src="/static/js/app/services/service_services.js"></script>
+    <!-- endbuild -->
 {% endblock %}
 
 {% block content %}
-<div class="container" ng-app="serviceApp" ng-controller="ServiceListCtrl">
+<div class="container" ng-app="serviceApp">
 
     <div class="page-header">
         <h1>Products</h1>
     </div>
 
-  <ul>
-    <li ng-repeat="service in services">
-      {% verbatim %}{{ service.name }}{% endverbatim %}
-      <p>{% verbatim %}{{ service.process_id }}{% endverbatim %}</p>
-    </li>
-  </ul>
+    <div ng-view></div>
 
 </div>
 

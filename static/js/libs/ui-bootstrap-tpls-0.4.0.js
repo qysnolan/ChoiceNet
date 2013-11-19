@@ -88,7 +88,7 @@ angular.module('ui.bootstrap.collapse',['ui.bootstrap.transition'])
 // The collapsible directive indicates a block of html that will expand and collapse
 .directive('collapse', ['$transition', function($transition) {
   // CSS transitions don't work with height: auto, so we have to manually change the height to a
-  // specific value and then once the animation completes, we can reset the height to auto.
+  // specific value and then once the animations completes, we can reset the height to auto.
   // Unfortunately if you do this while the CSS transitions are specified (i.e. in the CSS class
   // "collapse") then you trigger a change to height 0 in between.
   // The fix is to remove the "collapse" CSS class while changing the height back to auto - phew!
@@ -156,7 +156,7 @@ angular.module('ui.bootstrap.collapse',['ui.bootstrap.transition'])
           doTransition({ height : element[0].scrollHeight + 'px' })
           .then(function() {
             // This check ensures that we don't accidentally update the height if the user has closed
-            // the group while the animation was still running
+            // the group while the animations was still running
             if ( !isCollapsed ) {
               fixUpHeight(scope, element, 'auto');
             }
@@ -1618,7 +1618,7 @@ angular.module('ui.bootstrap.position', [])
   }]);
 
 /**
- * The following features are still outstanding: animation as a
+ * The following features are still outstanding: animations as a
  * function, placement as a function, inside, support for more triggers than
  * just mouse enter/leave, html tooltips, and selector delegation.
  */
@@ -1727,7 +1727,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position' ] )
           'title="'+startSym+'tt_title'+endSym+'" '+
           'content="'+startSym+'tt_content'+endSym+'" '+
           'placement="'+startSym+'tt_placement'+endSym+'" '+
-          'animation="tt_animation()" '+
+          'animations="tt_animation()" '+
           'is-open="tt_isOpen"'+
           '>'+
         '</'+ directiveName +'-popup>';
@@ -1860,7 +1860,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position' ] )
             //if tooltip is going to be shown after delay, we must cancel this
             $timeout.cancel( popupTimeout );
             
-            // And now we remove it from the DOM. However, if we have animation, we 
+            // And now we remove it from the DOM. However, if we have animations, we
             // need to wait for it to expire beforehand.
             // FIXME: this is a placeholder for a port of the transitions library.
             if ( angular.isDefined( scope.tt_animation ) && scope.tt_animation() ) {
@@ -1964,7 +1964,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position' ] )
 }]);
 
 /**
- * The following features are still outstanding: popup delay, animation as a
+ * The following features are still outstanding: popup delay, animations as a
  * function, placement as a function, inside, support for more triggers than
  * just mouse enter/leave, html popovers, and selector delegatation.
  */
@@ -3037,7 +3037,7 @@ angular.module("template/pagination/pagination.html", []).run(["$templateCache",
 
 angular.module("template/tooltip/tooltip-html-unsafe-popup.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/tooltip/tooltip-html-unsafe-popup.html",
-    "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+    "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animations() }\">\n" +
     "  <div class=\"tooltip-arrow\"></div>\n" +
     "  <div class=\"tooltip-inner\" ng-bind-html-unsafe=\"content\"></div>\n" +
     "</div>\n" +
@@ -3046,7 +3046,7 @@ angular.module("template/tooltip/tooltip-html-unsafe-popup.html", []).run(["$tem
 
 angular.module("template/tooltip/tooltip-popup.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/tooltip/tooltip-popup.html",
-    "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+    "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animations() }\">\n" +
     "  <div class=\"tooltip-arrow\"></div>\n" +
     "  <div class=\"tooltip-inner\" ng-bind=\"content\"></div>\n" +
     "</div>\n" +
@@ -3055,7 +3055,7 @@ angular.module("template/tooltip/tooltip-popup.html", []).run(["$templateCache",
 
 angular.module("template/popover/popover.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/popover/popover.html",
-    "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+    "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animations() }\">\n" +
     "  <div class=\"arrow\"></div>\n" +
     "\n" +
     "  <div class=\"popover-inner\">\n" +

@@ -8857,7 +8857,7 @@ var fxNow, timerId,
 			if ( parts ) {
 				start = tween.start = +start || +target || 0;
 				tween.unit = unit;
-				// If a +=/-= token was provided, we're doing a relative animation
+				// If a +=/-= token was provided, we're doing a relative animations
 				tween.end = parts[ 1 ] ?
 					start + ( parts[ 1 ] + 1 ) * parts[ 2 ] :
 					+parts[ 2 ];
@@ -9408,7 +9408,7 @@ jQuery.fn.extend({
 	}
 });
 
-// Generate parameters to create a standard animation
+// Generate parameters to create a standard animations
 function genFx( type, includeWidth ) {
 	var which,
 		attrs = { height: type },

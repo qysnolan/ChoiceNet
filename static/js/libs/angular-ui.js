@@ -16,7 +16,7 @@ angular.module('ui', ['ui.filters', 'ui.directives', 'ui.config']);
  * Animations must be done using CSS3 transitions, but provide excellent flexibility
  *
  * @todo Add proper support for animating out
- * @param [options] {mixed} Can be an object with multiple options, or a string with the animation class
+ * @param [options] {mixed} Can be an object with multiple options, or a string with the animations class
  *    class {string} the CSS class(es) to use. For example, 'ui-hide' might be an excellent alternative class.
  * @example <li ng-repeat="item in items" ui-animate=" 'ui-hide' ">{{item}}</li>
  */
