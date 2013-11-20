@@ -1,28 +1,51 @@
 <div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span2" style="margin-right: 20px">
-      <!--Sidebar content-->
+    <div class="row-fluid">
+        <div class="span3 well">
+        <!--Sidebar content-->
 
-      Search: <input ng-model="query">
-      Sort by:
-      <select ng-model="orderProp">
-        <option value="name">Alphabetical</option>
-        <option value="date">Newest</option>
-      </select>
+            Search: <input ng-model="query">
+            <br /> <br />
+            Sort by:
+            <select ng-model="orderProp">
+                <option value="name">Alphabetical</option>
+                <option value="date">Newest</option>
+            </select>
 
+        </div>
+
+        <div class="span9">
+        <!--Body content-->
+
+            <dl>
+                <dd ng-repeat="service in services | filter:query | orderBy:orderProp" >
+
+                    <div class="product span13">
+                        <a href="#/phones/{{service.id}}">
+                            <img class="span3 pull-left" style="margin-right: 10px" ng-src="/static/imgs/network.gif">
+                        </a>
+                        <div class="span7">
+                            <a href="#/phones/{{service.id}}"><h3>{{service.name}}</h3></a>
+                            <ul class="span5">
+                                <li>Process ID: {{service.process_id}}</li>
+                                <li>Service Input: {{service.service_input}}</li>
+                                <li>Service Output: {{service.service_output}}</li>
+                                <li>Pre-requirements: {{service.pre_requirements}}</li>
+                            </ul>
+                            <ul class="span6">
+                                <li>Max-bandwidth: {{service.max_bandwidth | number:2}} MB/s</li>
+                                <li>Min-bandwidth: {{service.min_bandwidth | number:2}} MB/s</li>
+                                <li>Delay: {{service.delay}} ms</li>
+                                <li>Date Added: {{service.date_created | date:'medium'}}</li>
+                            </ul>
+                        </div>
+                        <div class="pull-right" style="color: brown; margin-top: 20px">
+                            <h4>${{ service.cost }}</h4>
+                        </div>
+                    </div>
+
+                </dd>
+            </dl>
+
+        </div>
     </div>
-    <div class="span9">
-      <!--Body content-->
-
-      <ul>
-        <li ng-repeat="service in services | filter:query | orderBy:orderProp"
-            class="thumbnail">
-          <a href="#/phones/{{service.id}}" class="thumb"><img ng-src="/static/imgs/network.gif"></a>
-          <a href="#/phones/{{service.id}}">{{service.name}}</a>
-          <p>{{service.process_id}}</p>
-        </li>
-      </ul>
-
-    </div>
-  </div>
 </div>
