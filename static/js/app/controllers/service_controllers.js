@@ -8,7 +8,7 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
   $http.get('api/services.json').success(function(data) {
     $scope.services = data.results;
   });
-  $scope.orderProp = 'date_modified';
+  $scope.orderProp = 'name';
 });
 
 //phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',

@@ -7,8 +7,26 @@
             <br /> <br />
             Sort by:
             <select ng-model="orderProp">
-                <option value="name">Alphabetical</option>
-                <option value="date">Newest</option>
+                <option value="name">Name (A-Z)</option>
+                <option value="-name">Name (Z-A)</option>
+                <option value="cost">Price (Increasing)</option>
+                <option value="-cost">Price (Decreasing)</option>
+                <option value="process_id">Process ID (Increasing)</option>
+                <option value="-process_id">Process ID (Decreasing)</option>
+                <option value="-date_created">Newest</option>
+                <option value="date_created">Oldest</option>
+                <option value="service_input">Input (A-Z)</option>
+                <option value="-service_input">Input (Z-A)</option>
+                <option value="service_output">Output (A-Z)</option>
+                <option value="-service_output">Output (Z-A)</option>
+                <option value="pre_requirements">Pre-requirements (A-Z)</option>
+                <option value="-pre_requirements">Pre-requirements (Z-A)</option>
+                <option value="max_bandwidth">Max-bandwidth (Increasing)</option>
+                <option value="-max_bandwidth">Max-bandwidth (Decreasing)</option>
+                <option value="min_bandwidth">Min-bandwidth (Increasing)</option>
+                <option value="-min_bandwidth">Min-bandwidth (Decreasing)</option>
+                <option value="delay">Delay (Increasing)</option>
+                <option value="-delay">Delay (Decreasing)</option>
             </select>
 
         </div>
