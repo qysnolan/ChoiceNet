@@ -1,22 +1,29 @@
 var serviceControllers = angular.module('serviceControllers', []);
 
 serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
-    $http.get('api/services.json').success(function(data) {
-        $scope.services = data.results;
-        $scope.count = data.count;
-        $scope.previous = data.previous;
-        $scope.next = data.next;
-        $scope.totalPages = Math.ceil($scope.count/25);
-        $scope.currentPage = 1;
-        $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
-        $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
-        checkDisable();
-    });
-    $scope.firstDisable = true;
-    $scope.lastDisable = true;
-    $scope.nextDisable = false;
-    $scope.previousDisable = false;
-    $scope.orderProp = 'name';
+    var initiation = function() {
+        $http.get('api/services.json').success(function(data) {
+            $scope.services = data.results;
+            $scope.count = data.count;
+            $scope.previous = data.previous;
+            $scope.next = data.next;
+            $scope.totalPages = Math.ceil($scope.count/25);
+            $scope.currentPage = 1;
+            $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
+            $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
+            checkDisable();
+        });
+        $scope.firstDisable = true;
+        $scope.lastDisable = true;
+        $scope.nextDisable = false;
+        $scope.previousDisable = false;
+        $scope.allDataLoaded = false;
+        $scope.allDataLoading = false;
+        $scope.orderProp = 'name';
+    };
+
+    initiation();
+    $scope.pageView = true;
 
     var checkDisable = function() {
         $scope.previous==undefined ? $scope.previousDisable = true : $scope.previousDisable = false;
@@ -47,4 +54,44 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
         });
     };
 
+    $scope.loadServices = function(url) {
+        $http.get(url).success(function(data) {
+            var data1 = $scope.services;
+            var data2 = data.results;
+            $scope.services = $.merge(data1, data2);
+//            $scope.services = data.results;
+            $scope.previous = data.previous;
+            $scope.next = data.next;
+            $scope.currentPage ++;
+            $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
+            $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
+        });
+    };
+
+    $scope.initiate = function() {
+        initiation();
+    };
+
+    $scope.loadAllServices = function() {
+        $scope.allDataLoading = true;
+        var page = 1;
+        var totalData = [];
+        var total = $scope.totalPages;
+        while(page<=total){
+            $http.get('/api/services?page='+page).success(function(data) {
+                var data1 = totalData;
+                var data2 = data.results;
+                totalData = $.merge(data1, data2);
+            });
+            page++;
+        }
+        $scope.services = totalData;
+        $scope.currentPage = total;
+        $scope.firstEntry = 1;
+        $scope.lastEntry = $scope.count;
+        $scope.next = null;
+        $scope.allDataLoaded = true;
+        $scope.allDataLoading = false;
+
+    };
 });

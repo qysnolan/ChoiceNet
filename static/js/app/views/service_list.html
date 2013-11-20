@@ -4,39 +4,51 @@
         <!--Sidebar content-->
             <h3>Services</h3>
             <div ng-show="count != null">
-                <p class="italic"><i>Showing {{ firstEntry }}-{{ lastEntry }} of {{ count }} result(s)</i></p>
+                <i ng-show="pageView==true">Showing {{ firstEntry }}-{{ lastEntry }} of {{ count }} result(s)</i>
+                <i ng-show="pageView!=true">Showing 1-{{ lastEntry }} of {{ count }} result(s)</i>
             </div>
-            Filter in this page: <input ng-model="query">
-            <br />
-            Sort by:
-            <select ng-model="orderProp">
-                <option value="name">Name (A-Z)</option>
-                <option value="-name">Name (Z-A)</option>
-                <option value="cost">Price (Increasing)</option>
-                <option value="-cost">Price (Decreasing)</option>
-                <option value="process_id">Process ID (Increasing)</option>
-                <option value="-process_id">Process ID (Decreasing)</option>
-                <option value="-date_created">Newest</option>
-                <option value="date_created">Oldest</option>
-                <option value="service_input">Input (A-Z)</option>
-                <option value="-service_input">Input (Z-A)</option>
-                <option value="service_output">Output (A-Z)</option>
-                <option value="-service_output">Output (Z-A)</option>
-                <option value="pre_requirements">Pre-requirements (A-Z)</option>
-                <option value="-pre_requirements">Pre-requirements (Z-A)</option>
-                <option value="max_bandwidth">Max-bandwidth (Increasing)</option>
-                <option value="-max_bandwidth">Max-bandwidth (Decreasing)</option>
-                <option value="min_bandwidth">Min-bandwidth (Increasing)</option>
-                <option value="-min_bandwidth">Min-bandwidth (Decreasing)</option>
-                <option value="delay">Delay (Increasing)</option>
-                <option value="-delay">Delay (Decreasing)</option>
-            </select>
-
+            <div ng-show="services!=null">
+                <label><input type="checkbox" ng-model="pageView" ng-click="initiate()"> Page view</label>
+                <p ng-show="pageView==true">Search this page: </p>
+                <p ng-show="pageView!=true">Search loaded results: </p>
+                <input ng-model="query">
+                <br />
+                <p ng-show="pageView==true">Sort this page by: </p>
+                <p ng-show="pageView!=true">Sort loaded results: </p>
+                <select ng-model="orderProp">
+                    <option value="name">Name (A-Z)</option>
+                    <option value="-name">Name (Z-A)</option>
+                    <option value="cost">Price (Increasing)</option>
+                    <option value="-cost">Price (Decreasing)</option>
+                    <option value="process_id">Process ID (Increasing)</option>
+                    <option value="-process_id">Process ID (Decreasing)</option>
+                    <option value="-date_created">Newest</option>
+                    <option value="date_created">Oldest</option>
+                    <option value="service_input">Input (A-Z)</option>
+                    <option value="-service_input">Input (Z-A)</option>
+                    <option value="service_output">Output (A-Z)</option>
+                    <option value="-service_output">Output (Z-A)</option>
+                    <option value="pre_requirements">Pre-requirements (A-Z)</option>
+                    <option value="-pre_requirements">Pre-requirements (Z-A)</option>
+                    <option value="max_bandwidth">Max-bandwidth (Increasing)</option>
+                    <option value="-max_bandwidth">Max-bandwidth (Decreasing)</option>
+                    <option value="min_bandwidth">Min-bandwidth (Increasing)</option>
+                    <option value="-min_bandwidth">Min-bandwidth (Decreasing)</option>
+                    <option value="delay">Delay (Increasing)</option>
+                    <option value="-delay">Delay (Decreasing)</option>
+                </select>
+                <div ng-show="pageView==false" >
+                    <a ng-show="allDataLoaded==false" ng-click="loadAllServices()"><h3>Load all results</h3></a>
+                    <h3 ng-show="allDataLoaded==true">All results loaded</h3>
+                </div>
+            </div>
         </div>
 
         <div class="span9 pull-right">
         <!--Body content-->
-            <div class="pull-right nav-scroll well-small" style="right: 80px; top: 50px; border: 1px solid lightgrey; padding: 5px; background: rgba(245,245,245, 0.5);" ng-show="count > 25">
+            <div class="pull-right nav-scroll well-small"
+                 style="right: 80px; top: 50px; border: 1px solid lightgrey; padding: 5px; background: rgba(245,245,245, 0.5);"
+                 ng-show="pageView==true && services != null">
                 <button class="btn" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
                     <i class="icon-fast-backward"></i>
                 </button>
@@ -84,7 +96,16 @@
                 </dd>
             </dl>
 
-            <div ng-show="services == null">
+            <div ng-show="pageView==false">
+                <div class="product span13" ng-show="next!=null">
+                    <a class="span4 pull-left" ng-click="loadServices(next)"><h2>Load more results</h2></a>
+                </div>
+                <div class="product span13"  ng-show="next==null">
+                    <h2>No more results</h2>
+                </div>
+            </div>
+
+            <div ng-show="services==null || allDataLoading==true">
                 <td colspan="8" class="center">
                     <h1>
                         <i class="icon-refresh icon-large icon-spin"></i>
