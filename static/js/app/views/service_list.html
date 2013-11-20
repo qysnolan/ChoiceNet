@@ -33,6 +33,27 @@
 
         <div class="span9 pull-right">
         <!--Body content-->
+            <div class="pull-right" ng-show="count > 25">
+                <button class="btn" ng-disabled="firstDisable" ng-click="getServices('/api/services')">
+                    <i class="icon-fast-backward"></i>
+                </button>
+                <button  class="btn" ng-disabled="previousDisable" ng-click="getServices(previous)">
+                    <i class="icon-backward"></i>
+                </button>
+                <button class="btn">
+                    23
+                </button>
+                <button  class="btn" ng-disabled="nextDisable" ng-click="getServices(next)">
+                    <i class="icon-forward"></i>
+                </button>
+                <button  class="btn" ng-disabled="lastDisable" ng-click="getServices('/api/services?page=2')">
+                    <i class="icon-fast-forward"></i>
+                </button>
+            </div>
+
+            <div ng-show="count != null">
+                <p>Showing 25 of {{ count }} result(s)</p>
+            </div>
 
             <dl>
                 <dd ng-repeat="service in services | filter:query | orderBy:orderProp" >
@@ -57,7 +78,7 @@
                             </ul>
                         </div>
                         <div class="pull-right" style="color: brown; margin-top: 20px">
-                            <h4>${{ service.cost }}</h4>
+                            <h4>{{ service.cost | currency:"USD$"}}</h4>
                         </div>
                     </div>
 
@@ -73,6 +94,33 @@
                 </td>
             </div>
 
+            <div ng-show="count == 0">
+                <td colspan="8" class="center">
+                    <h1>
+                        Sorry, no result found...
+                    </h1>
+                </td>
+            </div>
+
+            <div class="pull-right product" ng-show="count > 25">
+                <div class="pull-right">
+                    <button class="btn" ng-disabled="firstDisable" ng-click="getServices('/api/services')">
+                        <i class="icon-fast-backward"></i>
+                    </button>
+                    <button  class="btn" ng-disabled="previousDisable" ng-click="getServices(previous)">
+                        <i class="icon-backward"></i>
+                    </button>
+                    <button class="btn">
+                        23
+                    </button>
+                    <button  class="btn" ng-disabled="nextDisable" ng-click="getServices(next)">
+                        <i class="icon-forward"></i>
+                    </button>
+                    <button  class="btn" ng-disabled="lastDisable" ng-click="getServices('/api/services?page=2')">
+                        <i class="icon-fast-forward"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

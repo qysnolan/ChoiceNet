@@ -2,13 +2,13 @@
 var serviceApp = angular.module('serviceApp', [
   'ngRoute',
   'serviceAnimations',
-
   'serviceControllers',
   'serviceFilters',
   'serviceServices'
 ]);
 
-serviceApp.config(['$routeProvider',
+serviceApp.config
+    (['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/', {
@@ -22,4 +22,5 @@ serviceApp.config(['$routeProvider',
       otherwise({
         redirectTo: '/'
       });
+
   }]);
