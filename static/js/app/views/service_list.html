@@ -36,7 +36,7 @@
 
         <div class="span9 pull-right">
         <!--Body content-->
-            <div class="pull-right nav-scroll" style="right: 80px; top: 50px" ng-show="count > 25">
+            <div class="pull-right nav-scroll well-small" style="right: 80px; top: 50px; border: 1px solid lightgrey; padding: 5px; background: rgba(245,245,245, 0.5);" ng-show="count > 25">
                 <button class="btn" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
                     <i class="icon-fast-backward"></i>
                 </button>
@@ -54,7 +54,7 @@
                 </button>
             </div>
 
-            <dl style="margin-top: 50px">
+            <dl style="margin-top: 60px">
                 <dd ng-repeat="service in services | filter:query | orderBy:orderProp" >
 
                     <div class="product span13">
