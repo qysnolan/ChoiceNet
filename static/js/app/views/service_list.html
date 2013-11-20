@@ -1,10 +1,13 @@
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span3 well nav-scroll">
+        <div class="span3 well nav-scroll" style="left: 30px">
         <!--Sidebar content-->
-
-            Search: <input ng-model="query">
-            <br /> <br />
+            <h3>Services</h3>
+            <div ng-show="count != null">
+                <p class="italic"><i>Showing {{ firstEntry }}-{{ lastEntry }} of {{ count }} result(s)</i></p>
+            </div>
+            Filter in this page: <input ng-model="query">
+            <br />
             Sort by:
             <select ng-model="orderProp">
                 <option value="name">Name (A-Z)</option>
@@ -33,29 +36,25 @@
 
         <div class="span9 pull-right">
         <!--Body content-->
-            <div class="pull-right" ng-show="count > 25">
-                <button class="btn" ng-disabled="firstDisable" ng-click="getServices('/api/services')">
+            <div class="pull-right nav-scroll" style="right: 80px; top: 50px" ng-show="count > 25">
+                <button class="btn" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
                     <i class="icon-fast-backward"></i>
                 </button>
-                <button  class="btn" ng-disabled="previousDisable" ng-click="getServices(previous)">
+                <button  class="btn" ng-disabled="previousDisable" ng-click="getServices(previous, 2)">
                     <i class="icon-backward"></i>
                 </button>
                 <button class="btn">
-                    23
+                    {{ currentPage }}
                 </button>
-                <button  class="btn" ng-disabled="nextDisable" ng-click="getServices(next)">
+                <button  class="btn" ng-disabled="nextDisable" ng-click="getServices(next, 3)">
                     <i class="icon-forward"></i>
                 </button>
-                <button  class="btn" ng-disabled="lastDisable" ng-click="getServices('/api/services?page=2')">
+                <button  class="btn" ng-disabled="lastDisable" ng-click="getServices('/api/services?page='+totalPages, 4)">
                     <i class="icon-fast-forward"></i>
                 </button>
             </div>
 
-            <div ng-show="count != null">
-                <p>Showing 25 of {{ count }} result(s)</p>
-            </div>
-
-            <dl>
+            <dl style="margin-top: 50px">
                 <dd ng-repeat="service in services | filter:query | orderBy:orderProp" >
 
                     <div class="product span13">
@@ -100,26 +99,6 @@
                         Sorry, no result found...
                     </h1>
                 </td>
-            </div>
-
-            <div class="pull-right product" ng-show="count > 25">
-                <div class="pull-right">
-                    <button class="btn" ng-disabled="firstDisable" ng-click="getServices('/api/services')">
-                        <i class="icon-fast-backward"></i>
-                    </button>
-                    <button  class="btn" ng-disabled="previousDisable" ng-click="getServices(previous)">
-                        <i class="icon-backward"></i>
-                    </button>
-                    <button class="btn">
-                        23
-                    </button>
-                    <button  class="btn" ng-disabled="nextDisable" ng-click="getServices(next)">
-                        <i class="icon-forward"></i>
-                    </button>
-                    <button  class="btn" ng-disabled="lastDisable" ng-click="getServices('/api/services?page=2')">
-                        <i class="icon-fast-forward"></i>
-                    </button>
-                </div>
             </div>
         </div>
     </div>
