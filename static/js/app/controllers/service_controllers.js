@@ -2,7 +2,7 @@ var serviceControllers = angular.module('serviceControllers', []);
 
 serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
     var initiation = function() {
-        $http.get('api/services.json').success(function(data) {
+        $http.get('api/services.json'+'?search='+searchValue).success(function(data) {
             $scope.services = data.results;
             $scope.count = data.count;
             $scope.previous = data.previous;
