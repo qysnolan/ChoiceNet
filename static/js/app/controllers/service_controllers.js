@@ -17,6 +17,7 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
             $scope.pages = pages;
             $scope.pageNumber = $scope.currentPage;
             $scope.base_url = base_url;
+            $scope.searchTerm = searchValue.trim();
             checkDisable();
         });
         $scope.firstDisable = true;

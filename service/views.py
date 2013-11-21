@@ -9,6 +9,7 @@ def ServicesList(request):
         searchValue = post["searchValue"]
     except:
         searchValue = ""
+    searchValue = searchValue.strip()
     url = 'api/services?search=' + searchValue
 
     return render_with_user(request, 'services/index.html',

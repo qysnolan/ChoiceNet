@@ -4,19 +4,39 @@
         <!--Sidebar content-->
             <h3>Services</h3>
             <div ng-show="count != null">
-                <i ng-show="pageView==true">Showing {{ firstEntry }}-{{ lastEntry }} of <b>{{ count }}</b> result(s)</i>
-                <i ng-show="pageView!=true">Showing 1-{{ lastEntry }} of <b>{{ count }}</b> result(s)</i> <br/>
-                <i ng-show="query!=null">Listing <b>{{ (services|filter:query).length }}</b> result(s) based on
-                    <br/>key word: <b style="color: darkred">{{ query }}</b></i>
+                <div ng-show="count != 0">
+                    <div class="border-frame" ng-show="pageView==true">
+                        <i>Showing {{ firstEntry }}-{{ lastEntry }} of <b>{{ count }}</b> result(s)
+                            <span ng-show="searchTerm!=''">
+                                <br/>based on key word(s): <b style="color: darkred">{{ searchTerm }}</b>
+                            </span>
+                        </i>
+                    </div>
+                    <div class="border-frame" ng-show="pageView!=true">
+                        <i>Showing 1-{{ lastEntry }} of <b>{{ count }}</b> result(s)
+                            <span ng-show="searchTerm!=''">
+                            <br/>based on key word(s): <b style="color: darkred">{{ searchTerm }}</b>
+                            </span>
+                        </i>
+                    </div>
+                    <div class="border-frame" ng-show="query!=null">
+                        <i>Listing <b>{{ (services|filter:query).length }}</b> result(s) based on
+                            <br/>key word(s): <b style="color: darkred">{{ query }}</b>
+                        </i>
+                    </div>
+                </div>
+                <div ng-show="count==0">
+                    <i><b>0</b> result found</i>
+                </div>
             </div>
-            <div ng-show="services!=null">
+            <div ng-show="services!=null" style="margin-top: 10px">
                 <p ng-show="pageView==true">Search this page: </p>
                 <p ng-show="pageView!=true">Search loaded results: </p>
-                <input ng-model="query">
+                <input ng-model="query" ng-disabled="count==0" style="margin-bottom: 10px">
                 <br />
                 <p ng-show="pageView==true">Sort this page by: </p>
                 <p ng-show="pageView!=true">Sort loaded results: </p>
-                <select ng-model="orderProp">
+                <select ng-model="orderProp" ng-disabled="count==0">
                     <option value="name">Name (A-Z)</option>
                     <option value="-name">Name (Z-A)</option>
                     <option value="cost">Price (Increasing)</option>
@@ -71,13 +91,13 @@
                         <option value="">-- page --</option>
                     </select>
                 </div>
-                <button class="btn btn-danger" ng-show="count == 0" ng-disabled="count == 0"> Sorry, no result found...</button>
+                <button class="btn btn-danger" ng-show="count == 0" ng-disabled="count == 0"> Sorry, no result found... <br/>Please change your search</button>
             </div>
 
             <div class="span8 nav-scroll nav-button center" ng-show="pageView==false && services != null" >
                 <button class="btn btn-info" ng-show="allDataLoaded==false && totalPages>1" ng-click="loadAllServices()">Load all results</button>
                 <button class="btn btn-success" ng-show="allDataLoaded==true || totalPages==1" ng-disabled="allDataLoaded==true || totalPages==1" >All results loaded</button>
-                <button class="btn btn-danger" ng-show="count == 0" ng-disabled="count == 0"> Sorry, no result found...</button>
+                <button class="btn btn-danger" ng-show="count == 0" ng-disabled="count == 0"> Sorry, no result found... <br/>Please change your search</button>
             </div>
 
             <dl style="margin-top: 70px">
