@@ -11,6 +11,11 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
             $scope.currentPage = 1;
             $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
             $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
+            var pages = [];
+            for(var i=0; i<$scope.totalPages; i++)
+                pages[i] = {"number": i+1};
+            $scope.pages = pages;
+            $scope.pageNumber = $scope.currentPage;
             checkDisable();
         });
         $scope.firstDisable = true;
@@ -46,6 +51,7 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
                 $scope.currentPage ++;
             if(direction==4)
                 $scope.currentPage = $scope.totalPages;
+            $scope.pageNumber = $scope.currentPage;
             $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
             $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
             $scope.query = null;
@@ -61,6 +67,7 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
             $scope.previous = data.previous;
             $scope.next = data.next;
             $scope.currentPage ++;
+            $scope.pageNumber = $scope.currentPage;
             $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
             $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
             $scope.query = null;
@@ -94,5 +101,19 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
         $scope.allDataLoaded = true;
         $scope.allDataLoading = false;
         $scope.query = null;
+    };
+
+    $scope.goToPage = function(pageNumber) {
+        $http.get('/api/services?page='+pageNumber.number).success(function(data) {
+            $scope.services = data.results;
+            $scope.previous = data.previous;
+            $scope.next = data.next;
+            $scope.currentPage = pageNumber.number;
+            $scope.pageNumber = $scope.currentPage;
+            $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
+            $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
+            $scope.query = null;
+            checkDisable();
+        });
     };
 });

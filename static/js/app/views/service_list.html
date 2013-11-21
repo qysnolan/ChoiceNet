@@ -4,8 +4,10 @@
         <!--Sidebar content-->
             <h3>Services</h3>
             <div ng-show="count != null">
-                <i ng-show="pageView==true">Showing {{ firstEntry }}-{{ lastEntry }} of {{ count }} result(s)</i>
-                <i ng-show="pageView!=true">Showing 1-{{ lastEntry }} of {{ count }} result(s)</i>
+                <i ng-show="pageView==true">Showing {{ firstEntry }}-{{ lastEntry }} of <b>{{ count }}</b> result(s)</i>
+                <i ng-show="pageView!=true">Showing 1-{{ lastEntry }} of <b>{{ count }}</b> result(s)</i> <br/>
+                <i ng-show="query!=null">Listing <b>{{ (services|filter:query).length }}</b> result(s) based on
+                    <br/>key word: <b style="color: darkred">{{ query }}</b></i>
             </div>
             <div ng-show="services!=null">
                 <label><input type="checkbox" ng-model="pageView" ng-click="initiate()"> Page view</label>
@@ -46,27 +48,35 @@
 
         <div class="span9 pull-right">
         <!--Body content-->
-            <div class="pull-right nav-scroll well-small"
-                 style="right: 80px; top: 50px; border: 1px solid lightgrey; padding: 5px; background: rgba(245,245,245, 0.5);"
-                 ng-show="pageView==true && services != null">
-                <button class="btn" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
-                    <i class="icon-fast-backward"></i>
-                </button>
-                <button  class="btn" ng-disabled="previousDisable" ng-click="getServices(previous, 2)">
-                    <i class="icon-backward"></i>
-                </button>
-                <button class="btn">
-                    {{ currentPage }}
-                </button>
-                <button  class="btn" ng-disabled="nextDisable" ng-click="getServices(next, 3)">
-                    <i class="icon-forward"></i>
-                </button>
-                <button  class="btn" ng-disabled="lastDisable" ng-click="getServices('/api/services?page='+totalPages, 4)">
-                    <i class="icon-fast-forward"></i>
-                </button>
+            <div class="span8 nav-scroll nav-button" ng-show="pageView==true && services != null">
+                <div class="btn-group pull-left">
+                    <button class="btn btn-primary" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
+                        <i class="icon-fast-backward"></i> First page
+                    </button>
+                    <button  class="btn btn-primary" ng-disabled="previousDisable" ng-click="getServices(previous, 2)">
+                        <i class="icon-backward"></i> Previous page
+                    </button>
+                    <button class="btn btn-primary">
+                        <b>{{ currentPage }}</b>
+                    </button>
+                    <button  class="btn btn-primary" ng-disabled="nextDisable" ng-click="getServices(next, 3)">
+                        Next page <i class="icon-forward"></i>
+                    </button>
+                    <button  class="btn btn-primary" ng-disabled="lastDisable" ng-click="getServices('/api/services?page='+totalPages, 4)">
+                        Last page <i class="icon-fast-forward"></i>
+                    </button>
+                </div>
+                <div class="pull-right">
+                    <button  class="btn btn-success" ng-click="goToPage(pageNumber)">
+                        Go to
+                    </button>
+                    <select ng-model="pageNumber" ng-options="p.number for p in pages" style="width: 100px; margin: 0" >
+                        <option value="">-- page --</option>
+                    </select>
+                </div>
             </div>
 
-            <dl style="margin-top: 60px">
+            <dl style="margin-top: 70px">
                 <dd ng-repeat="service in services | filter:query | orderBy:orderProp" >
 
                     <div class="product span13">
