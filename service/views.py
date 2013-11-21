@@ -1,4 +1,5 @@
 from choiceNet.functions import render_with_user
+from django.shortcuts import redirect
 
 
 def ServicesList(request):
@@ -8,6 +9,7 @@ def ServicesList(request):
         searchValue = post["searchValue"]
     except:
         searchValue = ""
+    url = 'api/services?search=' + searchValue
 
     return render_with_user(request, 'services/index.html',
-                            {'searchValue': searchValue})
+                            {'searchValue': searchValue, 'url': url})

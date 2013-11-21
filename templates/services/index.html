@@ -46,8 +46,9 @@ div.nav-button {
     <script src="/static/js/app/services/service_services.js"></script>
     <!-- endbuild -->
 
-    <script>
-    var searchValue = "{{searchValue|safe}}";
+    <script type="text/javascript">
+        var searchValue = "{{searchValue|safe}}";
+        var base_url = "{{ url|safe }}";
     </script>
 {% endblock %}
 

@@ -47,7 +47,7 @@
         <!--Body content-->
             <div class="span8 nav-scroll nav-button" ng-show="pageView==true && services != null">
                 <div class="btn-group pull-left">
-                    <button class="btn btn-info" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
+                    <button class="btn btn-info" ng-disabled="firstDisable" ng-click="getServices(base_url, 1)">
                         <i class="icon-fast-backward"></i> First page
                     </button>
                     <button  class="btn btn-info" ng-disabled="previousDisable" ng-click="getServices(previous, 2)">
@@ -59,7 +59,7 @@
                     <button  class="btn btn-info" ng-disabled="nextDisable" ng-click="getServices(next, 3)">
                         Next page <i class="icon-forward"></i>
                     </button>
-                    <button  class="btn btn-info" ng-disabled="lastDisable" ng-click="getServices('/api/services?page='+totalPages, 4)">
+                    <button  class="btn btn-info" ng-disabled="lastDisable" ng-click="getServices(base_url+'&page='+totalPages, 4)">
                         Last page <i class="icon-fast-forward"></i>
                     </button>
                 </div>
