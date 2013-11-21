@@ -159,6 +159,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'debug_toolbar',
+    'rest_framework',
     'paypal.standard.ipn',
     'accounts',
     'south',
@@ -168,6 +169,27 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+    "DEFAULT_FILTER_BACKENDS": (
+        "rest_framework.filters.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+    ),
+    "PAGINATE_BY": 25,
+    "PAGINATE_BY_PARAM": "page_size",
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.UnicodeJSONRenderer",
+        "rest_framework.renderers.XMLRenderer",
+    ]
+
+}
 
 PAYPAL_RECEIVER_EMAIL = "qysnolan@163.com"
 

@@ -77,7 +77,7 @@ def render_with_user(request, template_name, context={}):
         stateMenu.addSubitem("Massachusetts", "help")
         stateMenu.addSubitem("Other states", "help")
         worldMenu.addSubMenu(stateMenu)
-        context["menu"].append(worldMenu)
+        # context["menu"].append(worldMenu)
 
         return render(request, template_name, context)
 

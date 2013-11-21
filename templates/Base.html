@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
 	<title>
-		ChoiceNet Shopper
+        {% block title %}
+        {% endblock %}
+        | ChoiceNet Shopper
 	</title>
     
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    
+
     <link rel="shortcut icon" type="image/x-icon"
           href="/static/imgs/umass_badge.png" />
     <link rel="icon" type="image/x-icon"
@@ -26,6 +28,21 @@
             position: fixed;
             right: 30px
         }
+       .clearable{
+          background:url(/static/imgs/icons/cross.png) no-repeat right -20px center;
+          border:1px solid #999;
+          padding:3px 18px 3px 4px; /* USE the same right padding in jQ! */
+          border-radius:3px;
+          transition: background 0.4s;
+        }
+        /* (jQ addClass:) if input has value: */
+        .clearable.x{
+          background-position: right 5px center;
+        }
+        /* (jQ addClass:) if mouse is over the 'x' input area*/
+        .clearable.onX{
+          cursor:pointer;
+        }
        </style>
     {% endblock %}
     
@@ -37,14 +54,14 @@
             src="/static/js/all/min/jquery.min.js"></script>
     <script type="text/javascript"
             src="/static/js/all/bootstrap.js"></script>
-    
+
 	<script type="text/javascript"
             src="/static/js/all/plugins/jquery.dataTables.min.js"></script>
 {#    <script type="text/javascript"#}
 {#            src="/static/js/all/min/select2.min.js"></script>#}
 {#    <script type="text/javascript"#}
 {#            src="/static/js/all/plugins/jquery.multi-select.js"></script>#}
-    
+
 {#    <script type="text/javascript"#}
 {#            src="/static/js/all/plugins/bootstrap.datepicker.js"></script>#}
 {#    <script type="text/javascript"#}
@@ -54,6 +71,16 @@
             src="/static/js/all/global.js"></script>
 
     <script type="text/javascript">
+    function tog(v){return v?'addClass':'removeClass';}
+
+    $(document).on('input', '.clearable', function(){
+        $(this)[tog(this.value)]('x');
+    }).on('mousemove', '.x', function( e ){
+        $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+    }).on('click', '.onX', function(){
+        $(this).removeClass('x onX').val('');
+    });
+
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'en',
@@ -197,7 +224,14 @@
                             {% endif %}
                         {% endfor %}
                         </ul>
+
                         <ul class="nav pull-right">
+                            <li>
+                                <form class="span4 pull-right well-small" style="margin-bottom: 0; padding-bottom: 0" action="/services">
+                                    <input class="clearable span3" style="margin-bottom: 0" type="search" placeholder="Search here..." {% if searchValue %} value={{ searchValue }} {% endif %} >
+                                    <button class="btn btn-small btn-success" style="margin: 0"><input class="hidden" style="margin: 0" type="submit" value=""> <i class="icon-search"></i></button>
+                                </form>
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle"
                                    data-toggle="dropdown">
@@ -281,7 +315,7 @@
             {% endblock %}
 
         </div>
-    
+
         <footer class="footer">
             <div class="container">
                 <div class="row">
@@ -368,7 +402,7 @@
                 </div>
             </div>
         </footer>
-        
+
         {% if user %}
         <div id="feedback-modal" class="modal hide fade">
             <div class="modal-header">

@@ -5613,7 +5613,7 @@ jQuery.fn.extend({
 							self.style[ name ] = start + unit;
 						}
 
-						// If a +=/-= token was provided, we're doing a relative animation
+						// If a +=/-= token was provided, we're doing a relative animations
 						if ( parts[1] ) {
 							end = ((parts[1] === "-=" ? -1 : 1) * end) + start;
 						}
@@ -5749,7 +5749,7 @@ jQuery.fx.prototype = {
 		return r && r > -10000 ? r : parseFloat(jQuery.curCSS(this.elem, this.prop)) || 0;
 	},
 
-	// Start an animation from one number to another
+	// Start an animations from one number to another
 	custom: function( from, to, unit ) {
 		this.startTime = now();
 		this.start = from;
@@ -5776,7 +5776,7 @@ jQuery.fx.prototype = {
 		this.options.orig[this.prop] = jQuery.style( this.elem, this.prop );
 		this.options.show = true;
 
-		// Begin the animation
+		// Begin the animations
 		// Make sure that we start at a small width/height to avoid any
 		// flash of content
 		this.custom(this.prop === "width" || this.prop === "height" ? 1 : 0, this.cur());
@@ -5791,11 +5791,11 @@ jQuery.fx.prototype = {
 		this.options.orig[this.prop] = jQuery.style( this.elem, this.prop );
 		this.options.hide = true;
 
-		// Begin the animation
+		// Begin the animations
 		this.custom(this.cur(), 0);
 	},
 
-	// Each step of an animation
+	// Each step of an animations
 	step: function( gotoEnd ) {
 		var t = now(), done = true;
 
@@ -5854,7 +5854,7 @@ jQuery.fx.prototype = {
 			this.pos = jQuery.easing[specialEasing || defaultEasing](this.state, n, 0, 1, this.options.duration);
 			this.now = this.start + ((this.end - this.start) * this.pos);
 
-			// Perform the next step of the animation
+			// Perform the next step of the animations
 			this.update();
 		}
 

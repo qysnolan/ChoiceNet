@@ -1,0 +1,132 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3 well nav-scroll" style="left: 30px">
+        <!--Sidebar content-->
+            <h3>Services</h3>
+            <div ng-show="count != null">
+                <i ng-show="pageView==true">Showing {{ firstEntry }}-{{ lastEntry }} of <b>{{ count }}</b> result(s)</i>
+                <i ng-show="pageView!=true">Showing 1-{{ lastEntry }} of <b>{{ count }}</b> result(s)</i> <br/>
+                <i ng-show="query!=null">Listing <b>{{ (services|filter:query).length }}</b> result(s) based on
+                    <br/>key word: <b style="color: darkred">{{ query }}</b></i>
+            </div>
+            <div ng-show="services!=null">
+                <p ng-show="pageView==true">Search this page: </p>
+                <p ng-show="pageView!=true">Search loaded results: </p>
+                <input ng-model="query">
+                <br />
+                <p ng-show="pageView==true">Sort this page by: </p>
+                <p ng-show="pageView!=true">Sort loaded results: </p>
+                <select ng-model="orderProp">
+                    <option value="name">Name (A-Z)</option>
+                    <option value="-name">Name (Z-A)</option>
+                    <option value="cost">Price (Increasing)</option>
+                    <option value="-cost">Price (Decreasing)</option>
+                    <option value="process_id">Process ID (Increasing)</option>
+                    <option value="-process_id">Process ID (Decreasing)</option>
+                    <option value="-date_created">Newest</option>
+                    <option value="date_created">Oldest</option>
+                    <option value="service_input">Input (A-Z)</option>
+                    <option value="-service_input">Input (Z-A)</option>
+                    <option value="service_output">Output (A-Z)</option>
+                    <option value="-service_output">Output (Z-A)</option>
+                    <option value="pre_requirements">Pre-requirements (A-Z)</option>
+                    <option value="-pre_requirements">Pre-requirements (Z-A)</option>
+                    <option value="max_bandwidth">Max-bandwidth (Increasing)</option>
+                    <option value="-max_bandwidth">Max-bandwidth (Decreasing)</option>
+                    <option value="min_bandwidth">Min-bandwidth (Increasing)</option>
+                    <option value="-min_bandwidth">Min-bandwidth (Decreasing)</option>
+                    <option value="delay">Delay (Increasing)</option>
+                    <option value="-delay">Delay (Decreasing)</option>
+                </select>
+                <button class="btn btn-info" ng-show="pageView==false" ng-click="initiatePageView()" style="margin: 5px"> Switch to "Page view"</button>
+                <button class="btn btn-info" ng-show="pageView==true" ng-click="initiateLoadView()" style="margin: 5px"> Switch to "Load view"</button>
+            </div>
+        </div>
+
+        <div class="span9 pull-right">
+        <!--Body content-->
+            <div class="span8 nav-scroll nav-button" ng-show="pageView==true && services != null">
+                <div class="btn-group pull-left">
+                    <button class="btn btn-info" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
+                        <i class="icon-fast-backward"></i> First page
+                    </button>
+                    <button  class="btn btn-info" ng-disabled="previousDisable" ng-click="getServices(previous, 2)">
+                        <i class="icon-backward"></i> Previous page
+                    </button>
+                    <button class="btn btn-primary" ng-disabled="true">
+                        <b>{{ currentPage }}</b>
+                    </button>
+                    <button  class="btn btn-info" ng-disabled="nextDisable" ng-click="getServices(next, 3)">
+                        Next page <i class="icon-forward"></i>
+                    </button>
+                    <button  class="btn btn-info" ng-disabled="lastDisable" ng-click="getServices('/api/services?page='+totalPages, 4)">
+                        Last page <i class="icon-fast-forward"></i>
+                    </button>
+                </div>
+                <div class="pull-right">
+                    <button  class="btn btn-success" ng-click="goToPage(pageNumber)">
+                        Go to
+                    </button>
+                    <select ng-model="pageNumber" ng-options="p.number for p in pages" style="width: 100px; margin: 0" >
+                        <option value="">-- page --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="span8 nav-scroll nav-button center" ng-show="pageView==false && services != null" >
+                <button class="btn btn-info" ng-show="allDataLoaded==false" ng-click="loadAllServices()">Load all results</button>
+                <button class="btn btn-success" ng-disabled="allDataLoaded==true" ng-show="allDataLoaded==true">All results loaded</button>
+            </div>
+
+            <dl style="margin-top: 70px">
+                <dd ng-repeat="service in services | filter:query | orderBy:orderProp" >
+
+                    <div class="product span13">
+                        <a href="#/phones/{{service.id}}">
+                            <img class="span3 pull-left" style="margin-right: 10px" ng-src="/static/imgs/network.gif">
+                        </a>
+                        <div class="span7">
+                            <a href="#/phones/{{service.id}}"><h3>{{service.name}}</h3></a>
+                            <ul class="span5">
+                                <li>Process ID: {{service.process_id}}</li>
+                                <li>Service Input: {{service.service_input}}</li>
+                                <li>Service Output: {{service.service_output}}</li>
+                                <li>Pre-requirements: {{service.pre_requirements}}</li>
+                            </ul>
+                            <ul class="span6">
+                                <li>Max-bandwidth: {{service.max_bandwidth | number:2}} MB/s</li>
+                                <li>Min-bandwidth: {{service.min_bandwidth | number:2}} MB/s</li>
+                                <li>Delay: {{service.delay}} ms</li>
+                                <li>Date Added: {{service.date_created | date:'medium'}}</li>
+                            </ul>
+                        </div>
+                        <div class="pull-right" style="color: brown; margin-top: 20px">
+                            <h4>{{ service.cost | currency:"USD$"}}</h4>
+                        </div>
+                    </div>
+                </dd>
+            </dl>
+
+            <div class="span13 nav-button center" ng-show="pageView==false && services!=null && next!=null" style="margin: 10px">
+                <button class="btn btn-primary" ng-click="loadServices(next)">Load more results</button>
+            </div>
+
+            <div ng-show="services==null || allDataLoading==true">
+                <td colspan="8" class="center">
+                    <h1>
+                        <i class="icon-refresh icon-large icon-spin"></i>
+                        Loading data...
+                    </h1>
+                </td>
+            </div>
+
+            <div ng-show="count == 0">
+                <td colspan="8" class="center">
+                    <h1>
+                        Sorry, no result found...
+                    </h1>
+                </td>
+            </div>
+        </div>
+    </div>
+</div>

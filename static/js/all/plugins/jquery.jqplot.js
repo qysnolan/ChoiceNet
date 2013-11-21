@@ -1732,13 +1732,13 @@
 
         // prop: animate
         // True to animate the series on initial plot draw (renderer dependent).
-        // Actual animation functionality must be supported in the renderer.
+        // Actual animations functionality must be supported in the renderer.
         this.animate = false;
         // prop: animateReplot
         // True to animate series after a call to the replot() method.
         // Use with caution!  Replots can happen very frequently under
         // certain circumstances (e.g. resizing, dragging points) and
-        // animation in these situations can cause problems.
+        // animations in these situations can cause problems.
         this.animateReplot = false;
         // prop: axes
         // up to 4 axes are supported, each with its own options, 
