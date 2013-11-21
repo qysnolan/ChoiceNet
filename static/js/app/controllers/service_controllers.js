@@ -76,8 +76,16 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
         });
     };
 
-    $scope.initiate = function() {
+    $scope.initiatePageView = function() {
+
         initiation();
+        $scope.pageView=true;
+        console.log($scope.pageView);
+    };
+
+    $scope.initiateLoadView = function() {
+        initiation();
+        $scope.pageView=false;
     };
 
     $scope.loadAllServices = function() {

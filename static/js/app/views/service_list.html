@@ -10,7 +10,6 @@
                     <br/>key word: <b style="color: darkred">{{ query }}</b></i>
             </div>
             <div ng-show="services!=null">
-                <label><input type="checkbox" ng-model="pageView" ng-click="initiate()"> Page view</label>
                 <p ng-show="pageView==true">Search this page: </p>
                 <p ng-show="pageView!=true">Search loaded results: </p>
                 <input ng-model="query">
@@ -39,10 +38,8 @@
                     <option value="delay">Delay (Increasing)</option>
                     <option value="-delay">Delay (Decreasing)</option>
                 </select>
-                <div ng-show="pageView==false" >
-                    <a ng-show="allDataLoaded==false" ng-click="loadAllServices()"><h3>Load all results</h3></a>
-                    <h3 ng-show="allDataLoaded==true">All results loaded</h3>
-                </div>
+                <button class="btn btn-info" ng-show="pageView==false" ng-click="initiatePageView()" style="margin: 5px"> Switch to "Page view"</button>
+                <button class="btn btn-info" ng-show="pageView==true" ng-click="initiateLoadView()" style="margin: 5px"> Switch to "Load view"</button>
             </div>
         </div>
 
@@ -50,19 +47,19 @@
         <!--Body content-->
             <div class="span8 nav-scroll nav-button" ng-show="pageView==true && services != null">
                 <div class="btn-group pull-left">
-                    <button class="btn btn-primary" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
+                    <button class="btn btn-info" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
                         <i class="icon-fast-backward"></i> First page
                     </button>
-                    <button  class="btn btn-primary" ng-disabled="previousDisable" ng-click="getServices(previous, 2)">
+                    <button  class="btn btn-info" ng-disabled="previousDisable" ng-click="getServices(previous, 2)">
                         <i class="icon-backward"></i> Previous page
                     </button>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary" ng-disabled="true">
                         <b>{{ currentPage }}</b>
                     </button>
-                    <button  class="btn btn-primary" ng-disabled="nextDisable" ng-click="getServices(next, 3)">
+                    <button  class="btn btn-info" ng-disabled="nextDisable" ng-click="getServices(next, 3)">
                         Next page <i class="icon-forward"></i>
                     </button>
-                    <button  class="btn btn-primary" ng-disabled="lastDisable" ng-click="getServices('/api/services?page='+totalPages, 4)">
+                    <button  class="btn btn-info" ng-disabled="lastDisable" ng-click="getServices('/api/services?page='+totalPages, 4)">
                         Last page <i class="icon-fast-forward"></i>
                     </button>
                 </div>
@@ -74,6 +71,11 @@
                         <option value="">-- page --</option>
                     </select>
                 </div>
+            </div>
+
+            <div class="span8 nav-scroll nav-button center" ng-show="pageView==false && services != null" >
+                <button class="btn btn-info" ng-show="allDataLoaded==false" ng-click="loadAllServices()">Load all results</button>
+                <button class="btn btn-success" ng-disabled="allDataLoaded==true" ng-show="allDataLoaded==true">All results loaded</button>
             </div>
 
             <dl style="margin-top: 70px">
@@ -102,17 +104,11 @@
                             <h4>{{ service.cost | currency:"USD$"}}</h4>
                         </div>
                     </div>
-
                 </dd>
             </dl>
 
-            <div ng-show="pageView==false && services!=null">
-                <div class="product span13" ng-show="next!=null">
-                    <a class="span4 pull-left" ng-click="loadServices(next)"><h2>Load more results</h2></a>
-                </div>
-                <div class="product span13"  ng-show="next==null">
-                    <h2>No more results</h2>
-                </div>
+            <div class="span13 nav-button center" ng-show="pageView==false && services!=null && next!=null" style="margin: 10px">
+                <button class="btn btn-info" ng-click="loadServices(next)">Load more results</button>
             </div>
 
             <div ng-show="services==null || allDataLoading==true">
