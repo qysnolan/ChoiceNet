@@ -3,7 +3,7 @@
 {% load url from future %}
 
 {% block title %}
-    Welcome
+    Search Service
 {% endblock %}
 
 {% block page-css %}
@@ -71,7 +71,8 @@ $(document).ready(function()
                 <input class="clearable span3" type="search" name="searchValue" style="margin-bottom: 0; width: 700px;"{% if searchValue %} value={{ searchValue }} {% endif %}>
             </div>
             <div>
-                <button class="well" style="padding: 0"><input class="hidden" type="submit" value=""> <h6 class="search-button"> Search Network Service</h6></button>
+                <button class="btn" style="padding: 0; margin: 5px"><input class="hidden" type="submit" value=""> <h6 class="search-button"> Search</h6></button>
+                <a class="btn" href="/services" style="padding: 0; margin: 5px"><h6 class="search-button"> Get All Network Services</h6></a>
             </div>
         </form>
     </div>
