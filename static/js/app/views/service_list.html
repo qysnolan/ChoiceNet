@@ -108,14 +108,14 @@
             </dl>
 
             <div class="span13 nav-button center" ng-show="pageView==false && services!=null && next!=null" style="margin: 10px">
-                <button class="btn btn-info" ng-click="loadServices(next)">Load more results</button>
+                <button class="btn btn-primary" ng-click="loadServices(next)">Load more results</button>
             </div>
 
             <div ng-show="services==null || allDataLoading==true">
                 <td colspan="8" class="center">
                     <h1>
                         <i class="icon-refresh icon-large icon-spin"></i>
-                        Loading services...
+                        Loading data...
                     </h1>
                 </td>
             </div>
