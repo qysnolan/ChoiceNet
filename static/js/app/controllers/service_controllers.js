@@ -20,10 +20,11 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
         $scope.allDataLoaded = false;
         $scope.allDataLoading = false;
         $scope.orderProp = 'name';
+        $scope.query = null;
     };
 
     initiation();
-    $scope.pageView = true;
+    $scope.pageView = false;
 
     var checkDisable = function() {
         $scope.previous==undefined ? $scope.previousDisable = true : $scope.previousDisable = false;
@@ -34,9 +35,6 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
 
     $scope.getServices = function(url, direction) {
         $http.get(url).success(function(data) {
-//            var data1 = $scope.services;
-//            var data2 = data.results;
-//            $scope.services = $.concat(data1, data2);
             $scope.services = data.results;
             $scope.previous = data.previous;
             $scope.next = data.next;
@@ -50,6 +48,7 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
                 $scope.currentPage = $scope.totalPages;
             $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
             $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
+            $scope.query = null;
             checkDisable();
         });
     };
@@ -59,12 +58,14 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
             var data1 = $scope.services;
             var data2 = data.results;
             $scope.services = $.merge(data1, data2);
-//            $scope.services = data.results;
             $scope.previous = data.previous;
             $scope.next = data.next;
             $scope.currentPage ++;
             $scope.firstEntry = 25 * ($scope.currentPage - 1) + 1;
             $scope.lastEntry = $scope.firstEntry + 24 > $scope.count ? $scope.count : $scope.firstEntry + 24;
+            $scope.query = null;
+            if(data.next==null)
+                $scope.allDataLoaded = true;
         });
     };
 
@@ -92,6 +93,6 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
         $scope.next = null;
         $scope.allDataLoaded = true;
         $scope.allDataLoading = false;
-
+        $scope.query = null;
     };
 });
