@@ -1,7 +1,6 @@
 
 var serviceApp = angular.module('serviceApp', [
   'ngRoute',
-//  'serviceAnimations',
   'serviceControllers',
   'serviceFilters',
   'serviceServices'

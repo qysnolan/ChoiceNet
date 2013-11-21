@@ -2,13 +2,15 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
 	<title>
-		ChoiceNet Shopper
+        {% block title %}
+        {% endblock %}
+        | ChoiceNet Shopper
 	</title>
     
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    
+
     <link rel="shortcut icon" type="image/x-icon"
           href="/static/imgs/umass_badge.png" />
     <link rel="icon" type="image/x-icon"
@@ -52,14 +54,14 @@
             src="/static/js/all/min/jquery.min.js"></script>
     <script type="text/javascript"
             src="/static/js/all/bootstrap.js"></script>
-    
+
 	<script type="text/javascript"
             src="/static/js/all/plugins/jquery.dataTables.min.js"></script>
 {#    <script type="text/javascript"#}
 {#            src="/static/js/all/min/select2.min.js"></script>#}
 {#    <script type="text/javascript"#}
 {#            src="/static/js/all/plugins/jquery.multi-select.js"></script>#}
-    
+
 {#    <script type="text/javascript"#}
 {#            src="/static/js/all/plugins/bootstrap.datepicker.js"></script>#}
 {#    <script type="text/javascript"#}
@@ -313,7 +315,7 @@
             {% endblock %}
 
         </div>
-    
+
         <footer class="footer">
             <div class="container">
                 <div class="row">
@@ -400,7 +402,7 @@
                 </div>
             </div>
         </footer>
-        
+
         {% if user %}
         <div id="feedback-modal" class="modal hide fade">
             <div class="modal-header">
