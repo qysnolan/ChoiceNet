@@ -19,7 +19,7 @@ def ServicesList(request):
                             {'searchValue': searchValue, 'url': url})
 
 
-def ServicesPayment(request):
+def ServicesPayment(request, serviceId, csrf):
 
     from service.models import Service
 
@@ -33,7 +33,7 @@ def ServicesPayment(request):
         "cancel_return": "/services/",
     }
 
-    service = Service.objects.get(id=request.POST["serviceId"])
+    service = Service.objects.all().get(id=int(serviceId))
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox(), "service": service}
     return render_with_user(request, "paypal/payment.html", context)

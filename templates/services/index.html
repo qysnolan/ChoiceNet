@@ -72,6 +72,7 @@ div.nav-button {
     <script type="text/javascript">
         var searchValue = "{{searchValue|safe}}";
         var base_url = "{{ url|safe }}";
+        var csrf = '{{ csrf_token }}';
     </script>
 {% endblock %}
 

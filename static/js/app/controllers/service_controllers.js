@@ -140,5 +140,6 @@ serviceControllers.controller('ServiceDetailCtrl',
         $scope.service = Service.get({serviceId: $routeParams.serviceId},
             function(service) {
                 $scope.serviceName = service.name;
+                $scope.csrf = csrf;
     });
 }]);
