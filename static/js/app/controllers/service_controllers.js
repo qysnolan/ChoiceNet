@@ -2,7 +2,7 @@ var serviceControllers = angular.module('serviceControllers', []);
 
 serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
     var initiation = function() {
-        $http.get('api/services.json').success(function(data) {
+        $http.get(base_url).success(function(data) {
             $scope.services = data.results;
             $scope.count = data.count;
             $scope.previous = data.previous;
@@ -16,6 +16,8 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
                 pages[i] = {"number": i+1};
             $scope.pages = pages;
             $scope.pageNumber = $scope.currentPage;
+            $scope.base_url = base_url;
+            $scope.searchTerm = searchValue.trim();
             checkDisable();
         });
         $scope.firstDisable = true;
@@ -92,7 +94,7 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
         var totalData = [];
         var total = $scope.totalPages;
         while(page<=total){
-            $http.get('/api/services?page='+page).success(function(data) {
+            $http.get(base_url+'&page='+page).success(function(data) {
                 var data1 = totalData;
                 var data2 = data.results;
                 totalData = $.merge(data1, data2);
@@ -110,7 +112,7 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
     };
 
     $scope.goToPage = function(pageNumber) {
-        $http.get('/api/services?page='+pageNumber.number).success(function(data) {
+        $http.get(base_url+'&page='+pageNumber.number).success(function(data) {
             $scope.services = data.results;
             $scope.previous = data.previous;
             $scope.next = data.next;

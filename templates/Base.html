@@ -21,29 +21,28 @@
     <![endif]-->
     
     {% block global-css %}
-	   <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
-       <style type="text/css">
-        a.nav-scroll
-        {
+        <link rel="stylesheet" type="text/css" href="/static/css/global.css" />
+        <style type="text/css">
+        a.nav-scroll {
             position: fixed;
             right: 30px
         }
-       .clearable{
-          background:url(/static/imgs/icons/cross.png) no-repeat right -20px center;
-          border:1px solid #999;
-          padding:3px 18px 3px 4px; /* USE the same right padding in jQ! */
-          border-radius:3px;
-          transition: background 0.4s;
+        .clearable {
+            background:url(/static/imgs/icons/cross_black.png) no-repeat right -20px center;
+            border:1px solid #999;
+            padding:3px 18px 3px 4px; /* USE the same right padding in jQ! */
+            border-radius:3px;
+            transition: background 0.4s;
         }
         /* (jQ addClass:) if input has value: */
         .clearable.x{
-          background-position: right 5px center;
+            background-position: right 5px center;
         }
         /* (jQ addClass:) if mouse is over the 'x' input area*/
         .clearable.onX{
-          cursor:pointer;
+            cursor:pointer;
         }
-       </style>
+        </style>
     {% endblock %}
     
 	{% block page-css %}
@@ -227,9 +226,24 @@
 
                         <ul class="nav pull-right">
                             <li>
-                                <form class="span4 pull-right well-small" style="margin-bottom: 0; padding-bottom: 0" action="/services">
-                                    <input class="clearable span3" style="margin-bottom: 0" type="search" placeholder="Search here..." {% if searchValue %} value={{ searchValue }} {% endif %} >
-                                    <button class="btn btn-small btn-success" style="margin: 0"><input class="hidden" style="margin: 0" type="submit" value=""> <i class="icon-search"></i></button>
+                                <form class="span4 pull-right well-small"
+                                      style="margin-bottom: 0; padding-bottom: 0"
+                                      action="/services" id="searchField" method="POST">
+                                     {% csrf_token %}
+                                    <input class="clearable span3"
+                                           style="margin-bottom: 0"
+                                           type="search" name="searchValue"
+                                           placeholder="Search here..."
+                                            {% if searchValue %}
+                                                value='{{searchValue|safe}}'
+                                            {% endif %} >
+                                    <button class="btn btn-small btn-success"
+                                            style="margin: 0">
+                                        <input class="hidden"
+                                               style="margin: 0"
+                                               type="submit" value="">
+                                        <i class="icon-search"></i>
+                                    </button>
                                 </form>
                             </li>
                             <li class="dropdown">

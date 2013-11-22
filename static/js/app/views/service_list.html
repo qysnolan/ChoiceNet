@@ -4,19 +4,46 @@
         <!--Sidebar content-->
             <h3>Services</h3>
             <div ng-show="count != null">
-                <i ng-show="pageView==true">Showing {{ firstEntry }}-{{ lastEntry }} of <b>{{ count }}</b> result(s)</i>
-                <i ng-show="pageView!=true">Showing 1-{{ lastEntry }} of <b>{{ count }}</b> result(s)</i> <br/>
-                <i ng-show="query!=null">Listing <b>{{ (services|filter:query).length }}</b> result(s) based on
-                    <br/>key word: <b style="color: darkred">{{ query }}</b></i>
+                <div ng-show="count != 0">
+                    <div class="border-frame" ng-show="pageView==true">
+                        <i>Showing {{ firstEntry }}-{{ lastEntry }} of
+                            <b>{{ count }}</b> result(s)
+                            <span ng-show="searchTerm!=''">
+                                <br/>based on key word(s):
+                                <b style="color: darkred">{{ searchTerm }}</b>
+                            </span>
+                        </i>
+                    </div>
+                    <div class="border-frame" ng-show="pageView!=true">
+                        <i>Showing 1-{{ lastEntry }} of
+                            <b>{{ count }}</b> result(s)
+                            <span ng-show="searchTerm!=''">
+                            <br/>based on key word(s):
+                                <b style="color: darkred">{{ searchTerm }}</b>
+                            </span>
+                        </i>
+                    </div>
+                    <div class="border-frame" ng-show="query!=null">
+                        <i>Listing <b>{{ (services|filter:query).length }}</b>
+                            result(s) based on
+                            <br/>key word(s):
+                            <b style="color: darkred">{{ query }}</b>
+                        </i>
+                    </div>
+                </div>
+                <div ng-show="count==0">
+                    <i><b>0</b> result found</i>
+                </div>
             </div>
-            <div ng-show="services!=null">
+            <div ng-show="services!=null" style="margin-top: 10px">
                 <p ng-show="pageView==true">Search this page: </p>
                 <p ng-show="pageView!=true">Search loaded results: </p>
-                <input ng-model="query">
+                <input ng-model="query" ng-disabled="count==0"
+                       style="margin-bottom: 10px">
                 <br />
                 <p ng-show="pageView==true">Sort this page by: </p>
                 <p ng-show="pageView!=true">Sort loaded results: </p>
-                <select ng-model="orderProp">
+                <select ng-model="orderProp" ng-disabled="count==0">
                     <option value="name">Name (A-Z)</option>
                     <option value="-name">Name (Z-A)</option>
                     <option value="cost">Price (Increasing)</option>
@@ -38,44 +65,81 @@
                     <option value="delay">Delay (Increasing)</option>
                     <option value="-delay">Delay (Decreasing)</option>
                 </select>
-                <button class="btn btn-info" ng-show="pageView==false" ng-click="initiatePageView()" style="margin: 5px"> Switch to "Page view"</button>
-                <button class="btn btn-info" ng-show="pageView==true" ng-click="initiateLoadView()" style="margin: 5px"> Switch to "Load view"</button>
+                <button class="btn btn-info"
+                        ng-disabled="totalPages==1 || count==0"
+                        ng-show="pageView==false"
+                        ng-click="initiatePageView()"
+                        style="margin: 5px">
+                    Switch to "Page view"
+                </button>
+                <button class="btn btn-info"
+                        ng-disabled="totalPages==1 || count==0"
+                        ng-show="pageView==true"
+                        ng-click="initiateLoadView()"
+                        style="margin: 5px">
+                    Switch to "Load view"
+                </button>
             </div>
         </div>
 
         <div class="span9 pull-right">
         <!--Body content-->
-            <div class="span8 nav-scroll nav-button" ng-show="pageView==true && services != null">
+            <div class="span8 nav-scroll nav-button"
+                 ng-show="pageView==true && services != null">
                 <div class="btn-group pull-left">
-                    <button class="btn btn-info" ng-disabled="firstDisable" ng-click="getServices('/api/services', 1)">
+                    <button class="btn btn-info" ng-disabled="firstDisable"
+                            ng-click="getServices(base_url, 1)">
                         <i class="icon-fast-backward"></i> First page
                     </button>
-                    <button  class="btn btn-info" ng-disabled="previousDisable" ng-click="getServices(previous, 2)">
+                    <button  class="btn btn-info" ng-disabled="previousDisable"
+                             ng-click="getServices(previous, 2)">
                         <i class="icon-backward"></i> Previous page
                     </button>
                     <button class="btn btn-primary" ng-disabled="true">
                         <b>{{ currentPage }}</b>
                     </button>
-                    <button  class="btn btn-info" ng-disabled="nextDisable" ng-click="getServices(next, 3)">
+                    <button  class="btn btn-info" ng-disabled="nextDisable"
+                             ng-click="getServices(next, 3)">
                         Next page <i class="icon-forward"></i>
                     </button>
-                    <button  class="btn btn-info" ng-disabled="lastDisable" ng-click="getServices('/api/services?page='+totalPages, 4)">
+                    <button  class="btn btn-info" ng-disabled="lastDisable"
+                             ng-click="getServices(base_url+'&page='+totalPages, 4)">
                         Last page <i class="icon-fast-forward"></i>
                     </button>
                 </div>
                 <div class="pull-right">
-                    <button  class="btn btn-success" ng-click="goToPage(pageNumber)">
+                    <button  class="btn btn-success"
+                             ng-click="goToPage(pageNumber)">
                         Go to
                     </button>
-                    <select ng-model="pageNumber" ng-options="p.number for p in pages" style="width: 100px; margin: 0" >
+                    <select ng-model="pageNumber"
+                            ng-options="p.number for p in pages"
+                            style="width: 100px; margin: 0" >
                         <option value="">-- page --</option>
                     </select>
                 </div>
+                <button class="btn btn-danger" ng-show="count == 0"
+                        ng-disabled="count == 0">
+                    Sorry, no result found... <br/>Please change your search
+                </button>
             </div>
 
-            <div class="span8 nav-scroll nav-button center" ng-show="pageView==false && services != null" >
-                <button class="btn btn-info" ng-show="allDataLoaded==false" ng-click="loadAllServices()">Load all results</button>
-                <button class="btn btn-success" ng-disabled="allDataLoaded==true" ng-show="allDataLoaded==true">All results loaded</button>
+            <div class="span8 nav-scroll nav-button center"
+                 ng-show="pageView==false && services != null" >
+                <button class="btn btn-info"
+                        ng-show="allDataLoaded==false && totalPages>1"
+                        ng-click="loadAllServices()">
+                    Load all results
+                </button>
+                <button class="btn btn-success"
+                        ng-show="allDataLoaded==true || totalPages==1"
+                        ng-disabled="allDataLoaded==true || totalPages==1" >
+                    All results loaded
+                </button>
+                <button class="btn btn-danger" ng-show="count == 0"
+                        ng-disabled="count == 0">
+                    Sorry, no result found... <br/>Please change your search
+                </button>
             </div>
 
             <dl style="margin-top: 70px">
@@ -83,10 +147,14 @@
 
                     <div class="product span13">
                         <a href="#/phones/{{service.id}}">
-                            <img class="span3 pull-left" style="margin-right: 10px" ng-src="/static/imgs/network.gif">
+                            <img class="span3 pull-left"
+                                 style="margin-right: 10px"
+                                 ng-src="/static/imgs/network.gif">
                         </a>
                         <div class="span7">
-                            <a href="#/phones/{{service.id}}"><h3>{{service.name}}</h3></a>
+                            <a href="#/phones/{{service.id}}">
+                                <h3>{{service.name}}</h3>
+                            </a>
                             <ul class="span5">
                                 <li>Process ID: {{service.process_id}}</li>
                                 <li>Service Input: {{service.service_input}}</li>
@@ -100,15 +168,21 @@
                                 <li>Date Added: {{service.date_created | date:'medium'}}</li>
                             </ul>
                         </div>
-                        <div class="pull-right" style="color: brown; margin-top: 20px">
+                        <div class="pull-right"
+                             style="color: brown; margin-top: 20px">
                             <h4>{{ service.cost | currency:"USD$"}}</h4>
                         </div>
                     </div>
                 </dd>
             </dl>
 
-            <div class="span13 nav-button center" ng-show="pageView==false && services!=null && next!=null" style="margin: 10px">
-                <button class="btn btn-primary" ng-click="loadServices(next)">Load more results</button>
+            <div class="span13 nav-button center"
+                 ng-show="pageView==false && services!=null && next!=null"
+                 style="margin: 10px">
+                <button class="btn btn-primary"
+                        ng-click="loadServices(next)">
+                    Load more results
+                </button>
             </div>
 
             <div ng-show="services==null || allDataLoading==true">
@@ -116,14 +190,6 @@
                     <h1>
                         <i class="icon-refresh icon-large icon-spin"></i>
                         Loading data...
-                    </h1>
-                </td>
-            </div>
-
-            <div ng-show="count == 0">
-                <td colspan="8" class="center">
-                    <h1>
-                        Sorry, no result found...
                     </h1>
                 </td>
             </div>
