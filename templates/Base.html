@@ -226,10 +226,24 @@
 
                         <ul class="nav pull-right">
                             <li>
-                                <form class="span4 pull-right well-small" style="margin-bottom: 0; padding-bottom: 0" action="/services" id="searchField" method="POST">
+                                <form class="span4 pull-right well-small"
+                                      style="margin-bottom: 0; padding-bottom: 0"
+                                      action="/services" id="searchField" method="POST">
                                      {% csrf_token %}
-                                    <input class="clearable span3" style="margin-bottom: 0" type="search" name="searchValue" placeholder="Search here..." {% if searchValue %} value={{ searchValue }} {% endif %} >
-                                    <button class="btn btn-small btn-success" style="margin: 0"><input class="hidden" style="margin: 0" type="submit" value=""> <i class="icon-search"></i></button>
+                                    <input class="clearable span3"
+                                           style="margin-bottom: 0"
+                                           type="search" name="searchValue"
+                                           placeholder="Search here..."
+                                            {% if searchValue %}
+                                                value='{{searchValue|safe}}'
+                                            {% endif %} >
+                                    <button class="btn btn-small btn-success"
+                                            style="margin: 0">
+                                        <input class="hidden"
+                                               style="margin: 0"
+                                               type="submit" value="">
+                                        <i class="icon-search"></i>
+                                    </button>
                                 </form>
                             </li>
                             <li class="dropdown">
