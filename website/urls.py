@@ -32,11 +32,8 @@ urlpatterns = patterns(
 
     # Shopping part
     url(r'^services', ServicesList, name="services"),
-    url(r'^paypal/payment/service/(?P<serviceId>\d+)/(?P<csrf>\w+)/$',
-        ServicesPayment, name="service_payment"),
-    url(r'^paypal/payment/succeeded/service/(?P<serviceId>\d+)/$',
-        ServicesPayment, name="service_payment"),
-    url(r'^paypal/payment/failed/service/(?P<serviceId>\d+)/$',
+    url(r'^paypal/payment/service/(?P<serviceId>\d+)/'
+        r'(?P<payStatus>\d+)/(?P<csrf>\w+)/$',
         ServicesPayment, name="service_payment"),
 
     # Just for testing

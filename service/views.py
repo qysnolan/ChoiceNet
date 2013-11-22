@@ -19,7 +19,7 @@ def ServicesList(request):
                             {'searchValue': searchValue, 'url': url})
 
 
-def ServicesPayment(request, serviceId, csrf):
+def ServicesPayment(request, serviceId, csrf, payStatus):
 
     from service.models import Service
     import datetime
@@ -31,10 +31,13 @@ def ServicesPayment(request, serviceId, csrf):
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "amount": service.cost,
         "item_name": service.name,
-        "invoice": str(datetime.datetime.now())+'-service-'+str(serviceId)+str(user.id),
+        "invoice": str(datetime.datetime.now())+'-service-'
+                   +str(serviceId)+str(user.id),
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
-        "return_url": "/paypal/payment/succeeded/service/" + serviceId,
-        "cancel_return": "/paypal/payment/failed/service/" + serviceId,
+        "return_url": "http://0.0.0.0:8008/paypal/payment/service/"
+                      + serviceId + "/1/" + csrf + "/",
+        "cancel_return": "http://0.0.0.0:8008/paypal/payment/service/"
+                         + serviceId + "/0/" + csrf + "/",
     }
 
     form = PayPalPaymentsForm(initial=paypal_dict)
