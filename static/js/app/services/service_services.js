@@ -6,7 +6,8 @@ var serviceServices = angular.module('serviceServices', ['ngResource']);
 
 serviceServices.factory('Service', ['$resource',
   function($resource){
-    return $resource('services/serviceId.json', {}, {
+      console.log(1);
+    return $resource('api/services/:serviceId', {}, {
       query: {method:'GET', params:{serviceId:'services'}, isArray:true}
     });
   }]);

@@ -146,13 +146,13 @@
                 <dd ng-repeat="service in services | filter:query | orderBy:orderProp" >
 
                     <div class="product span13">
-                        <a href="#/phones/{{service.id}}">
+                        <a href="#/detail/{{service.id}}">
                             <img class="span3 pull-left"
                                  style="margin-right: 10px"
                                  ng-src="/static/imgs/network.gif">
                         </a>
                         <div class="span7">
-                            <a href="#/phones/{{service.id}}">
+                            <a href="#/detail/{{service.id}}">
                                 <h3>{{service.name}}</h3>
                             </a>
                             <ul class="span5">
