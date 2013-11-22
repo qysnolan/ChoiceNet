@@ -13,7 +13,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-SITE_NAME = 'http://nai.dyndns-free.com'
+SITE_NAME = 'http://0.0.0.0:8008'
 
 DATABASES = {
     'default': {

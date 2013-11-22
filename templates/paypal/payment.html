@@ -1,14 +1,57 @@
 {% extends "Base.html" %}
 {% load url from future %}
 
+{% block title %}
+    PayPal Payment
+{% endblock %}
+
+{% block page-css %}
+<style>
+.service-payment-picture {
+    width: 95px;
+    height: 95px;
+}
+.service-payment-picture-frame {
+    margin: 5px;
+    padding: 5px;
+    width: 100px;
+    height: 100px;
+    border: 1px solid darkgray;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
-    <div class="center">
-        <h1>Almost Gone! </h1>
-        <img src="/static/imgs/network.gif" alt="Product {{ p }}"/>
-        <p>{{ productID }}</p>
-        {{ form }}
+    <div class="page-header">
+        <h1>Check out</h1>
+    </div>
+    {% if payStatus == '1'%}
+    <div class="alert alert-info">
+        You have paid successfully
+    </div>
+    {% endif %}
+    {% if payStatus == '0'%}
+    <div class="alert">
+        You have paid unsuccessfully
+    </div>
+    {% endif %}
+    <div class="span12 well" style="margin-left: 0;">
+        <div class="span2 service-payment-picture-frame">
+            <img class="service-payment-picture"
+                 src="/static/imgs/network.gif"
+                 alt="{{ service.name }}"/>
+        </div>
+        <div class="span7">
+            <a href="/services#/detail/{{service.id}}">
+                <h3>{{service.name}}</h3>
+            </a>
+        </div>
+        <div class="span3 pull-right center">
+            <h4 style="color: darkred;">USD${{ service.cost }}</h4>
+            {{ form }}
+        </div>
     </div>
 </div>
 

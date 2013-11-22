@@ -1,9 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="container-fluid" style="margin-top: 30px">
+    <div class="span4 nav-scroll" style="margin-left: 0">
+        <div class="service-picture-frame">
+            <img class="service-picture" ng-src="/static/imgs/network.gif">
+        </div>
+    </div>
+    <div class="span8 pull-right nav-scroll nav-button" style="margin-right: 30px">
+        <div class="span6" >
+            <h2>{{service.name|truncate:30}}</h2>
+        </div>
+        <div class="pull-right center" style="margin-right: 20px">
+            <h6 style="color: darkred; margin: 0">
+                {{ service.cost | currency:"USD$"}}
+            </h6>
+            <a class="btn btn-success"
+               href="/paypal/payment/service/{{ service.id }}/2/{{ csrf }}">
+                Buy Now
+            </a>
+        </div>
+    </div>
+    <div class="span8 pull-right" style="margin-top: 100px;">
+        <h5>{{service.name}}</h5>
+        <p>This is description.</p>
+        <div >
+            <h5>Specification: </h5>
+            <ul>
+                <li>Process ID: {{service.process_id}}</li>
+                <li>Service Input: {{service.service_input}}</li>
+                <li>Service Output: {{service.service_output}}</li>
+                <li>Pre-requirements: {{service.pre_requirements}}</li>
+                <li>Max-bandwidth: {{service.max_bandwidth | number:2}} MB/s</li>
+                <li>Min-bandwidth: {{service.min_bandwidth | number:2}} MB/s</li>
+                <li>Delay: {{service.delay}} ms</li>
+                <li>Date Added: {{service.date_created | date:'medium'}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

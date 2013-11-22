@@ -4,7 +4,6 @@ from django.contrib import admin
 from website.views import *
 from accounts.views import *
 from choiceNet.views import *
-from service.APIViews import *
 from service.views import *
 
 admin.autodiscover()
@@ -19,6 +18,10 @@ urlpatterns = patterns(
     # Admin site
     url(r'^admin/', include(admin.site.urls)),
 
+    # Home page
+    url(r'^$', welcome, name="welcome"),
+    url(r'^home/', home, name="home"),
+
     # For user login and related
     url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^logout/$', logout),
@@ -28,9 +31,10 @@ urlpatterns = patterns(
     url(r'^orders/', orders, name="orders"),
 
     # Shopping part
-    url(r'^$', welcome, name="welcome"),
-    url(r'^home/', home, name="home"),
     url(r'^services', ServicesList, name="services"),
+    url(r'^paypal/payment/service/(?P<serviceId>\d+)/'
+        r'(?P<payStatus>\d+)/(?P<csrf>\w+)/$',
+        ServicesPayment, name="service_payment"),
 
     # Just for testing
     url(r'^hello/', hello),
