@@ -22,14 +22,16 @@ def ServicesList(request):
 def ServicesPayment(request, serviceId, csrf):
 
     from service.models import Service
+    import datetime
 
     service = Service.objects.all().get(id=int(serviceId))
+    user = request.user
 
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "amount": service.cost,
         "item_name": service.name,
-        "invoice": "unique-invoice-id",
+        "invoice": str(datetime.datetime.now())+'-service-'+str(serviceId)+str(user.id),
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
         "return_url": "/paypal/payment/succeeded/service/" + serviceId,
         "cancel_return": "/paypal/payment/failed/service/" + serviceId,
