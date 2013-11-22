@@ -137,7 +137,6 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
 serviceControllers.controller('ServiceDetailCtrl',
     ['$scope', '$routeParams', 'Service',
     function($scope, $routeParams, Service) {
-        console.log(2);
         $scope.service = Service.get({serviceId: $routeParams.serviceId},
             function(service) {
                 $scope.serviceName = service.name;

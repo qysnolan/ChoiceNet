@@ -2,7 +2,8 @@ var serviceApp = angular.module('serviceApp', [
     'ngRoute',
     'serviceControllers',
     'serviceFilters',
-    'serviceServices'
+    'serviceServices',
+    'filters'
 ]);
 
 serviceApp.config(['$routeProvider',

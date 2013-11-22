@@ -153,7 +153,7 @@
                         </a>
                         <div class="span7">
                             <a href="#/detail/{{service.id}}">
-                                <h3>{{service.name}}</h3>
+                                <h3>{{service.name|truncate:40}}</h3>
                             </a>
                             <ul class="span5">
                                 <li>Process ID: {{service.process_id}}</li>
