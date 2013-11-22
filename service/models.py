@@ -27,6 +27,9 @@ class Service(models.Model):
     class Meta:
         ordering = ["name", "process_id"]
 
+    def __unicode__(self):
+        return u'%s' % self.name
+
 
 class ServiceType(models.Model):
 
@@ -36,3 +39,6 @@ class ServiceType(models.Model):
 
     class Meta:
         ordering = ["name"]
+
+    def __unicode__(self):
+        return u'%s' % self.name

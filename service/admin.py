@@ -3,6 +3,8 @@ from .models import Service, ServiceType
 
 
 class ServiceAdmin(admin.ModelAdmin):
+
+    filter_horizontal = ("service_type", )
     list_display = ("name", "pre_requirements")
 
 
