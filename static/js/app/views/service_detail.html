@@ -5,12 +5,15 @@
         </div>
     </div>
     <div class="span8 pull-right nav-scroll nav-button" style="margin-right: 30px">
-        <div class="span5" >
+        <div class="span6" >
             <h2>{{service.name|truncate:30}}</h2>
         </div>
-        <div class="pull-right center" style="margin: 0">
-            <form style="margin: 0" action="/services/payment/{{ service.id }}">
-                <h6>{{ service.cost | currency:"USD$"}}</h6>
+        <div class="pull-right center" style="margin-right: 20px">
+            <form style="margin: 0" action="/payment/service/{{ service.id }}/"
+                  method="POST">
+                <h6 style="color: darkred; margin: 0">
+                    {{ service.cost | currency:"USD$"}}
+                </h6>
                 <input type="hidden" name="serviceId" value="{{ service.id }}">
                 <input type="submit" class="btn btn-success" value="Buy Now">
             </form>

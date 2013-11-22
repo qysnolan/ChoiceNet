@@ -13,13 +13,10 @@ serviceServices.factory('Service', ['$resource',
 
 angular.module('filters', []).
     filter('truncate', function () {
-        return function (text, length, end) {
-            if (isNaN(length))
-                length = 10;
-
-            if (end === undefined)
-                end = "...";
-
+        return function (text, length) {
+            if(text==undefined)
+                return text;
+            var end = "...";
             if (text.length <= length || text.length - end.length <= length) {
                 return text;
             }

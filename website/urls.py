@@ -32,7 +32,7 @@ urlpatterns = patterns(
 
     # Shopping part
     url(r'^services', ServicesList, name="services"),
-    url(r'^services/pay/(?P<service_id>\d+)/$', ServicesPayment,
+    url(r'^payment/service/(?P<service_id>\d+)/$', ServicesPayment,
         name="service_payment"),
 
     # Just for testing
