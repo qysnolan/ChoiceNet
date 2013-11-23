@@ -26,10 +26,11 @@
         </div>
     </div>
     <div class="span8 pull-right" style="margin-top: 100px;">
-        <h5>{{service.name}}</h5>
-        <p>This is description.</p>
+        <h4><i class="icon-hand-right"></i> {{service.name}}</h4>
+        <h5><i class="icon-hand-right"></i> Description:</h5>
+        <p style="padding-left: 30px; padding-right: 30px">{{ service.description }}</p>
         <div >
-            <h5>Specification: </h5>
+            <h5><i class="icon-hand-right"></i> Specification: </h5>
             <ul>
                 <li>Process ID: {{service.process_id}}</li>
                 <li>Service Input: {{service.service_input}}</li>
