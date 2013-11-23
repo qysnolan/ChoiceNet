@@ -36,9 +36,9 @@ def ServicesPayment(request, serviceId, csrf, payStatus):
         "invoice": str(datetime.datetime.now()) + '-service-' + str(serviceId)
                    + str(user.id),
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
-        "return_url": "http://0.0.0.0:8008/paypal/payment/service/"
+        "return_url": settings.SITE_NAME + "/paypal/payment/service/"
                       + serviceId + "/1/" + csrf + "/",
-        "cancel_return": "http://0.0.0.0:8008/paypal/payment/service/"
+        "cancel_return": settings.SITE_NAME + "/paypal/payment/service/"
                          + serviceId + "/0/" + csrf + "/",
     }
 

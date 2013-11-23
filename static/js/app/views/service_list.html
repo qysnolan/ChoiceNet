@@ -149,11 +149,18 @@
                         <a href="#/detail/{{service.id}}">
                             <img class="span3 pull-left"
                                  style="margin-right: 10px"
-                                 ng-src="/static/imgs/network.gif">
+                                 ng-show="service.picture==null || service.picture==''"
+                                 ng-src="/static/imgs/network.gif"
+                                 alt="{{ service.name }}">
+                            <img class="span3 pull-left"
+                                 style="margin-right: 10px"
+                                 ng-show="service.picture!=null && service.picture!=''"
+                                 ng-src="/static/media/{{ service.picture }}"
+                                 alt="{{ service.name }}">
                         </a>
                         <div class="span7">
                             <a href="#/detail/{{service.id}}">
-                                <h3>{{service.name|truncate:40}}</h3>
+                                <h3>{{service.name|truncate:50}}</h3>
                             </a>
                             <ul class="span5">
                                 <li>Process ID: {{service.process_id}}</li>
@@ -164,7 +171,7 @@
                             <ul class="span6">
                                 <li>Max-bandwidth: {{service.max_bandwidth | number:2}} MB/s</li>
                                 <li>Min-bandwidth: {{service.min_bandwidth | number:2}} MB/s</li>
-                                <li>Delay: {{service.delay}} ms</li>
+                                <li>Delay: {{service.delay | number:2}} ms</li>
                                 <li>Date Added: {{service.date_created | date:'medium'}}</li>
                             </ul>
                         </div>

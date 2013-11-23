@@ -10,7 +10,8 @@ class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     queryset = User.objects.none()
 
     serializer_class = UserSerializer
-    search_fields = ('username', 'first_name', 'last_name', 'accountType')
+    search_fields = ('username', 'owner', 'first_name', 'last_name',
+                     'accountType')
     filter_class = UserFilter
 
     def get_queryset(self):
@@ -42,7 +43,7 @@ class ServiceViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     queryset = Service.objects.none()
 
     serializer_class = ServiceSerializer
-    search_fields = ('name', 'service_input', 'service_output',
+    search_fields = ('name', 'description', 'service_input', 'service_output',
                      'pre_requirements')
     filter_class = ServiceFilter
 
