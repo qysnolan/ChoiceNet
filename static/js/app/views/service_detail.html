@@ -1,7 +1,14 @@
 <div class="container-fluid" style="margin-top: 30px">
     <div class="span4 nav-scroll" style="margin-left: 0">
         <div class="service-picture-frame">
-            <img class="service-picture" ng-src="/static/imgs/network.gif">
+            <img class="service-picture"
+                 ng-show="service.picture==null"
+                 ng-src="/static/imgs/network.gif"
+                 alt="{{ service.name }}">
+            <img class="service-picture"
+                 ng-show="service.picture!=null"
+                 ng-src="/static/media/{{ service.picture }}"
+                 alt="{{ service.name }}">
         </div>
     </div>
     <div class="span8 pull-right nav-scroll nav-button" style="margin-right: 30px">

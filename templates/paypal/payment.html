@@ -9,7 +9,7 @@
 <style>
 .service-payment-picture {
     width: 95px;
-    height: 95px;
+    height: 88px;
 }
 .service-payment-picture-frame {
     margin: 5px;
@@ -39,9 +39,15 @@
     {% endif %}
     <div class="span12 well" style="margin-left: 0;">
         <div class="span2 service-payment-picture-frame">
+            {% if service.picture %}
+            <img class="service-payment-picture"
+                 src="/static/media/{{ service.picture }}"
+                 alt="{{ service.name }}">
+            {% else %}
             <img class="service-payment-picture"
                  src="/static/imgs/network.gif"
-                 alt="{{ service.name }}"/>
+                 alt="{{ service.name }}">
+            {% endif %}
         </div>
         <div class="span7">
             <a href="/services#/detail/{{service.id}}">

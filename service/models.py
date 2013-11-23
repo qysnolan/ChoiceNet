@@ -23,6 +23,8 @@ class Service(models.Model):
                                         blank=True, null=True)
     delay = models.DecimalField(max_digits=50, decimal_places=3, blank=True,
                                 null=True)
+    picture = models.FileField(upload_to='pictures/%Y/%m/%d',
+                               blank=True, null=True)
     date_created = models.DateTimeField()
     date_modified = models.DateTimeField(blank=True, null=True)
     date_used = models.DateTimeField(blank=True, null=True)
