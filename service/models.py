@@ -16,6 +16,7 @@ class Service(models.Model):
     service_type = models.ManyToManyField("service.ServiceType", blank=True,
                                           null=True, related_name='+')
     cost = models.DecimalField(max_digits=20, decimal_places=2)
+    description = models.CharField(max_length=3000, blank=True, null=True)
     service_input = models.CharField(max_length=200, blank=True, null=True)
     service_output = models.CharField(max_length=200, blank=True, null=True)
     pre_requirements = models.CharField(max_length=200, blank=True, null=True)

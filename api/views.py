@@ -43,7 +43,7 @@ class ServiceViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     queryset = Service.objects.none()
 
     serializer_class = ServiceSerializer
-    search_fields = ('name', 'service_input', 'service_output',
+    search_fields = ('name', 'description', 'service_input', 'service_output',
                      'pre_requirements')
     filter_class = ServiceFilter
 
