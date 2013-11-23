@@ -14,9 +14,9 @@ class UserAdmin(UserAdmin):
     change_form_template = None
     add_form_template = None
 
-    list_display = ("username", "first_name", "last_name", "isSuper")
+    list_display = ("username", "first_name", "last_name", "accountType",
+                    "date_joined", "last_login")
     list_filter = ("isSuper", "is_staff", "is_superuser", "is_active")
-
     search_fields = ("username", "first_name", "last_name", )
 
 
