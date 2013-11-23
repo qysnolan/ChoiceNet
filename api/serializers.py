@@ -19,7 +19,7 @@ class ServiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service
 
-        fields = ('url', 'id', 'name', 'process_id', 'cost', 'service_input',
-                  'service_output', 'pre_requirements', 'max_bandwidth',
-                  'min_bandwidth', 'delay', 'picture', 'date_created',
-                  'date_used', 'date_modified', )
+        fields = ('url', 'id', 'name', 'owner', 'process_id', 'cost',
+                  'service_input', 'service_output', 'pre_requirements',
+                  'max_bandwidth', 'min_bandwidth', 'delay', 'picture',
+                  'date_created', 'date_used', 'date_modified', )
