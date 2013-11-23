@@ -10,7 +10,7 @@ from django.db import models
 class Service(models.Model):
 
     process_id = models.IntegerField(blank=True, null=True)
-    name = models.CharField(max_length=20, blank=False, null=False)
+    name = models.CharField(max_length=200, blank=False, null=False)
     service_type = models.ManyToManyField("service.ServiceType", blank=True,
                                           null=True, related_name='+')
     cost = models.DecimalField(max_digits=20, decimal_places=2)
