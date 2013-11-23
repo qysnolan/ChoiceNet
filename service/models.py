@@ -17,12 +17,15 @@ class Service(models.Model):
     service_input = models.CharField(max_length=200, blank=True, null=True)
     service_output = models.CharField(max_length=200, blank=True, null=True)
     pre_requirements = models.CharField(max_length=200, blank=True, null=True)
-    max_bandwidth = models.DecimalField(max_digits=50, decimal_places=9)
-    min_bandwidth = models.DecimalField(max_digits=50, decimal_places=9)
-    delay = models.DecimalField(max_digits=50, decimal_places=3)
+    max_bandwidth = models.DecimalField(max_digits=50, decimal_places=9,
+                                        blank=True, null=True)
+    min_bandwidth = models.DecimalField(max_digits=50, decimal_places=9,
+                                        blank=True, null=True)
+    delay = models.DecimalField(max_digits=50, decimal_places=3, blank=True,
+                                null=True)
     date_created = models.DateTimeField()
-    date_modified = models.DateTimeField()
-    date_used = models.DateTimeField()
+    date_modified = models.DateTimeField(blank=True, null=True)
+    date_used = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         ordering = ["name", "process_id"]
