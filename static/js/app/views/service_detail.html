@@ -2,11 +2,11 @@
     <div class="span4 nav-scroll" style="margin-left: 0">
         <div class="service-picture-frame">
             <img class="service-picture"
-                 ng-show="service.picture==null"
+                 ng-show="service.picture==null || service.picture==''"
                  ng-src="/static/imgs/network.gif"
                  alt="{{ service.name }}">
             <img class="service-picture"
-                 ng-show="service.picture!=null"
+                 ng-show="service.picture!=null && service.picture!=''"
                  ng-src="/static/media/{{ service.picture }}"
                  alt="{{ service.name }}">
         </div>

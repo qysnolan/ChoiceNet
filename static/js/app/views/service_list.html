@@ -149,13 +149,13 @@
                         <a href="#/detail/{{service.id}}">
                             <img class="span3 pull-left"
                                  style="margin-right: 10px"
-                                 ng-show="service.picture!=null"
-                                 ng-src="/static/media/{{ service.picture }}"
+                                 ng-show="service.picture==null || service.picture==''"
+                                 ng-src="/static/imgs/network.gif"
                                  alt="{{ service.name }}">
                             <img class="span3 pull-left"
                                  style="margin-right: 10px"
-                                 ng-show="service.picture==null"
-                                 ng-src="/static/imgs/network.gif"
+                                 ng-show="service.picture!=null && service.picture!=''"
+                                 ng-src="/static/media/{{ service.picture }}"
                                  alt="{{ service.name }}">
                         </a>
                         <div class="span7">
