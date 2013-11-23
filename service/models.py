@@ -19,7 +19,7 @@ class Service(models.Model):
     pre_requirements = models.CharField(max_length=200, blank=True, null=True)
     max_bandwidth = models.DecimalField(max_digits=50, decimal_places=9)
     min_bandwidth = models.DecimalField(max_digits=50, decimal_places=9)
-    delay = models.TimeField()
+    delay = models.DecimalField(max_digits=50, decimal_places=3)
     date_created = models.DateTimeField()
     date_modified = models.DateTimeField()
     date_used = models.DateTimeField()
