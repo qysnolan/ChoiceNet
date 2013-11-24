@@ -165,4 +165,21 @@ def forget_password(request):
 @login_required
 def orders(request):
 
-    return HttpResponse("We are working hard on this function now!")
+    from choiceNet.models import Invoice
+    isDeleted = 2
+
+    if request.method == "POST":
+        try:
+            orderId = request.POST["orderId"]
+            order = Invoice.objects.all().get(id=orderId)
+            order.is_active = False
+            order.save()
+            isDeleted = 1
+        except:
+            isDeleted = 0
+
+    orders = Invoice.objects.all().filter(buyer=request.user, is_active=True)
+    count = len(orders)
+    context = {"orders": orders, "isDeleted": isDeleted, "count": count}
+
+    return render_with_user(request, 'accounts/orders.html', context)

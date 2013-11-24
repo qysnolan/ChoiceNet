@@ -1,8 +1,9 @@
 from accounts.models import User
 from service.models import Service
-from serializers import UserSerializer, ServiceSerializer
+from choiceNet.models import Invoice
+from serializers import UserSerializer, ServiceSerializer, InvoiceSerializer
 from rest_framework import mixins, viewsets
-from .filters import UserFilter, ServiceFilter
+from .filters import UserFilter, ServiceFilter, InvoiceFilter
 
 
 class UserViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
@@ -67,5 +68,37 @@ class ServiceViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
                 queryset = queryset.order_by('cost')
             if column == '-cost':
                 queryset = queryset.order_by('-cost')
+
+        return queryset
+
+
+class InvoiceViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                     mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = Invoice.objects.none()
+
+    serializer_class = InvoiceSerializer
+    search_fields = ('number', )
+    filter_class = InvoiceFilter
+
+    def get_queryset(self):
+        invoices = Invoice.objects.all()
+
+        return invoices.order_by('number', )
+
+    def filter_queryset(self, queryset):
+        queryset = super(InvoiceViewSet, self).filter_queryset(queryset)
+
+        params = self.request.GET
+
+        if 'ordering' in params:
+            column = params['ordering']
+            if column == 'number':
+                queryset = queryset.order_by('number', )
+            if column == '-number':
+                queryset = queryset.order_by('-number', )
+            if column == 'date_created':
+                queryset = queryset.order_by('codate_createdst')
+            if column == '-date_created':
+                queryset = queryset.order_by('-date_created')
 
         return queryset

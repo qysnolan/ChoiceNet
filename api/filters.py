@@ -1,5 +1,6 @@
 from accounts.models import User
 from service.models import Service
+from choiceNet.models import Invoice
 from rest_framework import filters
 import django_filters
 
@@ -24,3 +25,11 @@ class ServiceFilter(django_filters.FilterSet):
         model = Service
         fields = ['name', 'service_input', 'service_output', 
                   'pre_requirements', ]
+
+
+class InvoiceFilter(django_filters.FilterSet):
+    number = django_filters.CharFilter(lookup_type='icontains')
+
+    class Meta:
+        model = Invoice
+        fields = ['number', ]

@@ -141,5 +141,6 @@ serviceControllers.controller('ServiceDetailCtrl',
             function(service) {
                 $scope.serviceName = service.name;
                 $scope.csrf = csrf;
+                $scope.date_created = Date.now()
     });
 }]);

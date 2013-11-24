@@ -261,10 +261,22 @@
                                            data-event-category="navbar"
                                            data-event-action="click"
                                            data-event-label="orders">
-                                            <i class="icon-reorder"></i>
+                                            <i class="icon-list"></i>
                                                Orders
                                         </a>
                                     </li>
+                                    {% if user.is_staff %}
+                                    <li>
+                                        <a href="/products/"
+                                           data-event-trigger="click"
+                                           data-event-category="navbar"
+                                           data-event-action="click"
+                                           data-event-label="orders">
+                                            <i class="icon-th-large"></i>
+                                               Products
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     {% endif %}
                                     <li>
                                         <a href={% if user %}

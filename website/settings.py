@@ -160,9 +160,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'debug_toolbar',
     'rest_framework',
+    'south',
     'paypal.standard.ipn',
     'accounts',
-    'south',
+    'choiceNet',
     'service',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',

@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import Field
 from accounts.models import User
 from service.models import Service
+from choiceNet.models import Invoice
 from . import fields
 
 
@@ -23,3 +24,12 @@ class ServiceSerializer(serializers.HyperlinkedModelSerializer):
                   'service_input', 'service_output', 'pre_requirements',
                   'description', 'max_bandwidth', 'min_bandwidth', 'delay',
                   'picture', 'date_created', 'date_used', 'date_modified', )
+
+
+class InvoiceSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Invoice
+
+        fields = ('url', 'id', 'date_created', 'service', 'buyer', 'amount',
+                  'is_paid', 'is_active', 'number', )
