@@ -21,6 +21,16 @@
 </style>
 {% endblock %}
 
+{% block page-js %}
+<script type="text/javascript">
+    var date_created = Date.now();
+    window.onload = function(){
+    document.getElementById("reload-url").
+            href="/paypal/payment/service/{{ service.id }}/2/{{ csrf_token }}/"+date_created;
+    }
+</script>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
@@ -37,6 +47,15 @@
         You have paid <b>unsuccessfully</b>!
     </div>
     {% endif %}
+    {% if payStatus == '3'%}
+    <div class="alert alert-danger">
+        Something went wrong, please click
+        <a id="reload-url">
+           here
+        </a>
+        to reload payment page.
+    </div>
+    {% else%}
     <div class="span12 well" style="margin-left: 0;">
         <div class="span2 service-payment-picture-frame">
             {% if service.picture %}
@@ -59,6 +78,10 @@
             {{ form }}
         </div>
     </div>
+    {% endif %}
+    <a href="/services#/detail/{{ service.id }}">
+            <i class="icon-chevron-left"></i> Return to service detail page
+    </a>
 </div>
 
 {% endblock %}

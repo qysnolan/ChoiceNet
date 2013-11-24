@@ -26,9 +26,12 @@ def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
     from service.models import Service
     from choiceNet.models import Invoice
     import datetime
+    import time
 
     service = Service.objects.all().get(id=int(serviceId))
     user = request.user
+    if date_created == "0":
+        date_created = str(time.time())
     invoice_number = date_created + '-service-' + str(serviceId) + "-" \
                      + str(user.id)
 
@@ -45,19 +48,29 @@ def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
     }
 
     if payStatus == "2":
-        dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
-        i = Invoice.objects.create(date_created=dateTime, service=service,
-                                   buyer=user, amount=service.cost, paid=False,
-                                   number=invoice_number)
-        i.save()
+        if len(Invoice.objects.all().filter(number=invoice_number)) > 0:
+            payStatus = "3"
+        else:
+            dateTime = datetime.datetime.\
+                fromtimestamp(float(date_created)/1000)
+            i = Invoice.objects.create(date_created=dateTime, service=service,
+                                       buyer=user, amount=service.cost,
+                                       paid=False, number=invoice_number)
+            i.save()
     if payStatus == "1":
-        i = Invoice.objects.all().get(number=invoice_number)
-        i.paid = True
-        i.save()
+        if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
+            payStatus = "3"
+        else:
+            i = Invoice.objects.all().get(number=invoice_number)
+            i.paid = True
+            i.save()
     if payStatus == "0":
-        i = Invoice.objects.all().get(number=invoice_number)
-        i.paid = False
-        i.save()
+        if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
+            payStatus = "3"
+        else:
+            i = Invoice.objects.all().get(number=invoice_number)
+            i.paid = False
+            i.save()
 
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox(), "service": service,
