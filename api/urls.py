@@ -44,5 +44,6 @@ router = ApiRouter()
 
 router.register(r"users", views.UserViewSet)
 router.register(r"services", views.ServiceViewSet)
+router.register(r"invoices", views.InvoiceViewSet)
 
 urlpatterns = router.urls
