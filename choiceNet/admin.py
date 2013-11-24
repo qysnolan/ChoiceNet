@@ -5,8 +5,8 @@ from .models import Invoice
 class InvoiceAdmin(admin.ModelAdmin):
 
     list_display = ("date_created", "buyer", "service", "number",
-                    "amount", "paid", )
-    list_filter = ("paid", )
+                    "amount", "is_paid", "is_active", )
+    list_filter = ("is_paid", "is_active", )
     search_fields = ("date_created", "buyer", "service", )
 
 
