@@ -17,6 +17,7 @@ class Invoice(models.Model):
     number = models.CharField(max_length=255, unique=True, blank=False,
                               null=False)
     amount = models.IntegerField(max_length=1000, blank=True, null=True)
+    paid = models.BooleanField(default=False, blank=False, null=False)
 
     class Meta:
         ordering = ["date_created", "number"]
