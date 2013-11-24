@@ -55,21 +55,21 @@ def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
                 fromtimestamp(float(date_created)/1000)
             i = Invoice.objects.create(date_created=dateTime, service=service,
                                        buyer=user, amount=service.cost,
-                                       paid=False, number=invoice_number)
+                                       is_paid=False, number=invoice_number)
             i.save()
     if payStatus == "1":
         if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
             payStatus = "3"
         else:
             i = Invoice.objects.all().get(number=invoice_number)
-            i.paid = True
+            i.is_paid = True
             i.save()
     if payStatus == "0":
         if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
             payStatus = "3"
         else:
             i = Invoice.objects.all().get(number=invoice_number)
-            i.paid = False
+            i.is_paid = False
             i.save()
 
     form = PayPalPaymentsForm(initial=paypal_dict)
