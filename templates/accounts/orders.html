@@ -8,23 +8,23 @@
 
 {% block page-css %}
 <style type="text/css">
-.service-payment-picture {
+.order-payment-picture {
     width: 95px;
     height: 88px;
 }
-.service-payment-picture-frame {
+.order-payment-picture-frame {
     margin: 5px;
     padding: 5px;
     width: 100px;
     height: 100px;
     border: 1px solid darkgray;
 }
-.service-info-box {
+.order-info-box {
     margin-right: 10px;
     width: 150px;
     border-right: 1px solid lightgrey
 }
-.service-action-box {
+.order-action-box {
     border-left: 1px solid lightgrey;
     padding-left: 10px;
     padding-bottom: 10px;
@@ -44,48 +44,70 @@
         </h1>
     </div>
 
-    {% for service in services %}
+    {% if isDeleted == 1 %}
+    <div class="alert alert-info">
+        Order cancelled successfully
+    </div>
+    {% elif isDeleted == 0 %}
+    <div class="alert alert-danger">
+        Something went wrong, please re-do your action
+    </div>
+    {% endif %}
+
+    {% for order in orders %}
 
     <div class="span12 well" style="margin-left: 0;">
-        <div class="span2 service-info-box">
+        <div class="span2 order-info-box">
             <p>
                 Order placed: <br/>
-                <b>{{ service.date_created |date:"M d, Y"}}</b><br/>
-                {{ service.date_created |time:"h:i:s a"}}
+                <b>{{ order.date_created |date:"M d, Y"}}</b><br/>
+                {{ order.date_created |time:"h:i:s a"}}
             </p>
             <p>Total: <br />
-            <b style="color: darkred">USD${{ service.service.cost }}</b>
+            <b style="color: darkred">USD${{ order.service.cost }}</b>
             </p>
 
         </div>
-        <div class="span2 service-payment-picture-frame">
-            {% if service.service.picture %}
-            <img class="service-payment-picture"
-                 src="/static/media/{{ service.service.picture }}"
-                 alt="{{ service.service.name }}">
+        <div class="span2 order-payment-picture-frame">
+            {% if order.service.picture %}
+            <img class="order-payment-picture"
+                 src="/static/media/{{ order.service.picture }}"
+                 alt="{{ order.service.name }}">
             {% else %}
-            <img class="service-payment-picture"
+            <img class="order-payment-picture"
                  src="/static/imgs/network.gif"
-                 alt="{{ service.service.name }}">
+                 alt="{{ order.service.name }}">
             {% endif %}
         </div>
         <div class="span6">
-            <a href="/services#/detail/{{service.service.id}}">
-                <h3>{{service.service.name}}</h3>
+            <a href="/orders#/detail/{{order.service.id}}">
+                <h3>{{order.service.name}}</h3>
             </a>
             <p>Status: <b style="color: darkgoldenrod">
-                {% if service.is_paid %}PAID{% else %}NOT PAID{% endif %}</b>
+                {% if order.is_paid %}PAID{% else %}NOT PAID{% endif %}</b>
             </p>
-            <p>Reciept Number: {{ service.number }}</p>
+            <p>Reciept Number: {{ order.number }}</p>
         </div>
-        <div class="span2 service-action-box">
+        <div class="span2 order-action-box">
             <h5>Action: </h5>
-            <button class="btn btn-info" style="margin-bottom: 10px">Pay this order</button>
-            <button class="btn btn-warning">Cancel this order</button>
+            <button class="btn btn-info" style="margin-bottom: 10px"
+                    {% if order.is_paid %}disabled{% endif %}>
+                Pay this order
+            </button>
+            <form action="/orders/" id="searchField" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="orderId" value="{{ order.id }}">
+                <button class="btn btn-warning" style="margin: 0">
+                    <input class="hidden" style="margin: 0" type="submit">
+                    Delete this order
+                </button>
+            </form>
         </div>
     </div>
-
     {% endfor %}
+    {% if count == 0 %}
+        <h3>No order found...</h3>
+    {% endif %}
 
 </div>
 {% endblock %}
