@@ -29,7 +29,8 @@ def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
 
     service = Service.objects.all().get(id=int(serviceId))
     user = request.user
-    invoice_number = date_created + '-service-' + str(serviceId) + str(user.id)
+    invoice_number = date_created + '-service-' + str(serviceId) + "-" \
+                     + str(user.id)
 
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
