@@ -54,8 +54,8 @@ def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
             dateTime = datetime.datetime.\
                 fromtimestamp(float(date_created)/1000)
             i = Invoice.objects.create(date_created=dateTime, service=service,
-                                       buyer=user, amount=service.cost,
-                                       is_paid=False, number=invoice_number)
+                                       buyer=user, amount=1, is_paid=False,
+                                       number=invoice_number)
             i.save()
     if payStatus == "1":
         if len(Invoice.objects.all().filter(number=invoice_number)) == 0:

@@ -165,4 +165,9 @@ def forget_password(request):
 @login_required
 def orders(request):
 
-    return HttpResponse("We are working hard on this function now!")
+    from choiceNet.models import Invoice
+
+    service = Invoice.objects.all().filter(buyer=request.user, is_active=True)
+    context = {"services": service}
+
+    return render_with_user(request, 'accounts/orders.html', context)

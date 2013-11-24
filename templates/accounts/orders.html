@@ -1,0 +1,91 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block title %}
+    Orders
+{% endblock %}
+
+{% block page-css %}
+<style type="text/css">
+.service-payment-picture {
+    width: 95px;
+    height: 88px;
+}
+.service-payment-picture-frame {
+    margin: 5px;
+    padding: 5px;
+    width: 100px;
+    height: 100px;
+    border: 1px solid darkgray;
+}
+.service-info-box {
+    margin-right: 10px;
+    width: 150px;
+    border-right: 1px solid lightgrey
+}
+.service-action-box {
+    border-left: 1px solid lightgrey;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+</style>
+{% endblock %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1>
+            Orders
+        </h1>
+    </div>
+
+    {% for service in services %}
+
+    <div class="span12 well" style="margin-left: 0;">
+        <div class="span2 service-info-box">
+            <p>
+                Order placed: <br/>
+                <b>{{ service.date_created |date:"M d, Y"}}</b><br/>
+                {{ service.date_created |time:"h:i:s a"}}
+            </p>
+            <p>Total: <br />
+            <b style="color: darkred">USD${{ service.service.cost }}</b>
+            </p>
+
+        </div>
+        <div class="span2 service-payment-picture-frame">
+            {% if service.service.picture %}
+            <img class="service-payment-picture"
+                 src="/static/media/{{ service.service.picture }}"
+                 alt="{{ service.service.name }}">
+            {% else %}
+            <img class="service-payment-picture"
+                 src="/static/imgs/network.gif"
+                 alt="{{ service.service.name }}">
+            {% endif %}
+        </div>
+        <div class="span6">
+            <a href="/services#/detail/{{service.service.id}}">
+                <h3>{{service.service.name}}</h3>
+            </a>
+            <p>Status: <b style="color: darkgoldenrod">
+                {% if service.is_paid %}PAID{% else %}NOT PAID{% endif %}</b>
+            </p>
+            <p>Reciept Number: {{ service.number }}</p>
+        </div>
+        <div class="span2 service-action-box">
+            <h5>Action: </h5>
+            <button class="btn btn-info" style="margin-bottom: 10px">Pay this order</button>
+            <button class="btn btn-warning">Cancel this order</button>
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+{% endblock %}
