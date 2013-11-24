@@ -21,26 +21,42 @@ def ServicesList(request):
 
 
 @csrf_exempt
-def ServicesPayment(request, serviceId, csrf, payStatus):
+def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
 
     from service.models import Service
+    from choiceNet.models import Invoice
     import datetime
 
     service = Service.objects.all().get(id=int(serviceId))
     user = request.user
+    invoice_number = date_created + '-service-' + str(serviceId) + str(user.id)
 
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "amount": service.cost,
         "item_name": service.name,
-        "invoice": str(datetime.datetime.now()) + '-service-' + str(serviceId)
-                   + str(user.id),
+        "invoice": invoice_number,
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
         "return_url": settings.SITE_NAME + "/paypal/payment/service/"
-                      + serviceId + "/1/" + csrf + "/",
+                      + serviceId + "/1/" + csrf + "/" + date_created + "/",
         "cancel_return": settings.SITE_NAME + "/paypal/payment/service/"
-                         + serviceId + "/0/" + csrf + "/",
+                         + serviceId + "/0/" + csrf + "/" + date_created + "/",
     }
+
+    if payStatus == "2":
+        dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
+        i = Invoice.objects.create(date_created=dateTime, service=service,
+                                   buyer=user, amount=service.cost, paid=False,
+                                   number=invoice_number)
+        i.save()
+    if payStatus == "1":
+        i = Invoice.objects.all().get(number=invoice_number)
+        i.paid = True
+        i.save()
+    if payStatus == "0":
+        i = Invoice.objects.all().get(number=invoice_number)
+        i.paid = False
+        i.save()
 
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox(), "service": service,

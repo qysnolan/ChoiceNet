@@ -33,7 +33,7 @@ urlpatterns = patterns(
     # Shopping part
     url(r'^services', ServicesList, name="services"),
     url(r'^paypal/payment/service/(?P<serviceId>\d+)/'
-        r'(?P<payStatus>\d+)/(?P<csrf>\w+)/$',
+        r'(?P<payStatus>\d+)/(?P<csrf>\w+)/(?P<date_created>\w+)/$',
         ServicesPayment, name="service_payment"),
 
     # Just for testing

@@ -20,7 +20,7 @@
                 {{ service.cost | currency:"USD$"}}
             </h6>
             <a class="btn btn-success"
-               href="/paypal/payment/service/{{ service.id }}/2/{{ csrf }}">
+               href="/paypal/payment/service/{{ service.id }}/2/{{ csrf }}/{{ date_created }}">
                 Buy Now
             </a>
         </div>
