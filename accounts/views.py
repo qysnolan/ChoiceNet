@@ -183,3 +183,9 @@ def orders(request):
     context = {"orders": orders, "isDeleted": isDeleted, "count": count}
 
     return render_with_user(request, 'accounts/orders.html', context)
+
+
+@login_required
+def products_list(request):
+
+    return HttpResponse("We're working on that.")
