@@ -12,6 +12,13 @@ admin.autodiscover()
 # from django.contrib import admin
 # admin.autodiscover()
 
+handler401 = 'choiceNet.views.error_401'
+handler403 = 'choiceNet.views.error_403'
+handler404 = 'choiceNet.views.error_404'
+handler500 = 'choiceNet.views.error_500'
+handler502 = 'choiceNet.views.error_502'
+handler504 = 'choiceNet.views.error_504'
+
 urlpatterns = patterns(
     '',
 
