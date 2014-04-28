@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <body>
+    {% if login %}
+        {% if success %}
+            <p>Login success.</p>
+        {% else  %}
+            <p>The combination of Username and Password is wrong.</p>
+        {% endif %}
+    {% endif %}
+    <div>
+    <form action="{% url 'auth_login' %}" method="POST">
+        {% csrf_token %}
+        <label> {{ username_tag }}
+            <input name="username" placeholder="username">
+        </label>
+        <br/>
+        <label> {{ password_tag }}
+            <input name="password" placeholder="password">
+        </label>
+        <br/>
+        <input type="submit" value="Login">
+    </form>
+    </div>
+    </body>
+</html>
