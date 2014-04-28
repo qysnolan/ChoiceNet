@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
+import hashlib
 
 
 def login(request):
@@ -17,7 +18,7 @@ def login(request):
     if request.method == 'POST':
 
         username = request.POST["username"]
-        password = request.POST["password"]
+        password = hashlib.sha1(request.POST["password"]).hexdigest()
         success = False
         user = authenticate(username=username, password=password)
         login = True
