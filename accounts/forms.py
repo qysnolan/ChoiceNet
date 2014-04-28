@@ -22,6 +22,7 @@ class AuthenticationForm(AuthenticationForm, forms.forms.Form):
 
     def clean_password(self):
         return hashlib.sha1(self.cleaned_data['password']).hexdigest()
+        # return self.cleaned_data['password']
 
 
 class UserForm(forms.Form):
@@ -126,13 +127,15 @@ class SettingsForm(forms.Form):
             raise forms.ValidationError("Passwords is too short! "
                                         "At least 6 characters")
 
-        if password != self.data['confirm_new_password']:
+        if password != \
+                hashlib.sha1(self.data['confirm_new_password']).hexdigest():
             raise forms.ValidationError("Passwords are not same!")
 
         return password
 
     def clean_password(self):
         old_password = hashlib.sha1(self.data['password']).hexdigest()
+        # old_password = self.data['password']
 
         if not self.user.check_password(old_password):
             raise forms.ValidationError("Your current password is wrong!")
