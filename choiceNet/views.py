@@ -61,9 +61,10 @@ def home(request):
 
 def AddBalance(request):
 
+    user = request.user
+
     if request.method == 'GET':
 
-        user = request.user
         balance = 0
         if len(Balance.objects.all().filter(user=user)) == 0:
             b = Balance.objects.create(user=user, balance=0, )
@@ -73,18 +74,23 @@ def AddBalance(request):
             balance = b.balance
 
         return render_with_user(request, 'paypal/add_balance.html',
-                                {'balance': balance})
+                                {'balance': balance, 'amount_valid': 1})
 
     if request.method == 'POST':
 
         import time
+        try:
+            amount = str(int(float(request.POST['amount']) * 100))
+            csrf = request.POST['csrf']
+            date_created = str(int(float(time.time()*1000)))
 
-        amount = str(int(float(request.POST['amount']) * 100))
-        csrf = request.POST['csrf']
-        date_created = str(int(float(time.time()*1000)))
-
-        redirect_to = "/paypal/payment/balance/" + amount + "/2/" + csrf \
-                      + "/" + date_created
+            redirect_to = "/paypal/payment/balance/" + amount + "/2/" + csrf \
+                          + "/" + date_created
+        except:
+            b = Balance.objects.all().get(user=user)
+            balance = b.balance
+            return render_with_user(request, 'paypal/add_balance.html',
+                                    {'balance': balance, 'amount_valid': 0})
 
         return redirect(redirect_to)
 

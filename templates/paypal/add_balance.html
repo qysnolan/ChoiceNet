@@ -21,6 +21,11 @@
     <div class="page-header">
         <h1>Add Balance</h1>
     </div>
+    {% if amount_valid == 0 %}
+    <div class="alert alert-warning">
+        The amount you entered is not valid. Please enter valid amount.
+    </div>
+    {% endif %}
     <div>
         <h4>Current balance: {{ balance }}</h4>
     </div>
