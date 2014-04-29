@@ -46,7 +46,10 @@ urlpatterns = patterns(
         ServicesPayment, name="service_payment"),
 
     # Balance related
-    url(r'^add_balance', hello, name="add_balance"),
+    url(r'^add_balance', AddBalance, name="add_balance"),
+    url(r'^paypal/payment/balance/(?P<amount>\d+)/'
+        r'(?P<payStatus>\d+)/(?P<csrf>\w+)/(?P<date_created>\w+)/$',
+        BalancePayment, name="balance_payment"),
 
     # Just for testing
     url(r'^hello/', hello),
