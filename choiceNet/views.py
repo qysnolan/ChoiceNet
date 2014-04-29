@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from choiceNet.decorators import *
+from choiceNet.models import Balance
 from service.models import Service
 from choiceNet.functions import render_with_user
 from paypal.standard.forms import PayPalPaymentsForm
@@ -121,6 +122,16 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
             i = Invoice.objects.all().get(number=invoice_number)
             i.is_paid = True
             i.save()
+            from decimal import Decimal
+            if len(Balance.objects.all().filter(user=user)) == 0:
+                b = Balance.objects.create(user=user,
+                                           balance=Decimal(float(amount)/100))
+                b.save()
+            else:
+                b = Balance.objects.all().get(user=user)
+                total = b.balance + Decimal(float(amount)/100)
+                b.balance = total
+                b.save()
     if payStatus == "0":
         if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
             payStatus = "3"
