@@ -45,6 +45,9 @@ urlpatterns = patterns(
         r'(?P<payStatus>\d+)/(?P<csrf>\w+)/(?P<date_created>\w+)/$',
         ServicesPayment, name="service_payment"),
 
+    # Balance related
+    url(r'^add_balance', hello, name="add_balance"),
+
     # Just for testing
     url(r'^hello/', hello),
 
