@@ -93,7 +93,6 @@ def create_account(request):
     if request.method == 'POST':
 
         form = UserForm(request.POST)
-
         form_valid = False
 
         redirect_to = request.GET.get("next", "/login/#create")

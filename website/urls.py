@@ -5,6 +5,7 @@ from website.views import *
 from accounts.views import *
 from choiceNet.views import *
 from service.views import *
+from accounts.authViews import *
 
 admin.autodiscover()
 
@@ -58,7 +59,7 @@ urlpatterns = patterns(
                                namespace='rest_framework')),
     url(r"^api/", include("api.urls"), name="api_base"),
 
-    #error pages
+    # Error pages
     url(r'^401/$', error_401, name="error_401"),
     url(r'^403/$', error_403, name="error_403"),
     url(r'^404/$', error_404, name="error_404"),
@@ -66,4 +67,7 @@ urlpatterns = patterns(
     url(r"^502/$", error_502, name="error_502"),
     url(r"^504/$", error_504, name="error_504"),
     url(r"^maintenance/$", maintenance, name="maintenance"),
+
+    # Interact with App
+    url(r'^auth/login/$', login, name="auth_login"),
 )

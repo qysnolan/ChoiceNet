@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
+import hashlib
 
 from accounts.models import User
 from choiceNet import widgets
@@ -18,6 +19,10 @@ class AuthenticationForm(AuthenticationForm, forms.forms.Form):
 
     def clean_username(self):
         return self.cleaned_data["username"].lower()
+
+    def clean_password(self):
+        return hashlib.sha1(self.cleaned_data['password']).hexdigest()
+        # return self.cleaned_data['password']
 
 
 class UserForm(forms.Form):
@@ -50,13 +55,13 @@ class UserForm(forms.Form):
         return username
 
     def clean_password(self):
-        password = self.cleaned_data['password']
+        password = hashlib.sha1(self.cleaned_data['password']).hexdigest()
 
         if len(password) <= 6:
             raise forms.ValidationError("Passwords is too short! "
                                         "At least 6 characters")
 
-        if password != self.data['confirm_password']:
+        if password != hashlib.sha1(self.data['confirm_password']).hexdigest():
             raise forms.ValidationError("Passwords are not same!")
 
         return password
@@ -116,19 +121,21 @@ class SettingsForm(forms.Form):
         return username
 
     def clean_new_password(self):
-        password = self.cleaned_data['new_password']
+        password = hashlib.sha1(self.cleaned_data['new_password']).hexdigest()
 
         if len(password) <= 6 & len(password) > 0:
             raise forms.ValidationError("Passwords is too short! "
                                         "At least 6 characters")
 
-        if password != self.data['confirm_new_password']:
+        if password != \
+                hashlib.sha1(self.data['confirm_new_password']).hexdigest():
             raise forms.ValidationError("Passwords are not same!")
 
         return password
 
     def clean_password(self):
-        old_password = self.data['password']
+        old_password = hashlib.sha1(self.data['password']).hexdigest()
+        # old_password = self.data['password']
 
         if not self.user.check_password(old_password):
             raise forms.ValidationError("Your current password is wrong!")
