@@ -25,3 +25,17 @@ class Invoice(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.number
+
+
+class Balance(models.Model):
+
+    user = models.ForeignKey("accounts.User", blank=False, null=False,
+                             related_name='balance_user')
+    balance = models.DecimalField(max_digits=64, decimal_places=2, default=0,
+                                  blank=True, null=True)
+
+    class Meta:
+        ordering = ["user"]
+
+    def __unicode__(self):
+        return u'%s' % self.user
