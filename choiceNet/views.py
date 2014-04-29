@@ -63,7 +63,17 @@ def AddBalance(request):
 
     if request.method == 'GET':
 
-        return render_with_user(request, 'paypal/add_balance.html',)
+        user = request.user
+        balance = 0
+        if len(Balance.objects.all().filter(user=user)) == 0:
+            b = Balance.objects.create(user=user, balance=0, )
+            b.save()
+        else:
+            b = Balance.objects.all().get(user=user)
+            balance = b.balance
+
+        return render_with_user(request, 'paypal/add_balance.html',
+                                {'balance': balance})
 
     if request.method == 'POST':
 
@@ -90,7 +100,7 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
     service = Service.objects.all().get(id=56)
     user = request.user
     if date_created == "0":
-        date_created = str(time.time())
+        date_created = str(int(float(time.time()*1000)))
     invoice_number = date_created + '-service-56-' + str(user.id)
 
     paypal_dict = {
@@ -142,7 +152,10 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
 
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox(), "service": service,
-               "payStatus": payStatus, "price": str(float(int(amount)/100))}
+               "payStatus": payStatus, "price": str(float(int(amount)/100)),
+               "invoice_number": invoice_number,
+               "date_created": date_created, }
+
     return render_with_user(request, "paypal/balance_payment.html", context)
 
 

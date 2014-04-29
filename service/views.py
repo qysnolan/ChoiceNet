@@ -1,8 +1,11 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect
 
 from choiceNet.functions import render_with_user
+from choiceNet.models import *
+from service.models import Service
 from paypal.standard.forms import PayPalPaymentsForm
 
 
@@ -20,11 +23,47 @@ def ServicesList(request):
                             {'searchValue': searchValue, 'url': url})
 
 
+def ServicePayWithBalance(request):
+
+    post = request.POST
+    user = request.user
+
+    invoice_number = post["invoice_number"]
+    date_created = post["date_created"]
+    csrf = post["csrf"]
+    serviceId = post["serviceId"]
+    print csrf
+
+    if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
+        url = "/paypal/payment/service/" + serviceId + "/3/" + csrf + "/" \
+              + date_created + "/"
+        return redirect(url)
+
+    if len(Balance.objects.all().filter(user=user)) == 0:
+        url = "/paypal/payment/service/" + serviceId + "/4/" + csrf + "/" \
+              + date_created + "/"
+        return redirect(url)
+
+    b = Balance.objects.all().get(user=user)
+    s = Service.objects.all().get(id=serviceId)
+
+    if b.balance < s.cost:
+        url = "/paypal/payment/service/" + serviceId + "/4/" + csrf + "/" \
+              + date_created + "/"
+        return redirect(url)
+
+    b.balance = b.balance - s.cost
+    b.save()
+
+    url = "/paypal/payment/service/" + serviceId + "/1/" + csrf + "/" \
+          + date_created + "/"
+
+    return redirect(url)
+
+
 @csrf_exempt
 def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
 
-    from service.models import Service
-    from choiceNet.models import Invoice
     import datetime
     import time
 
@@ -74,5 +113,7 @@ def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
 
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox(), "service": service,
-               "payStatus": payStatus}
+               "payStatus": payStatus, "invoice_number": invoice_number,
+               "date_created": date_created, "serviceId": serviceId, }
+
     return render_with_user(request, "paypal/payment.html", context)

@@ -47,6 +47,15 @@
         You have paid <b>unsuccessfully</b>!
     </div>
     {% endif %}
+    {% if payStatus == '4'%}
+    <div class="alert alert-warning">
+        You don't have enough balance, please click
+        <a href="{% url "add_balance" %}">
+           here
+        </a>
+        to add more balance.
+    </div>
+    {% endif %}
     {% if payStatus == '3'%}
     <div class="alert alert-danger">
         Something went wrong, please click
@@ -55,7 +64,7 @@
         </a>
         to reload payment page.
     </div>
-    {% else%}
+    {% else %}
     <div class="span12 well" style="margin-left: 0;">
         <div class="span2 service-payment-picture-frame">
             {% if service.picture %}
@@ -79,6 +88,21 @@
         </div>
     </div>
     {% endif %}
+    <div class="span2 pull-right">
+        <form action="{% url 'pay_with_balance' %}" method="POST">
+            {% csrf_token %}
+            <input class="btn btn-primary" type="submit"
+                   value="Pay with balance">
+            <input type="hidden" name="invoice_number"
+                   value={{ invoice_number }}>
+            <input type="hidden" name="csrf"
+                   value={{ csrf_token }}>
+            <input type="hidden" name="date_created"
+                   value={{ date_created }}>
+            <input type="hidden" name="serviceId"
+                   value={{ service.id }}>
+        </form>
+    </div>
     <a href="/services#/detail/{{ service.id }}">
             <i class="icon-chevron-left"></i> Return to service detail page
     </a>
