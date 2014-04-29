@@ -49,7 +49,7 @@ class ServiceViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     filter_class = ServiceFilter
 
     def get_queryset(self):
-        services = Service.objects.all()
+        services = Service.objects.all().exclude(id=56)
 
         return services.order_by('name', )
 
