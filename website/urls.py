@@ -34,7 +34,7 @@ urlpatterns = patterns(
     url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^logout/$', logout),
     url(r'^sign_up/$', create_account, name="sign_up"),
-    url(r'^forget_password/', forget_password, name="forget_password"),
+    url(r'^forget_password/$', forget_password, name="forget_password"),
     url(r'^settings/$', account_settings, name="settings"),
     url(r'^orders/$', orders, name="orders"),
     url(r'^products/$', products_list, name="products_list"),
@@ -44,6 +44,14 @@ urlpatterns = patterns(
     url(r'^paypal/payment/service/(?P<serviceId>\d+)/'
         r'(?P<payStatus>\d+)/(?P<csrf>\w+)/(?P<date_created>\w+)/$',
         ServicesPayment, name="service_payment"),
+    url(r'^pay_with_balance/service/$', ServicePayWithBalance,
+        name="pay_with_balance"),
+
+    # Balance related
+    url(r'^add_balance', AddBalance, name="add_balance"),
+    url(r'^paypal/payment/balance/(?P<amount>\d+)/'
+        r'(?P<payStatus>\d+)/(?P<csrf>\w+)/(?P<date_created>\w+)/$',
+        BalancePayment, name="balance_payment"),
 
     # Just for testing
     url(r'^hello/', hello),

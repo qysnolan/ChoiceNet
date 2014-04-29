@@ -177,7 +177,7 @@ def orders(request):
         except:
             isDeleted = 0
 
-    orders = Invoice.objects.all().filter(buyer=request.user, is_active=True)
+    orders = Invoice.objects.all().filter(buyer=request.user, is_active=True).exclude(service_id=56)
     count = len(orders)
     context = {"orders": orders, "isDeleted": isDeleted, "count": count}
 

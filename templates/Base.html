@@ -285,6 +285,16 @@
                                                Orders
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{% url "add_balance" %}"
+                                           data-event-trigger="click"
+                                           data-event-category="navbar"
+                                           data-event-action="click"
+                                           data-event-label="add_balance">
+                                            <i class="icon-plus"></i>
+                                               Add Balance
+                                        </a>
+                                    </li>
                                     {% if user.is_staff %}
                                     <li>
                                         <a href="/products/"

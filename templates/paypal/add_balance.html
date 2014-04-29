@@ -1,0 +1,44 @@
+{% extends "Base.html" %}
+{% load url from future %}
+
+{% block title %}
+    Add Balance
+{% endblock %}
+
+{% block page-css %}
+<style>
+</style>
+{% endblock %}
+
+{% block page-js %}
+<script type="text/javascript">
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1>Add Balance</h1>
+    </div>
+    {% if amount_valid == 0 %}
+    <div class="alert alert-warning">
+        The amount you entered is not valid. Please enter valid amount.
+    </div>
+    {% endif %}
+    <div>
+        <h4>Current balance: {{ balance }}</h4>
+    </div>
+    <div>
+        <form action="{% url "add_balance" %}" method="POST">
+            {% csrf_token %}
+            <label> Enter Amount
+                <input name="amount" placeholder="0.00">
+            </label>
+            <input class="btn btn-primary" type="submit" value="Add Balance">
+            <input type="hidden" name="csrf" value={{ csrf_token }}>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Invoice
+from .models import *
 
 
 class InvoiceAdmin(admin.ModelAdmin):
@@ -10,4 +10,11 @@ class InvoiceAdmin(admin.ModelAdmin):
     search_fields = ("date_created", "buyer", "service", )
 
 
+class BalanceAdmin(admin.ModelAdmin):
+
+    list_display = ("user", "balance", )
+    search_fields = ("user", )
+
+
 admin.site.register(Invoice, InvoiceAdmin)
+admin.site.register(Balance, BalanceAdmin)
