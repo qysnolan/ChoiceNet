@@ -172,6 +172,8 @@ def user_help(request):
 @csrf_exempt
 def KeyExchange(request):
 
+    from django.utils.timezone import utc
+
     clientKey = long(request.POST["publicKey"])
 
     crypto = DiffieHellman()
@@ -182,9 +184,8 @@ def KeyExchange(request):
 
     # Create new session
     session = 0
-    date_time = str(int(float(time.time())))
-    start_time = datetime.datetime.fromtimestamp(float(date_time))
-    end_time = datetime.datetime.fromtimestamp(float(date_time)+100)
+    start_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+    end_time = start_time + datetime.timedelta(0, 60)
 
     s = Session.objects.create(session=session, start_time=start_time,
                                end_time=end_time, key=key)
