@@ -93,6 +93,14 @@ def render_with_user(request, template_name, context={}):
 
 def render_with_session(session_id, data):
 
+    from .models import Session
+    import json
 
+    try:
+        s = Session.objects.all().get(id=session_id)
+    except:
+        data = {"is_session": False}
+        data = json.dumps(data)
+        return HttpResponse(data)
 
     return HttpResponse(data)
