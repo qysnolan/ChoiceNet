@@ -3,8 +3,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
+import datetime
+import time
+
 from choiceNet.decorators import *
-from choiceNet.models import Balance
+from choiceNet.models import *
 from service.models import Service
 from choiceNet.functions import render_with_user, render_with_session
 from paypal.standard.forms import PayPalPaymentsForm
@@ -99,11 +102,6 @@ def AddBalance(request):
 @csrf_exempt
 def BalancePayment(request, amount, csrf, payStatus, date_created):
 
-    from service.models import Service
-    from choiceNet.models import Invoice
-    import datetime
-    import time
-
     service = Service.objects.all().get(id=56)
     user = request.user
     if date_created == "0":
@@ -172,19 +170,30 @@ def user_help(request):
 
 
 @csrf_exempt
-def NewSession(request):
-
-    """
-    Perform an example Diffie-Hellman exchange
-    """
+def KeyExchange(request):
 
     clientKey = long(request.POST["publicKey"])
-    print type(clientKey)
 
     crypto = DiffieHellman()
     crypto.genKey(clientKey)
     crypto.getKey()
 
-    print "Key:", hexlify(crypto.key)
+    key = hexlify(crypto.key)
+
+    # Create new session
+    session = 0
+    date_time = str(int(float(time.time())))
+    start_time = datetime.datetime.fromtimestamp(float(date_time))
+    end_time = datetime.datetime.fromtimestamp(float(date_time)+100)
+
+    s = Session.objects.create(session=session, start_time=start_time,
+                               end_time=end_time, key=key)
+    s.save()
 
     return HttpResponse(str(crypto.publicKey))
+
+
+@csrf_exempt
+def NewSession(request):
+
+    return HttpResponse("No")

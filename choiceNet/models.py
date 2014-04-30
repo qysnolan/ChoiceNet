@@ -51,7 +51,7 @@ class Session(models.Model):
     is_login = models.BooleanField(default=False, blank=False, null=False)
     a = models.IntegerField(blank=False, default=0, null=False)
     q = models.IntegerField(blank=False, default=0, null=False)
-    key = models.IntegerField(blank=True, default=0, null=True)
+    key = models.CharField(max_length=128, blank=True, default="0", null=True)
 
     class Meta:
         ordering = ["start_time", "user"]

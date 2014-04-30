@@ -6,13 +6,13 @@ from dh import *
 crypto = DiffieHellman()
 data = {'publicKey': str(crypto.publicKey)}
 
-g = requests.post('http://0.0.0.0:8008/request/new/session/', data)
+g = requests.post('http://0.0.0.0:8008/key/exchange/', data)
 serverKey = long(g.text)
 
 crypto.genKey(serverKey)
 crypto.getKey()
 
-print "Key:", hexlify(crypto.key)
+key = hexlify(crypto.key)
 
 # g = requests.get('http://0.0.0.0:8008/auth/login/')
 # print g.text
@@ -25,3 +25,5 @@ print "Key:", hexlify(crypto.key)
 
 # r = requests.post('http://0.0.0.0:8008/auth/login/', data)
 # print r.text
+# 1398891077794
+# 1398891096347
