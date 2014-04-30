@@ -8,6 +8,7 @@ from choiceNet.models import Balance
 from service.models import Service
 from choiceNet.functions import render_with_user, render_with_session
 from paypal.standard.forms import PayPalPaymentsForm
+from .dh import *
 
 
 def error_401(request):
@@ -168,3 +169,22 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
 def user_help(request):
 
     return HttpResponse("We are working hard on this function now!")
+
+
+@csrf_exempt
+def NewSession(request):
+
+    """
+    Perform an example Diffie-Hellman exchange
+    """
+
+    clientKey = long(request.POST["publicKey"])
+    print type(clientKey)
+
+    crypto = DiffieHellman()
+    crypto.genKey(clientKey)
+    crypto.getKey()
+
+    print "Key:", hexlify(crypto.key)
+
+    return HttpResponse(str(crypto.publicKey))

@@ -104,3 +104,11 @@ def render_with_session(session_id, data):
         return HttpResponse(data)
 
     return HttpResponse(data)
+
+
+def encryption(data):
+
+    return data
+
+
+
