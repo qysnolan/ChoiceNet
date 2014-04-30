@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from choiceNet.decorators import *
 from choiceNet.models import Balance
 from service.models import Service
-from choiceNet.functions import render_with_user
+from choiceNet.functions import render_with_user, render_with_session
 from paypal.standard.forms import PayPalPaymentsForm
 
 

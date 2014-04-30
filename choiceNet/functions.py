@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.core.context_processors import csrf
 
 
@@ -89,3 +89,10 @@ def render_with_user(request, template_name, context={}):
         context["menu"].append(loginMenu)
 
         return render(request, template_name, context)
+
+
+def render_with_session(session_id, data):
+
+
+
+    return HttpResponse(data)
