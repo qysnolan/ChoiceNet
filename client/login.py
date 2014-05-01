@@ -9,22 +9,22 @@ url_root = 'http://0.0.0.0:8008/'
 key = None
 session_id = 0
 session = 0
+balance = 0
 
 ##### Key exchange #####
-"""
-Data send to Key exchange:
-send_data = {'publicKey': publicKey}
-publicKey: the client publicKey for server to obtain crypto key
 
-Data received from Key exchange:
-received_data = {"is_session": is_session, "expire": expire, "data": data, }
-is_session: a boolean shows the session is set up or not
-expire: a boolean shows the session is expired or not
-data: plaintext, if session is not created, data = None
-data = {'session_id': session_id, 'publicKey': publicKey, }
-session_id: the id of the session
-publicKey: the server publicKey to obtain crypto key
-"""
+# Data send to Key exchange:
+# send_data = {'publicKey': publicKey}
+# publicKey: the client publicKey for server to obtain crypto key
+#
+# Data received from Key exchange:
+# received_data = {"is_session": is_session, "expire": expire, "data": data, }
+# is_session: a boolean shows the session is set up or not
+# expire: a boolean shows the session is expired or not
+# data: plaintext, if session is not created, data = None
+# data = {'session_id': session_id, 'publicKey': publicKey, }
+# session_id: the id of the session
+# publicKey: the server publicKey to obtain crypto key
 
 # Get client public key
 crypto = DiffieHellman()
@@ -43,29 +43,27 @@ crypto.getKey()
 key = hexlify(crypto.key)
 
 ##### User login #####
-"""
-Data send to Key exchange:
-send_data = {"data": data, 'session_id': session_id}
-session_id: the id of session
-data: cipher text
-data = {'username': username, 'password': password, }
-username: email of user
-password: hashed password
+# Data send to Key exchange:
+# send_data = {"data": data, 'session_id': session_id}
+# session_id: the id of session
+# data: cipher text
+# data = {'username': username, 'password': password, }
+# username: email of user
+# password: hashed password
+#
+# Data received from User login:
+# received_data = {"is_session": is_session, "expire": expire, "data": data, }
+# is_session: a boolean shows the session is set up or not
+# expire: a boolean shows the session is expired or not
+# data: plaintext, if session is not created, data = None
+# data = {"success": success, "session": session}
+# success: a boolean shows login success or not
+# session: the number of session
 
-Data received from User login:
-received_data = {"is_session": is_session, "expire": expire, "data": data, }
-is_session: a boolean shows the session is set up or not
-expire: a boolean shows the session is expired or not
-data: plaintext, if session is not created, data = None
-data = {"success": success, "session": session}
-success: a boolean shows login success or not
-session: the number of session
-"""
 
 # Get username and password
 # username = raw_input("Please enter username: ")
 # password = raw_input("Please enter password: ")
-
 username = "yunsheng@umass.edu"
 password = "yunsheng22"
 hash_password = hashlib.sha1(password).hexdigest()
@@ -80,8 +78,11 @@ receive = requests.post(url_root + 'request/new/session/', send_data)
 received_data = json.loads(receive.text)
 data = decrypt(received_data["data"], key)
 
-if data['success']:
-    print data['success']
 session = data["session"]
+balance = data['balance']
+
+if data['success']:
+    print session
+    print balance
 
 ##### Request service #####

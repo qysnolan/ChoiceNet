@@ -212,6 +212,7 @@ def NewSession(request):
     user = authenticate(username=username, password=password)
 
     success = False
+    balance = 0
 
     if user is not None:
         success = True
@@ -220,8 +221,40 @@ def NewSession(request):
         session.session = randint(1, 99999999)
         session.is_login = True
         session.save()
+        balance = Balance.objects.all().get(user=user).balance
 
-    data = {"success": success, "session": session.session}
+    data = {"success": success, "session": session.session, "balance": balance}
+
+    return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def RequestService(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = request.POST["session"]
+    check_session(session_id, session)
+
+    username = plain_text["username"]
+    password = plain_text["password"]
+    user = authenticate(username=username, password=password)
+
+    success = False
+
+    if user is not None:
+        success = True
+        s.user = user
+        from random import randint
+        s.session = randint(1, 99999999)
+        s.is_login = True
+        s.save()
+
+    data = {"success": success, "session": s.session}
 
     return render_with_session(session_id, data)
 

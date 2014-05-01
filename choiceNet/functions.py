@@ -117,7 +117,7 @@ def render_with_session(session_id, input_data):
         return HttpResponse(json_data)
 
     input_data = encrypt(input_data, s.key)
-    data = {"is_session": False, "data": input_data, "expire": True}
+    data = {"is_session": True, "data": input_data, "expire": False}
     json_data = json.dumps(data)
 
     return HttpResponse(json_data)
@@ -125,19 +125,16 @@ def render_with_session(session_id, input_data):
 
 def check_session(session_id, session):
 
+    data = {"is_session": False, "data": None, "expire": True}
+    json_data = json.dumps(data)
+
     try:
         s = Session.objects.all().get(id=session_id)
     except:
-        return False
+        return HttpResponse(json_data)
 
-    if session == 0:
-        return False
-
-    if session != s.session:
-        return False
-
-    if not s.is_login:
-        return False
+    if session == 0 or session != s.session or not s.is_login:
+        return HttpResponse(json_data)
 
     return True
 
