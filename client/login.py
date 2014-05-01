@@ -5,7 +5,7 @@ import json
 from function import *
 
 ##### Global variables #####
-url_root = 'http://0.0.0.0:8008/'
+url_root = 'http://0.0.0.0:8008/client/'
 key = None
 session_id = 0
 session = 0

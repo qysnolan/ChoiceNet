@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate
+from django.utils.timezone import utc
 
 import datetime
 import time
@@ -173,8 +174,6 @@ def user_help(request):
 @csrf_exempt
 def KeyExchange(request):
 
-    from django.utils.timezone import utc
-
     clientKey = long(request.POST["publicKey"])
 
     crypto = DiffieHellman()
@@ -240,21 +239,30 @@ def RequestService(request):
     session = request.POST["session"]
     check_session(session_id, session)
 
-    username = plain_text["username"]
-    password = plain_text["password"]
-    user = authenticate(username=username, password=password)
+    service_id = request.POST["service_id"]
+    amount = request.POST["amount"]
+    user = Session.objects.all().get(id=session_id).user
+    invoice_number = None
+    is_service = False
+    balance = 0
+    sufficient_balance = False
 
-    success = False
+    try:
+        s = Service.objects.all().get(id=service_id)
+        is_service = True
+        i = create_invoice(s, amount, user)
+        balance = Balance.objects.all().get(user=user).balance
+        if s.cost * amount <= balance:
+            sufficient_balance = True
+            invoice_number = i.number
+            i.is_paid = True
+            i.save()
+    except:
+        pass
 
-    if user is not None:
-        success = True
-        s.user = user
-        from random import randint
-        s.session = randint(1, 99999999)
-        s.is_login = True
-        s.save()
-
-    data = {"success": success, "session": s.session}
+    data = {"balance": balance, "is_service": is_service,
+            "invoice_number": invoice_number,
+            "sufficient_balance": sufficient_balance}
 
     return render_with_session(session_id, data)
 

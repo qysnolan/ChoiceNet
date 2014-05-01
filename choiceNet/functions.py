@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.core.context_processors import csrf
+from django.utils.timezone import utc
 from Crypto.Cipher import AES
 
 import json
@@ -109,7 +110,6 @@ def render_with_session(session_id, input_data):
         json_data = json.dumps(data)
         return HttpResponse(json_data)
 
-    from django.utils.timezone import utc
     now = datetime.datetime.utcnow().replace(tzinfo=utc)
     if now > s.end_time:
         data = {"is_session": True, "data": None, "expire": True}
@@ -137,6 +137,23 @@ def check_session(session_id, session):
         return HttpResponse(json_data)
 
     return True
+
+
+def create_invoice(service, amount, user):
+
+    from .models import Invoice
+    import time
+
+    date_created = str(int(float(time.time()*1000)))
+    invoice_number = date_created + '-service-' + str(service.id) + '-' \
+                     + str(user.id)
+    dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
+    i = Invoice.objects.create(date_created=dateTime, service=service,
+                               buyer=user, amount=amount, is_paid=False,
+                               number=invoice_number)
+    i.save()
+
+    return i
 
 
 def encrypt(data, key):
