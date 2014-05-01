@@ -43,7 +43,7 @@ crypto.getKey()
 key = hexlify(crypto.key)
 
 ##### User login #####
-# Data send to Key exchange:
+# Data send to User login:
 # send_data = {"data": data, 'session_id': session_id}
 # session_id: the id of session
 # data: cipher text
@@ -55,7 +55,7 @@ key = hexlify(crypto.key)
 # received_data = {"is_session": is_session, "expire": expire, "data": data, }
 # is_session: a boolean shows the session is set up or not
 # expire: a boolean shows the session is expired or not
-# data: plaintext, if session is not created, data = None
+# data: cipher text, if session is not created, data = None
 # data = {"success": success, "session": session}
 # success: a boolean shows login success or not
 # session: the number of session
@@ -65,7 +65,7 @@ key = hexlify(crypto.key)
 # username = raw_input("Please enter username: ")
 # password = raw_input("Please enter password: ")
 username = "yunsheng@umass.edu"
-password = "yunsheng22"
+password = "yunsheng"
 hash_password = hashlib.sha1(password).hexdigest()
 data = {'username': username, 'password': hash_password, }
 
@@ -86,3 +86,42 @@ if data['success']:
     print balance
 
 ##### Request service #####
+# Data send to Request Service:
+# send_data = {"data": data, 'session_id': session_id}
+# session_id: the id of session
+# data: cipher text
+# data = {"service_id": service_id, "session": session, "amount": amount}
+# service_id: the id of service request
+# session: the number of session
+# amount: the amount of request service
+#
+# Data received from User login:
+# received_data = {"is_session": is_session, "expire": expire, "data": data, }
+# is_session: a boolean shows the session is set up or not
+# expire: a boolean shows the session is expired or not
+# data: cipher text, if session is not created, data = None
+# data = {"balance": balance, "is_service": is_service,
+#         "invoice_number": invoice_number,
+#         "sufficient_balance": sufficient_balance}
+# balance: the new balance if transaction is not successful return -1
+# is_service: if service does not exist, return false
+# invoice_number: the invoice of transaction
+# sufficient_balance: return True if balance is sufficient
+
+service_id = 56
+amount = 1
+
+data = {"service_id": service_id, "session": session, "amount": amount}
+
+# Encrypt data
+bin_data = encrypt(data, key)
+
+# Request service
+send_data = {"data": bin_data, 'session_id': session_id}
+receive = requests.post(url_root + 'request/service/', send_data)
+received_data = json.loads(receive.text)
+data = decrypt(received_data["data"], key)
+
+invoice_number = data["invoice_number"]
+if int(data["balance"]) >= 0:
+    balance = data["balance"]
