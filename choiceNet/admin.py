@@ -16,5 +16,12 @@ class BalanceAdmin(admin.ModelAdmin):
     search_fields = ("user", )
 
 
+class SessionAdmin(admin.ModelAdmin):
+
+    list_display = ("user", "session", "start_time", "end_time", "is_login")
+    search_fields = ("user", )
+
+
 admin.site.register(Invoice, InvoiceAdmin)
 admin.site.register(Balance, BalanceAdmin)
+admin.site.register(Session, SessionAdmin)

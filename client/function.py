@@ -1,161 +1,11 @@
-from django.shortcuts import render, HttpResponse
-from django.core.context_processors import csrf
-from django.utils.timezone import utc
-from Crypto.Cipher import AES
-
 import json
 import binascii
-import datetime
 # import zlib
 
-
-from .models import Session
-
-
-class MenuObject:
-    name = None
-    url = None
-    forceSubmenu = False
-    icon = None
-
-    submenu = []
-
-    def __init__(self, name, url=None, icon=None, disabled=False):
-        self.name = name
-        self.icon = icon
-
-        self.forceSubmenu = False
-        self.submenu = []
-
-        if url is None:
-            self.forceSubmenu = True
-        else:
-            self.url = url
-
-        self.disabled = disabled
-
-    def addSubMenu(self, menu):
-        self.submenu.append(menu)
-
-    def addSubitem(self, name, url, icon=None, disabled=False):
-        self.submenu.append(MenuObject(name, url, icon, disabled))
-
-    def hasSubmenu(self):
-        return self.submenu
-
-    def canShow(self):
-        if self.forceSubmenu and self.hasSubmenu():
-            return True
-        elif not self.forceSubmenu:
-            return True
-        return False
+from Crypto.Cipher import AES
 
 
-def render_with_user(request, template_name, context={}):
-    from website.settings import DEBUG
-
-    context["debugMode"] = DEBUG
-
-    user = request.user
-    context["menu"] = []
-
-    if user.is_authenticated():
-        context["name"] = user.fullname()
-        context["user"] = request.user
-        context.update(csrf(request))
-
-        speedMenu = MenuObject("High Speed")
-        speedMenu.addSubitem("Normal High Speed", "help")
-        speedMenu.addSubitem("Very High Speed", "help")
-        speedMenu.addSubitem("Extreme High Speed", "help")
-        context["menu"].append(speedMenu)
-
-        priceMenu = MenuObject("Low price")
-        priceMenu.addSubitem("Normal Low price", "help")
-        priceMenu.addSubitem("Very Low price", "help")
-        priceMenu.addSubitem("Extreme Low price", "help")
-        context["menu"].append(priceMenu)
-
-        securityMenu = MenuObject("High Security")
-        securityMenu.addSubitem("Normal High Security", "help")
-        securityMenu.addSubitem("Very High Security", "help")
-        securityMenu.addSubitem("Extreme High Security", "help")
-        context["menu"].append(securityMenu)
-
-        worldMenu = MenuObject("World Network")
-        stateMenu = MenuObject("States")
-        stateMenu.addSubitem("Massachusetts", "help")
-        stateMenu.addSubitem("Other states", "help")
-        worldMenu.addSubMenu(stateMenu)
-        # context["menu"].append(worldMenu)
-
-        return render(request, template_name, context)
-
-    else:
-        context["user"] = None
-        context["name"] = "Login or sign up"
-
-        loginMenu = MenuObject("Login to get full function", "login")
-        context["menu"].append(loginMenu)
-
-        return render(request, template_name, context)
-
-
-def render_with_session(session_id, input_data):
-
-    try:
-        s = Session.objects.all().get(id=session_id)
-    except:
-        data = {"is_session": False, "data": None, "expire": True}
-        json_data = json.dumps(data)
-        return HttpResponse(json_data)
-
-    now = datetime.datetime.utcnow().replace(tzinfo=utc)
-    if now > s.end_time:
-        data = {"is_session": True, "data": None, "expire": True}
-        json_data = json.dumps(data)
-        return HttpResponse(json_data)
-
-    input_data = encrypt(input_data, s.key)
-    data = {"is_session": True, "data": input_data, "expire": False}
-    json_data = json.dumps(data)
-
-    return HttpResponse(json_data)
-
-
-def check_session(session_id, session):
-
-    data = {"is_session": False, "data": None, "expire": True}
-    json_data = json.dumps(data)
-
-    try:
-        s = Session.objects.all().get(id=session_id)
-    except:
-        return HttpResponse(json_data)
-
-    if session == 0 or session != s.session or not s.is_login:
-        return HttpResponse(json_data)
-
-    return True
-
-
-def create_invoice(service, amount, user):
-
-    from .models import Invoice
-    import time
-
-    date_created = str(int(float(time.time()*1000)))
-    invoice_number = date_created + '-service-' + str(service.id) + '-' \
-                     + str(user.id)
-    dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
-    i = Invoice.objects.create(date_created=dateTime, service=service,
-                               buyer=user, amount=amount, is_paid=False,
-                               number=invoice_number)
-    i.save()
-
-    return i
-
-
+# Ecrypt data and change to binary
 def encrypt(data, key):
 
     IV = 16 * '\x00'
@@ -169,9 +19,10 @@ def encrypt(data, key):
     # return zlib.compress(str(bin_data))
 
 
+# Decrypt data from binary format
 def decrypt(data, key):
 
-    # data = zlib.decompress(str(data))
+    # data = zlib.decompress(data)
     if not data:
         return None
     n = int(data, 2)
@@ -187,9 +38,10 @@ def decrypt(data, key):
 
 from binascii import hexlify
 import hashlib
-import Crypto.Random.random
+
 
 # If a secure random number generator is unavailable, exit with an error.
+import Crypto.Random.random
 try:
     secure_random = Crypto.Random.random.getrandbits
 except ImportError:
@@ -285,5 +137,3 @@ class DiffieHellman(object):
         print "Shared secret: ", self.sharedSecret
         print "Shared key: ", hexlify(self.key)
         print
-
-

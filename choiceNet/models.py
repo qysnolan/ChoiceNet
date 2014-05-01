@@ -39,3 +39,22 @@ class Balance(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.user
+
+
+class Session(models.Model):
+
+    session = models.IntegerField(blank=False, default=0, null=False)
+    user = models.ForeignKey("accounts.User", blank=True, null=True,
+                             related_name='session_user')
+    start_time = models.DateTimeField(blank=False, null=False)
+    end_time = models.DateTimeField(blank=False, null=False)
+    is_login = models.BooleanField(default=False, blank=False, null=False)
+    a = models.IntegerField(blank=False, default=0, null=False)
+    q = models.IntegerField(blank=False, default=0, null=False)
+    key = models.CharField(max_length=128, blank=True, default="0", null=True)
+
+    class Meta:
+        ordering = ["start_time", "user"]
+
+    def __unicode__(self):
+        return u'%s' % self.user

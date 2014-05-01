@@ -76,6 +76,12 @@ urlpatterns = patterns(
     url(r"^504/$", error_504, name="error_504"),
     url(r"^maintenance/$", maintenance, name="maintenance"),
 
-    # Interact with App
+    # Interact with Client App
+    url(r'^client/key/exchange', KeyExchange, name="key_exchange"),
+    url(r'^client/request/new/session', NewSession,
+        name="request_new_session"),
+    url(r'^client/request/service', RequestService, name="request_service"),
+    url(r'^client/pay/order', PayOrder, name="pay_order"),
+    url(r'^client/request/refund', RequestRefund, name="request_refund"),
     url(r'^auth/login/$', login, name="auth_login"),
 )
