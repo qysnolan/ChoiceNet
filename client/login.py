@@ -36,8 +36,11 @@ data = {'username': username, 'password': hash_password}
 # Encrypt data
 bin_data = encrypt(data, key)
 
+# Requst session number and login
 receive = requests.post('http://0.0.0.0:8008/request/new/session/', {"data": bin_data, 'session_id': session_id})
-print receive.text
+received_data = json.loads(receive.text)
+data = decrypt(received_data["data"], key)
+print data["session"]
 
 
 # obj2 = AES.new(key[:32])

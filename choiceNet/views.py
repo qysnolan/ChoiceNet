@@ -209,16 +209,19 @@ def NewSession(request):
 
     username = plain_text["username"]
     password = plain_text["password"]
-    success = False
     user = authenticate(username=username, password=password)
-    login = True
+
+    success = False
 
     if user is not None:
         success = True
+        session.user = user
+        from random import randint
+        session.session = randint(1, 99999999)
+        session.is_login = True
+        session.save()
 
-    data = {"success": success, "login": login, }
+    data = {"success": success, "session": session.session}
 
-    json_data = json.dumps(data)
-
-    return HttpResponse(json_data)
+    return render_with_session(session_id, data)
 

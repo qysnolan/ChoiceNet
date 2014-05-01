@@ -5,6 +5,7 @@ from Crypto.Cipher import AES
 import json
 import binascii
 import ast
+import datetime
 
 
 class MenuObject:
@@ -96,18 +97,34 @@ def render_with_user(request, template_name, context={}):
         return render(request, template_name, context)
 
 
-def render_with_session(session_id, data):
+def render_with_session(session_id, input_data):
 
     from .models import Session
 
     try:
         s = Session.objects.all().get(id=session_id)
     except:
-        data = {"is_session": False}
-        data = json.dumps(data)
-        return HttpResponse(data)
+        data = {"is_session": False, "data": None, "expire": True}
+        json_data = json.dumps(data)
+        return HttpResponse(json_data)
 
-    return HttpResponse(data)
+    from django.utils.timezone import utc
+    now = datetime.datetime.utcnow().replace(tzinfo=utc)
+    if now > s.end_time:
+        data = {"is_session": True, "data": None, "expire": True}
+        json_data = json.dumps(data)
+        return HttpResponse(json_data)
+
+    if not s.is_login:
+        data = {"is_session": False, "data": None, "expire": True}
+        json_data = json.dumps(data)
+        return HttpResponse(json_data)
+
+    input_data = encrypt(input_data, s.key)
+    data = {"is_session": False, "data": input_data, "expire": True}
+    json_data = json.dumps(data)
+
+    return HttpResponse(json_data)
 
 
 def encrypt(data, key):
@@ -130,7 +147,7 @@ def decrypt(data, key):
     IV = 16 * '\x00'
     decrypt = AES.new(key[:32], AES.MODE_CFB, IV)
     plain_text = decrypt.decrypt(cipher_text)
-    plain_text = ast.literal_eval(plain_text)
+    plain_text = json.loads(plain_text)
 
     return plain_text
 

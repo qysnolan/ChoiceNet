@@ -1,9 +1,11 @@
 import json
 import binascii
+import ast
 
 from Crypto.Cipher import AES
 
 
+# Ecrypt data and change to binary
 def encrypt(data, key):
 
     IV = 16 * '\x00'
@@ -16,6 +18,7 @@ def encrypt(data, key):
     return str(bin_data)
 
 
+# Decrypt data from binary format
 def decrypt(data, key):
 
     n = int(data, 2)
@@ -24,7 +27,7 @@ def decrypt(data, key):
     IV = 16 * '\x00'
     decrypt = AES.new(key[:32], AES.MODE_CFB, IV)
     plain_text = decrypt.decrypt(cipher_text)
-    plain_text = ast.literal_eval(plain_text)
+    plain_text = json.loads(plain_text)
 
     return plain_text
 
