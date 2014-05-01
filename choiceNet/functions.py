@@ -4,8 +4,11 @@ from Crypto.Cipher import AES
 
 import json
 import binascii
-import ast
 import datetime
+# import zlib
+
+
+from .models import Session
 
 
 class MenuObject:
@@ -99,8 +102,6 @@ def render_with_user(request, template_name, context={}):
 
 def render_with_session(session_id, input_data):
 
-    from .models import Session
-
     try:
         s = Session.objects.all().get(id=session_id)
     except:
@@ -115,16 +116,30 @@ def render_with_session(session_id, input_data):
         json_data = json.dumps(data)
         return HttpResponse(json_data)
 
-    if not s.is_login:
-        data = {"is_session": False, "data": None, "expire": True}
-        json_data = json.dumps(data)
-        return HttpResponse(json_data)
-
     input_data = encrypt(input_data, s.key)
     data = {"is_session": False, "data": input_data, "expire": True}
     json_data = json.dumps(data)
 
     return HttpResponse(json_data)
+
+
+def check_session(session_id, session):
+
+    try:
+        s = Session.objects.all().get(id=session_id)
+    except:
+        return False
+
+    if session == 0:
+        return False
+
+    if session != s.session:
+        return False
+
+    if not s.is_login:
+        return False
+
+    return True
 
 
 def encrypt(data, key):
@@ -137,10 +152,14 @@ def encrypt(data, key):
     bin_data = bin(int(binascii.hexlify(ciphertext), 16))
 
     return str(bin_data)
+    # return zlib.compress(str(bin_data))
 
 
 def decrypt(data, key):
 
+    # data = zlib.decompress(str(data))
+    if not data:
+        return None
     n = int(data, 2)
     cipher_text = binascii.unhexlify('%x' % n)
 
@@ -154,10 +173,10 @@ def decrypt(data, key):
 
 from binascii import hexlify
 import hashlib
+import Crypto.Random.random
 
 # If a secure random number generator is unavailable, exit with an error.
 try:
-    import Crypto.Random.random
     secure_random = Crypto.Random.random.getrandbits
 except ImportError:
     import OpenSSL

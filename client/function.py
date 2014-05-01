@@ -1,6 +1,6 @@
 import json
 import binascii
-import ast
+# import zlib
 
 from Crypto.Cipher import AES
 
@@ -16,11 +16,15 @@ def encrypt(data, key):
     bin_data = bin(int(binascii.hexlify(ciphertext), 16))
 
     return str(bin_data)
+    # return zlib.compress(str(bin_data))
 
 
 # Decrypt data from binary format
 def decrypt(data, key):
 
+    # data = zlib.decompress(data)
+    if not data:
+        return None
     n = int(data, 2)
     cipher_text = binascii.unhexlify('%x' % n)
 
@@ -37,8 +41,8 @@ import hashlib
 
 
 # If a secure random number generator is unavailable, exit with an error.
+import Crypto.Random.random
 try:
-    import Crypto.Random.random
     secure_random = Crypto.Random.random.getrandbits
 except ImportError:
     import OpenSSL
@@ -78,7 +82,8 @@ class DiffieHellman(object):
     def checkPublicKey(self, otherKey):
         """
         Check the other party's public key to make sure it's valid.
-        Since a safe prime is used, verify that the Legendre symbol is equal to one.
+        Since a safe prime is used, verify that the Legendre symbol is equal to
+        one.
         """
         if 2 < otherKey < self.prime - 1:
             if pow(otherKey, (self.prime - 1)/2, self.prime) == 1:
