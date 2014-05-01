@@ -78,7 +78,9 @@ urlpatterns = patterns(
 
     # Interact with Client App
     url(r'^client/key/exchange', KeyExchange, name="key_exchange"),
-    url(r'^client/request/new/session', NewSession, name="request_new_session"),
+    url(r'^client/request/new/session', NewSession,
+        name="request_new_session"),
     url(r'^client/request/service', RequestService, name="request_service"),
+    url(r'^client/pay/order', PayOrder, name="pay_order"),
     url(r'^auth/login/$', login, name="auth_login"),
 )

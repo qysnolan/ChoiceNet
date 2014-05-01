@@ -123,5 +123,45 @@ received_data = json.loads(receive.text)
 data = decrypt(received_data["data"], key)
 
 invoice_number = data["invoice_number"]
-if int(data["balance"]) >= 0:
+if float(data["balance"]) >= 0:
+    balance = data["balance"]
+
+
+##### Pay unpaid order #####
+# Data send to Request Service:
+# send_data = {"data": data, 'session_id': session_id}
+# session_id: the id of session
+# data: cipher text
+# data = {"invoice_number": invoice_number, "session": session, }
+# invoice_number: the order to pay
+# session: the number of session
+#
+# Data received from User login:
+# received_data = {"is_session": is_session, "expire": expire, "data": data, }
+# is_session: a boolean shows the session is set up or not
+# expire: a boolean shows the session is expired or not
+# data: cipher text, if session is not created, data = None
+# data = {"balance": balance, "is_invoice": is_service,
+#         "invoice_number": invoice_number,
+#         "sufficient_balance": sufficient_balance,
+#         "previous_paid": previous_paid}
+# balance: the new balance if transaction is not successful return -1
+# is_invoice: if invoice does not exist, return false
+# invoice_number: the invoice of transaction
+# sufficient_balance: return True if balance is sufficient
+# previous_paid: if the order is already paid, return true
+
+data = {"invoice_number": invoice_number, "session": session, }
+
+# Encrypt data
+bin_data = encrypt(data, key)
+
+# Request service
+send_data = {"data": bin_data, 'session_id': session_id}
+receive = requests.post(url_root + 'pay/order/', send_data)
+received_data = json.loads(receive.text)
+data = decrypt(received_data["data"], key)
+
+print data
+if float(data["balance"]) >= 0:
     balance = data["balance"]
