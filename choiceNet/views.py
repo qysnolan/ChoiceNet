@@ -2,9 +2,14 @@ from django.shortcuts import HttpResponse, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.contrib.auth import authenticate
+from Crypto.Cipher import AES
 
 import datetime
 import time
+import json
+import binascii
+import ast
 
 from choiceNet.decorators import *
 from choiceNet.models import *
@@ -191,10 +196,42 @@ def KeyExchange(request):
                                end_time=end_time, key=key)
     s.save()
 
-    return HttpResponse(str(crypto.publicKey))
+    data = {'session_id': s.id, 'publicKey': str(crypto.publicKey)}
+    json_data = json.dumps(data)
+
+    return HttpResponse(json_data)
 
 
 @csrf_exempt
 def NewSession(request):
 
-    return HttpResponse("No")
+    session_id = request.POST["session_id"]
+    session = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    n = int(data, 2)
+    cipher_text = binascii.unhexlify('%x' % n)
+
+    IV = 16 * '\x00'
+    decrypt = AES.new(session.key[:32], AES.MODE_CFB, IV)
+    plain_text = decrypt.decrypt(cipher_text)
+    print type(plain_text)
+    plain_text = ast.literal_eval(plain_text)
+    # plain_text = dict(plain_text)
+    print plain_text
+    username = plain_text["username"]
+    password = plain_text["password"]
+    success = False
+    user = authenticate(username=username, password=password)
+    login = True
+
+    if user is not None:
+        success = True
+
+    data = {"success": success, "login": login, }
+
+    json_data = json.dumps(data)
+    # json_data = "ddd"
+
+    return HttpResponse(json_data)
+
