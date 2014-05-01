@@ -222,7 +222,8 @@ def NewSession(request):
         session.save()
         balance = Balance.objects.all().get(user=user).balance
 
-    data = {"success": success, "session": session.session, "balance": balance}
+    data = {"success": success, "session": session.session,
+            "balance": str(balance)}
 
     return render_with_session(session_id, data)
 
@@ -236,31 +237,35 @@ def RequestService(request):
     data = request.POST["data"]
     plain_text = decrypt(data, s.key)
 
-    session = request.POST["session"]
+    session = plain_text["session"]
     check_session(session_id, session)
 
-    service_id = request.POST["service_id"]
-    amount = request.POST["amount"]
+    service_id = plain_text["service_id"]
+    amount = plain_text["amount"]
     user = Session.objects.all().get(id=session_id).user
     invoice_number = None
     is_service = False
-    balance = 0
+    balance = -1
     sufficient_balance = False
 
     try:
         s = Service.objects.all().get(id=service_id)
         is_service = True
         i = create_invoice(s, amount, user)
-        balance = Balance.objects.all().get(user=user).balance
-        if s.cost * amount <= balance:
+        b = Balance.objects.all().get(user=user)
+        invoice_number = i.number
+        if s.cost * amount <= b.balance:
             sufficient_balance = True
             invoice_number = i.number
             i.is_paid = True
             i.save()
+            b.balance = b.balance - s.cost * amount
+            b.save()
+            balance = b.balance
     except:
         pass
 
-    data = {"balance": balance, "is_service": is_service,
+    data = {"balance": str(balance), "is_service": is_service,
             "invoice_number": invoice_number,
             "sufficient_balance": sufficient_balance}
 
