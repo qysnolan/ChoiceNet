@@ -1,5 +1,37 @@
+import json
+import binascii
+
+from Crypto.Cipher import AES
+
+
+def encrypt(data, key):
+
+    IV = 16 * '\x00'
+    encrypt = AES.new(key[:32], AES.MODE_CFB, IV)
+    json_data = json.dumps(data)
+
+    ciphertext = encrypt.encrypt(str(json_data))
+    bin_data = bin(int(binascii.hexlify(ciphertext), 16))
+
+    return str(bin_data)
+
+
+def decrypt(data, key):
+
+    n = int(data, 2)
+    cipher_text = binascii.unhexlify('%x' % n)
+
+    IV = 16 * '\x00'
+    decrypt = AES.new(key[:32], AES.MODE_CFB, IV)
+    plain_text = decrypt.decrypt(cipher_text)
+    plain_text = ast.literal_eval(plain_text)
+
+    return plain_text
+
+
 from binascii import hexlify
 import hashlib
+
 
 # If a secure random number generator is unavailable, exit with an error.
 try:
