@@ -82,5 +82,6 @@ urlpatterns = patterns(
         name="request_new_session"),
     url(r'^client/request/service', RequestService, name="request_service"),
     url(r'^client/pay/order', PayOrder, name="pay_order"),
+    url(r'^client/request/refund', RequestRefund, name="request_refund"),
     url(r'^auth/login/$', login, name="auth_login"),
 )

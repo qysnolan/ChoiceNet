@@ -292,25 +292,67 @@ def PayOrder(request):
     previous_paid = True
 
     try:
-        i = Invoice.objects.all().get(invoice_number=invoice_number)
-        s = i.service
-        is_invoice = True
-        b = Balance.objects.all().get(user=user)
-        invoice_number = i.number
-        if s.cost * i.amount <= b.balance and not i.is_paid:
-            sufficient_balance = True
+        i = Invoice.objects.all().get(number=invoice_number)
+        print i.is_active
+        if i.is_active:
+            s = i.service
+            is_invoice = True
+            b = Balance.objects.all().get(user=user)
             invoice_number = i.number
-            i.is_paid = True
-            i.save()
-            b.balance = b.balance - s.cost * i.amount
-            b.save()
-            balance = b.balance
-            previous_paid = False
+            if s.cost * i.amount <= b.balance and not i.is_paid:
+                sufficient_balance = True
+                invoice_number = i.number
+                i.is_paid = True
+                i.save()
+                b.balance = b.balance - s.cost * i.amount
+                b.save()
+                balance = b.balance
+                previous_paid = False
     except:
         pass
 
     data = {"balance": str(balance), "is_invoice": is_invoice,
             "invoice_number": invoice_number, "previous_paid": previous_paid,
             "sufficient_balance": sufficient_balance}
+
+    return render_with_session(session_id, data)
+
+@csrf_exempt
+def RequestRefund(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    invoice_number = plain_text["invoice_number"]
+    user = Session.objects.all().get(id=session_id).user
+    is_invoice = False
+    balance = -1
+    is_refund = False
+
+    try:
+        i = Invoice.objects.all().get(number=invoice_number)
+        if i.is_active:
+            s = i.service
+            is_invoice = True
+            b = Balance.objects.all().get(user=user)
+            if s.cost * i.amount <= b.balance and i.is_paid:
+                i.is_paid = False
+                i.is_active = False
+                i.save()
+                b.balance = b.balance + s.cost * i.amount
+                b.save()
+                balance = b.balance
+                is_refund = True
+    except:
+        pass
+
+    data = {"balance": str(balance), "is_invoice": is_invoice,
+            "is_refund": is_refund}
 
     return render_with_session(session_id, data)

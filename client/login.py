@@ -81,9 +81,7 @@ data = decrypt(received_data["data"], key)
 session = data["session"]
 balance = data['balance']
 
-if data['success']:
-    print session
-    print balance
+print data
 
 ##### Request service #####
 # Data send to Request Service:
@@ -95,7 +93,7 @@ if data['success']:
 # session: the number of session
 # amount: the amount of request service
 #
-# Data received from User login:
+# Data received from Request service:
 # received_data = {"is_session": is_session, "expire": expire, "data": data, }
 # is_session: a boolean shows the session is set up or not
 # expire: a boolean shows the session is expired or not
@@ -126,9 +124,11 @@ invoice_number = data["invoice_number"]
 if float(data["balance"]) >= 0:
     balance = data["balance"]
 
+print data
+
 
 ##### Pay unpaid order #####
-# Data send to Request Service:
+# Data send to Pay unpaid order:
 # send_data = {"data": data, 'session_id': session_id}
 # session_id: the id of session
 # data: cipher text
@@ -136,7 +136,7 @@ if float(data["balance"]) >= 0:
 # invoice_number: the order to pay
 # session: the number of session
 #
-# Data received from User login:
+# Data received from Pay unpaid order:
 # received_data = {"is_session": is_session, "expire": expire, "data": data, }
 # is_session: a boolean shows the session is set up or not
 # expire: a boolean shows the session is expired or not
@@ -162,6 +162,43 @@ receive = requests.post(url_root + 'pay/order/', send_data)
 received_data = json.loads(receive.text)
 data = decrypt(received_data["data"], key)
 
-print data
 if float(data["balance"]) >= 0:
     balance = data["balance"]
+
+print data
+
+##### Request refund #####
+# Data send to Request refund:
+# send_data = {"data": data, 'session_id': session_id}
+# session_id: the id of session
+# data: cipher text
+# data = {"invoice_number": invoice_number, "session": session, }
+# invoice_number: the order to refund
+# session: the number of session
+#
+# Data received from Request refund:
+# received_data = {"is_session": is_session, "expire": expire, "data": data, }
+# is_session: a boolean shows the session is set up or not
+# expire: a boolean shows the session is expired or not
+# data: cipher text, if session is not created, data = None
+# data = {"balance": balance, "is_invoice": is_service,
+#         "is_refund": is_refund, }
+# balance: the new balance if transaction is not successful return -1
+# is_invoice: if invoice does not exist, return false
+# is_refund: return false, if refund is unsuccessful
+
+data = {"invoice_number": invoice_number, "session": session, }
+
+# Encrypt data
+bin_data = encrypt(data, key)
+
+# Request service
+send_data = {"data": bin_data, 'session_id': session_id}
+receive = requests.post(url_root + 'request/refund/', send_data)
+received_data = json.loads(receive.text)
+data = decrypt(received_data["data"], key)
+
+if float(data["balance"]) >= 0:
+    balance = data["balance"]
+
+print data
