@@ -64,7 +64,7 @@
                 {{ order.date_created |time:"h:i:s a"}}
             </p>
             <p>Total: <br />
-            <b style="color: darkred">USD${{ order.service.cost }}</b>
+            <b style="color: darkred">USD${{ order.service.service_cost|floatformat:"-4" }}</b>
             </p>
 
         </div>
