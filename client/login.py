@@ -106,7 +106,7 @@ print data
 # invoice_number: the invoice of transaction
 # sufficient_balance: return True if balance is sufficient
 
-service_id = 56
+service_id = "56-add-balance"
 amount = 1
 
 data = {"service_id": service_id, "session": session, "amount": amount}

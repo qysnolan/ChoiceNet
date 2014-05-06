@@ -249,7 +249,7 @@ def RequestService(request):
     sufficient_balance = False
 
     try:
-        s = Service.objects.all().get(id=service_id)
+        s = Service.objects.all().get(service_id=service_id)
         is_service = True
         i = create_invoice(s, amount, user)
         b = Balance.objects.all().get(user=user)
