@@ -169,6 +169,13 @@
                              style="height: 21px; width: 34px" />
                         ChoiceNet Shopper
                     </a>
+                    <h4 class="span2">
+                        {% if user.is_staff %}
+                            Provider
+                        {% else %}
+                            Costumer
+                        {% endif %}
+                    </h4>
                     <div class="nav-collapse collapse">
                         <ul class="nav" style="display: none">
                         {% for m in menu %}
