@@ -20,10 +20,12 @@ class ServiceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Service
 
-        fields = ('url', 'id', 'name', 'owner', 'process_id', 'cost',
-                  'service_input', 'service_output', 'pre_requirements',
-                  'description', 'max_bandwidth', 'min_bandwidth', 'delay',
-                  'picture', 'date_created', 'date_used', 'date_modified', )
+        fields = ('url', 'id', 'name', 'owner', 'description', 'picture',
+                  'date_created', 'date_used', 'date_modified', 'service_id',
+                  'service_type', 'hosted_node_id', 'end_point1_id',
+                  'end_point1_ip', 'end_point2_id', 'end_point2_ip',
+                  'service_bandwidth', 'service_latency', 'service_cost',
+                  'controller_id', 'controller_ip', 'service_listings')
 
 
 class InvoiceSerializer(serializers.HyperlinkedModelSerializer):
