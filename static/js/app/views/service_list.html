@@ -46,24 +46,14 @@
                 <select ng-model="orderProp" ng-disabled="count==0">
                     <option value="name">Name (A-Z)</option>
                     <option value="-name">Name (Z-A)</option>
-                    <option value="cost">Price (Increasing)</option>
-                    <option value="-cost">Price (Decreasing)</option>
-                    <option value="process_id">Process ID (Increasing)</option>
-                    <option value="-process_id">Process ID (Decreasing)</option>
+                    <option value="service_cost">Price (Increasing)</option>
+                    <option value="-service_cost">Price (Decreasing)</option>
                     <option value="-date_created">Newest</option>
                     <option value="date_created">Oldest</option>
-                    <option value="service_input">Input (A-Z)</option>
-                    <option value="-service_input">Input (Z-A)</option>
-                    <option value="service_output">Output (A-Z)</option>
-                    <option value="-service_output">Output (Z-A)</option>
-                    <option value="pre_requirements">Pre-requirements (A-Z)</option>
-                    <option value="-pre_requirements">Pre-requirements (Z-A)</option>
-                    <option value="max_bandwidth">Max-bandwidth (Increasing)</option>
-                    <option value="-max_bandwidth">Max-bandwidth (Decreasing)</option>
-                    <option value="min_bandwidth">Min-bandwidth (Increasing)</option>
-                    <option value="-min_bandwidth">Min-bandwidth (Decreasing)</option>
-                    <option value="delay">Delay (Increasing)</option>
-                    <option value="-delay">Delay (Decreasing)</option>
+                    <option value="service_bandwidth">Bandwidth (Increasing)</option>
+                    <option value="-service_bandwidth">Bandwidth (Decreasing)</option>
+                    <option value="service_latency">Latency (Increasing)</option>
+                    <option value="-service_latency">Latency (Decreasing)</option>
                 </select>
                 <button class="btn btn-info"
                         ng-disabled="totalPages==1 || count==0"
@@ -162,22 +152,23 @@
                             <a href="#/detail/{{service.id}}">
                                 <h3>{{service.name|truncate:50}}</h3>
                             </a>
-                            <ul class="span5">
-                                <li>Process ID: {{service.process_id}}</li>
-                                <li>Service Input: {{service.service_input}}</li>
-                                <li>Service Output: {{service.service_output}}</li>
-                                <li>Pre-requirements: {{service.pre_requirements}}</li>
-                            </ul>
                             <ul class="span6">
-                                <li>Max-bandwidth: {{service.max_bandwidth | number:2}} MB/s</li>
-                                <li>Min-bandwidth: {{service.min_bandwidth | number:2}} MB/s</li>
-                                <li>Delay: {{service.delay | number:2}} ms</li>
+                                <li>Service Type: {{service.service_type}}</li>
+                                <li>Service ID: {{service.service_id}}</li>
+                                <li>Service Bandwidth: <br/> {{service.service_bandwidth | number:4}} Mbps</li>
+                                <li>Service Latency: <br/> {{service.service_latency | number:4}} ms</li>
+                            </ul>
+                            <ul class="span5">
+                                <li>Hosted Node ID: {{service.hosted_node_id }} </li>
+                                <li>End Point1 ID: {{service.end_point1_id }} </li>
+                                <li>End Point2 ID: {{service.end_point2_id }} </li>
+                                <li>Controller ID: {{service.controller_id }} </li>
                                 <li>Date Added: {{service.date_created | date:'medium'}}</li>
                             </ul>
                         </div>
                         <div class="pull-right"
                              style="color: brown; margin-top: 20px">
-                            <h4>{{ service.cost | currency:"USD$"}}</h4>
+                            <h4>{{ service.service_cost | currency:"USD$"}}</h4>
                         </div>
                     </div>
                 </dd>

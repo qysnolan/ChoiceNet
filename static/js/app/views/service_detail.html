@@ -17,7 +17,7 @@
         </div>
         <div class="pull-right center" style="margin-right: 20px">
             <h6 style="color: darkred; margin: 0">
-                {{ service.cost | currency:"USD$"}}
+                {{ service.service_cost | currency:"USD$"}}
             </h6>
             <a class="btn btn-success"
                href="/paypal/payment/service/{{ service.id }}/2/{{ csrf }}/{{ date_created }}">
@@ -32,13 +32,14 @@
         <div >
             <h5><i class="icon-hand-right"></i> Specification: </h5>
             <ul>
-                <li>Process ID: {{service.process_id}}</li>
-                <li>Service Input: {{service.service_input}}</li>
-                <li>Service Output: {{service.service_output}}</li>
-                <li>Pre-requirements: {{service.pre_requirements}}</li>
-                <li>Max-bandwidth: {{service.max_bandwidth | number:2}} MB/s</li>
-                <li>Min-bandwidth: {{service.min_bandwidth | number:2}} MB/s</li>
-                <li>Delay: {{service.delay | number:2}} ms</li>
+                <li>Service Type: {{service.service_type}}</li>
+                <li>Service ID: {{service.service_id}}</li>
+                <li>Service Bandwidth: {{service.service_bandwidth | number:4}} Mbps</li>
+                <li>Service Latency: {{service.service_latency | number:4}} ms</li>
+                <li>Hosted Node ID: {{service.hosted_node_id }} </li>
+                <li>End Point1 ID: {{service.end_point1_id }} </li>
+                <li>End Point2 ID: {{service.end_point2_id }} </li>
+                <li>Controller ID: {{service.controller_id }} </li>
                 <li>Date Added: {{service.date_created | date:'medium'}}</li>
             </ul>
         </div>
