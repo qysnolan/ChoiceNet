@@ -4,12 +4,10 @@ from .models import Service, ServiceType
 
 class ServiceAdmin(admin.ModelAdmin):
 
-    filter_horizontal = ("service_type", )
-    list_display = ("name", "process_id", "owner", "service_output",
-                    "service_input", "pre_requirements", "cost",
-                    "date_created", )
-    search_fields = ("name", "service_output", "service_input",
-                     "pre_requirements")
+    list_display = ("name", "service_id", "owner", "service_cost",
+                    "service_type", "service_bandwidth", "service_latency",
+                    "date_created", "date_modified", "date_used")
+    search_fields = ("name", "description", "owner", )
 
 
 class ServiceTypeAdmin(admin.ModelAdmin):
