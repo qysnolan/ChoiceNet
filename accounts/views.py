@@ -177,7 +177,8 @@ def orders(request):
         except:
             isDeleted = 0
 
-    orders = Invoice.objects.all().filter(buyer=request.user, is_active=True).exclude(service_id=56)
+    orders = Invoice.objects.all().filter(buyer=request.user, is_active=True).\
+        exclude(service_id=56)
     count = len(orders)
     context = {"orders": orders, "isDeleted": isDeleted, "count": count}
 
@@ -187,4 +188,13 @@ def orders(request):
 @login_required
 def products_list(request):
 
-    return HttpResponse("We're working on that.")
+    from service.models import Service
+
+    user = request.user
+
+    services = Service.objects.all().filter(owner=user)
+    count = len(services)
+
+    context = {"services": services, "count": count}
+
+    return render_with_user(request, 'accounts/products.html', context)

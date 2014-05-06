@@ -1,0 +1,96 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block title %}
+    Orders
+{% endblock %}
+
+{% block page-css %}
+<style type="text/css">
+.order-payment-picture {
+    width: 95px;
+    height: 88px;
+}
+.order-payment-picture-frame {
+    margin: 5px;
+    padding: 5px;
+    width: 100px;
+    height: 100px;
+    border: 1px solid darkgray;
+}
+.order-info-box {
+    margin-right: 10px;
+    width: 150px;
+    border-right: 1px solid lightgrey
+}
+.order-action-box {
+    border-left: 1px solid lightgrey;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+</style>
+{% endblock %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1>
+            Products
+        </h1>
+    </div>
+
+    {% for service in services %}
+
+    <div class="span12 well" style="margin-left: 0;">
+        <div class="span2 order-info-box">
+            <p>
+                Order uploaded: <br/>
+                <b>{{ service.date_created |date:"M d, Y"}}</b><br/>
+                {{ service.date_created |time:"h:i:s a"}}
+            </p>
+            <p>Price: <br />
+            <b style="color: darkred">USD${{ service.service_cost|floatformat:"-4" }}</b>
+            </p>
+
+        </div>
+        <div class="span2 order-payment-picture-frame">
+            {% if service.picture %}
+            <img class="order-payment-picture"
+                 src="/static/media/{{ service.picture }}"
+                 alt="{{ service.name }}">
+            {% else %}
+            <img class="order-payment-picture"
+                 src="/static/imgs/network.gif"
+                 alt="{{ service.name }}">
+            {% endif %}
+        </div>
+        <div class="span6">
+            <a href="/services#/detail/{{ service.id }}">
+                <h3>{{ service.name }}</h3>
+            </a>
+            <p>Service ID: {{ service.service_id }}</p>
+        </div>
+        <div class="span2 order-action-box">
+            <h5>Action: </h5>
+            <a href="/services#/detail/{{ service.id }}" class="btn btn-info"
+               style="margin-bottom: 10px">
+                View Service
+            </a>
+            <a href="/edit/service/{{ service.id }}" class="btn btn-warning"
+               style="margin: 0">
+                Edit Service
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+    {% if count == 0 %}
+        <h3>No order found...</h3>
+    {% endif %}
+
+</div>
+{% endblock %}
