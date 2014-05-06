@@ -47,12 +47,12 @@ def ServicePayWithBalance(request):
     b = Balance.objects.all().get(user=user)
     s = Service.objects.all().get(id=serviceId)
 
-    if b.balance < s.cost:
+    if b.balance < s.service_cost:
         url = "/paypal/payment/service/" + serviceId + "/4/" + csrf + "/" \
               + date_created + "/"
         return redirect(url)
 
-    b.balance = b.balance - s.cost
+    b.balance = b.balance - s.service_cost
     b.save()
 
     url = "/paypal/payment/service/" + serviceId + "/1/" + csrf + "/" \
@@ -76,7 +76,7 @@ def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
 
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "amount": service.cost,
+        "amount": service.service_cost,
         "item_name": service.name,
         "invoice": invoice_number,
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),

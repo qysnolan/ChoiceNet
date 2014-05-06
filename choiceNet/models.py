@@ -31,7 +31,7 @@ class Balance(models.Model):
 
     user = models.ForeignKey("accounts.User", blank=False, null=False,
                              related_name='balance_user')
-    balance = models.DecimalField(max_digits=64, decimal_places=2, default=0,
+    balance = models.DecimalField(max_digits=64, decimal_places=12, default=0,
                                   blank=True, null=True)
 
     class Meta:

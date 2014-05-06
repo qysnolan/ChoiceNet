@@ -112,7 +112,7 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
 
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "amount": service.cost,
+        "amount": service.service_cost,
         "item_name": service.name,
         "invoice": invoice_number,
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
@@ -249,17 +249,17 @@ def RequestService(request):
     sufficient_balance = False
 
     try:
-        s = Service.objects.all().get(id=service_id)
+        s = Service.objects.all().get(service_id=service_id)
         is_service = True
         i = create_invoice(s, amount, user)
         b = Balance.objects.all().get(user=user)
         invoice_number = i.number
-        if s.cost * amount <= b.balance:
+        if s.service_cost * amount <= b.balance:
             sufficient_balance = True
             invoice_number = i.number
             i.is_paid = True
             i.save()
-            b.balance = b.balance - s.cost * amount
+            b.balance = b.balance - s.service_cost * amount
             b.save()
             balance = b.balance
     except:
@@ -299,12 +299,12 @@ def PayOrder(request):
             is_invoice = True
             b = Balance.objects.all().get(user=user)
             invoice_number = i.number
-            if s.cost * i.amount <= b.balance and not i.is_paid:
+            if s.service_cost * i.amount <= b.balance and not i.is_paid:
                 sufficient_balance = True
                 invoice_number = i.number
                 i.is_paid = True
                 i.save()
-                b.balance = b.balance - s.cost * i.amount
+                b.balance = b.balance - s.service_cost * i.amount
                 b.save()
                 balance = b.balance
                 previous_paid = False
@@ -341,11 +341,11 @@ def RequestRefund(request):
             s = i.service
             is_invoice = True
             b = Balance.objects.all().get(user=user)
-            if s.cost * i.amount <= b.balance and i.is_paid:
+            if s.service_cost * i.amount <= b.balance and i.is_paid:
                 i.is_paid = False
                 i.is_active = False
                 i.save()
-                b.balance = b.balance + s.cost * i.amount
+                b.balance = b.balance + s.service_cost * i.amount
                 b.save()
                 balance = b.balance
                 is_refund = True

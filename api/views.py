@@ -44,8 +44,7 @@ class ServiceViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     queryset = Service.objects.none()
 
     serializer_class = ServiceSerializer
-    search_fields = ('name', 'description', 'service_input', 'service_output',
-                     'pre_requirements')
+    search_fields = ('name', 'description', )
     filter_class = ServiceFilter
 
     def get_queryset(self):
@@ -64,10 +63,18 @@ class ServiceViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
                 queryset = queryset.order_by('name', )
             if column == '-name':
                 queryset = queryset.order_by('-name', )
-            if column == 'cost':
-                queryset = queryset.order_by('cost')
-            if column == '-cost':
-                queryset = queryset.order_by('-cost')
+            if column == 'service_cost':
+                queryset = queryset.order_by('service_cost')
+            if column == '-service_cost':
+                queryset = queryset.order_by('-service_cost')
+            if column == 'service_bandwidth':
+                queryset = queryset.order_by('service_bandwidth')
+            if column == '-service_bandwidth':
+                queryset = queryset.order_by('-service_bandwidth')
+            if column == 'service_latency':
+                queryset = queryset.order_by('service_latency')
+            if column == '-service_latency':
+                queryset = queryset.order_by('-service_latency')
 
         return queryset
 

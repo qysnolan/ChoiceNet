@@ -23,8 +23,10 @@ class ServiceFilter(django_filters.FilterSet):
     
     class Meta:
         model = Service
-        fields = ['name', 'service_input', 'service_output', 
-                  'pre_requirements', ]
+        fields = ['name', 'description', 'date_created', 'date_used',
+                  'date_modified', 'service_id', 'service_type',
+                  'service_bandwidth', 'service_latency', 'service_cost',
+                  'service_listings']
 
 
 class InvoiceFilter(django_filters.FilterSet):

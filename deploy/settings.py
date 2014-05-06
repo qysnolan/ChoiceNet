@@ -1,7 +1,7 @@
 # Django settings for paypal project.
 import os
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 SITE_ROOT = os.path.abspath(os.path.join(
@@ -13,7 +13,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-SITE_NAME = 'http://0.0.0.0:8008'
+SITE_NAME = 'http://nslab.ecs.umass.edu:8000'
 
 DATABASES = {
     'default': {
@@ -23,7 +23,7 @@ DATABASES = {
         # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
-        'PASSWORD': '6yhnmju7',
+        'PASSWORD': 'security421',
         'HOST': '',
         # Empty for localhost through domain sockets or '127.0.0.1' for
         # localhost through TCP.
@@ -35,7 +35,7 @@ AUTH_USER_MODEL = "accounts.User"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.nslab.ecs.umass.edu']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
