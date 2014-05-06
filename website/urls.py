@@ -38,6 +38,8 @@ urlpatterns = patterns(
     url(r'^settings/$', account_settings, name="settings"),
     url(r'^orders/$', orders, name="orders"),
     url(r'^products/$', products_list, name="products_list"),
+    url(r'^edit/service/(?P<serviceId>\d+)/$', user_help, name="edit_service"),
+    url(r'^add/service/$', AddService, name="add_service"),
 
     # Shopping part
     url(r'^services', ServicesList, name="services"),

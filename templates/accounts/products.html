@@ -44,6 +44,13 @@
         </h1>
     </div>
 
+    <div>
+        <a href="{% url "add_service" %}" class="btn btn-primary pull-right"
+           style="margin-bottom: 10px">
+            <i class="icon-plus"></i> Add Service
+        </a>
+    </div>
+
     {% for service in services %}
 
     <div class="span12 well" style="margin-left: 0;">

@@ -116,7 +116,7 @@ class TextInput(Input, widgets.TextInput):
     pass
 
 
-class NumberInput(TextInput):
+class NumberInput(Input, widgets.NumberInput):
     input_type = "number"
 
 
