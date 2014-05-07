@@ -50,6 +50,8 @@ urlpatterns = patterns(
         ServicesPayment, name="service_payment"),
     url(r'^pay_with_balance/service/$', ServicePayWithBalance,
         name="pay_with_balance"),
+    url(r'^sales/service/(?P<serviceId>\d+)/$', ServiceSalesNumber,
+        name="sales_service"),
 
     # Balance related
     url(r'^add_balance', AddBalance, name="add_balance"),

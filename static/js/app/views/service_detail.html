@@ -26,7 +26,15 @@
         </div>
     </div>
     <div class="span8 pull-right" style="margin-top: 100px;">
-        <h4><i class="icon-hand-right"></i> {{service.name}}</h4>
+        <h4><i class="icon-hand-right"></i> Sales Number:
+            <b ng-show="sales_number == undefined">
+                <i class="icon-refresh icon-large icon-spin"></i>
+                Loading ...
+            </b>
+            <b ng-show="sales_number!=null" style="color: darkred">
+                {{ sales_number }}
+            </b>
+        </h4>
         <h5><i class="icon-hand-right"></i> Description:</h5>
         <p style="padding-left: 30px; padding-right: 30px">{{ service.description }}</p>
         <div >

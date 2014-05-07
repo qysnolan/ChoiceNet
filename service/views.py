@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import redirect
+from django.shortcuts import redirect, HttpResponse
+
+import json
 
 from choiceNet.functions import render_with_user
 from choiceNet.models import *
@@ -173,3 +175,15 @@ def ServicesPayment(request, serviceId, csrf, payStatus, date_created):
                "date_created": date_created, "serviceId": serviceId, }
 
     return render_with_user(request, "paypal/payment.html", context)
+
+
+def ServiceSalesNumber(request, serviceId):
+
+    service = Service.objects.all().get(id=serviceId)
+
+    invoices = Invoice.objects.all().filter(service=service, is_active=True,
+                                            is_paid=True)
+
+    jsonData = json.dumps(len(invoices))
+
+    return HttpResponse(jsonData)
