@@ -150,4 +150,13 @@ serviceControllers.controller('ServiceDetailCtrl',
             });
         };
         checkSalesNumber($routeParams.serviceId);
+
+        var getComment = function(serviceId) {
+            $http.get('/get/comment/'+serviceId).success(function(data) {
+                $scope.comment_count = data.count;
+                $scope.rate = data.rate;
+                $scope.comments = data.comments;
+            });
+        };
+        getComment($routeParams.serviceId);
 }]);

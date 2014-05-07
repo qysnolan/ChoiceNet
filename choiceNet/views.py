@@ -233,14 +233,19 @@ def GetComments(request, serviceId):
     comments = Comment.objects.all().filter(service=service).\
         order_by('created_date')
     data = []
+    count = 0
+    from django.utils.timezone import localtime
     for c in comments:
         data.append({"rate": c.rate, "comment": c.comment,
-                     "date": str(c.created_date), "user": str(c.user),
-                     "is_provider": c.is_provider})
+                     "date": str(localtime(c.created_date)),
+                     "user": str(c.user), "is_provider": c.is_provider})
         if not c.is_provider:
             rate += c.rate
+            count += 1
 
-    jsonData = json.dumps({"rate": rate, "count": len(data),
+    total_rate = float(rate/count)
+
+    jsonData = json.dumps({"rate": total_rate, "count": len(data),
                            "comments": data}, )
 
     return HttpResponse(jsonData)
