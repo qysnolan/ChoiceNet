@@ -1,0 +1,67 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block title %}
+    Edit Service
+{% endblock %}
+
+{% block page-css %}
+<style type="text/css">
+.login-container
+    {
+        max-width: 600px;
+    }
+</style>
+{% endblock %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container login-container center">
+    <div class="page-header">
+        <h1>
+            Edit Service
+        </h1>
+    </div>
+
+    {% if form_valid %}
+        <div class="alert alert-success">
+            Edit successfully!
+        </div>
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-error">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </div>
+    {% endif %}
+
+    <form action="/edit/service/{{ serviceId }}/" method="POST">
+
+        <div class="well">
+
+            <div>
+                <h6><i class="icon-angle-right"></i>
+                    Service id and Service cost are required!
+                </h6>
+            </div>
+
+            {% csrf_token %}
+
+            {{ form.as_table }}
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <input type="submit" value="Edit Service"
+                           class="btn btn-primary" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>
+{% endblock %}

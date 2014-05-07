@@ -37,7 +37,11 @@ urlpatterns = patterns(
     url(r'^forget_password/$', forget_password, name="forget_password"),
     url(r'^settings/$', account_settings, name="settings"),
     url(r'^orders/$', orders, name="orders"),
+    url(r'^sales/$', sales, name="sales"),
     url(r'^products/$', products_list, name="products_list"),
+    url(r'^edit/service/(?P<serviceId>\d+)/$', EditService,
+        name="edit_service"),
+    url(r'^add/service/$', AddService, name="add_service"),
 
     # Shopping part
     url(r'^services', ServicesList, name="services"),

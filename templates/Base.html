@@ -169,6 +169,13 @@
                              style="height: 21px; width: 34px" />
                         ChoiceNet Shopper
                     </a>
+                    <h4 class="span2">
+                        {% if user.is_staff %}
+                            Provider
+                        {% else %}
+                            Costumer
+                        {% endif %}
+                    </h4>
                     <div class="nav-collapse collapse">
                         <ul class="nav" style="display: none">
                         {% for m in menu %}
@@ -304,6 +311,16 @@
                                            data-event-label="orders">
                                             <i class="icon-th-large"></i>
                                                Products
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/sales/"
+                                           data-event-trigger="click"
+                                           data-event-category="navbar"
+                                           data-event-action="click"
+                                           data-event-label="orders">
+                                            <i class="icon-bar-chart"></i>
+                                               Sales
                                         </a>
                                     </li>
                                     {% endif %}

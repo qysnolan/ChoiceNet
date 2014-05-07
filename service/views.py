@@ -23,6 +23,62 @@ def ServicesList(request):
                             {'searchValue': searchValue, 'url': url})
 
 
+def AddService(request):
+
+    from .forms import ServiceForm
+
+    is_submit = False
+
+    if request.method == 'GET':
+
+        form = ServiceForm()
+
+        return render_with_user(request, 'services/add_service.html',
+                                {"form": form, "is_submit": is_submit})
+
+    if request.method == 'POST':
+
+        form = ServiceForm(request.POST)
+        form_valid = False
+        is_submit = True
+
+        if form.is_valid():
+            form_valid = True
+            form.save(request.user)
+
+        return render_with_user(request, 'services/add_service.html',
+                                {"form": form, "is_submit": is_submit,
+                                 "form_valid": form_valid, })
+
+
+def EditService(request, serviceId):
+
+    from .forms import EditServiceForm
+
+    service = Service.objects.all().get(id=serviceId)
+
+    if request.method == 'GET':
+
+        form = EditServiceForm(service)
+
+        return render_with_user(request, 'services/edit_service.html',
+                                {"form": form, "serviceId": serviceId})
+
+    if request.method == 'POST':
+
+        form = EditServiceForm(service, request.POST)
+
+        form_valid = False
+
+        if form.is_valid():
+            form_valid = True
+            form.save()
+
+        return render_with_user(request, 'services/edit_service.html',
+                                {"form": form, "form_valid": form_valid,
+                                 "serviceId": serviceId})
+
+
 def ServicePayWithBalance(request):
 
     post = request.POST

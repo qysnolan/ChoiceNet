@@ -3,7 +3,7 @@
 {% load url from future %}
 
 {% block title %}
-    Orders
+    Sales
 {% endblock %}
 
 {% block page-css %}
@@ -40,19 +40,16 @@
 <div class="container">
     <div class="page-header">
         <h1>
-            Orders
+            Sales
         </h1>
     </div>
 
-    {% if isDeleted == 1 %}
-    <div class="alert alert-info">
-        Order cancelled successfully
+    <div>
+        <h4>
+            Paid total: <b style="color: darkred">USD${{ paid_sales|floatformat:"-4" }}</b>
+            Unpaid total: <b style="color: darkred">USD${{ unpaid_sales|floatformat:"-4"}}</b>
+        </h4>
     </div>
-    {% elif isDeleted == 0 %}
-    <div class="alert alert-danger">
-        Something went wrong, please re-do your action
-    </div>
-    {% endif %}
 
     {% for order in orders %}
 
@@ -90,18 +87,14 @@
         </div>
         <div class="span2 order-action-box">
             <h5>Action: </h5>
-            <button class="btn btn-info" style="margin-bottom: 10px"
-                    {% if order.is_paid %}disabled{% endif %}>
-                Pay this order
-            </button>
-            <form action="/orders/" id="searchField" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="orderId" value="{{ order.id }}">
-                <button class="btn btn-warning" style="margin: 0">
-                    <input class="hidden" style="margin: 0" type="submit">
-                    Delete this order
-                </button>
-            </form>
+            <a href="/services#/detail/{{ order.service.id }}" class="btn btn-info"
+               style="margin-bottom: 10px">
+                View Service
+            </a>
+            <a href="/edit/service/{{ order.service.id }}" class="btn btn-warning"
+               style="margin: 0">
+                Edit Service
+            </a>
         </div>
     </div>
     {% endfor %}

@@ -145,7 +145,7 @@ class SettingsForm(forms.Form):
     def save(self):
         current_user = self.user
 
-        if current_user.check_password(self.data['password']):
+        if current_user.check_password(hashlib.sha1(self.data['password']).hexdigest()):
 
             current_user.username = self.cleaned_data['email_address']
             current_user.first_name = self.cleaned_data['first_name']
@@ -153,5 +153,5 @@ class SettingsForm(forms.Form):
             current_user.save()
 
             if self.data['new_password']:
-                current_user.set_password(self.cleaned_data['new_password'])
+                current_user.set_password(hashlib.sha1(self.cleaned_data['new_password']).hexdigest())
                 current_user.save()
