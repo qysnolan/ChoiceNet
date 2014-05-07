@@ -1,0 +1,67 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block title %}
+    Comment
+{% endblock %}
+
+{% block page-css %}
+<style type="text/css">
+.login-container
+    {
+        max-width: 600px;
+    }
+</style>
+{% endblock %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container login-container center">
+    <div class="page-header">
+        <h1>
+            Comment: {{ service.name }}
+        </h1>
+    </div>
+
+    {% if is_submit %}
+        {% if not form_valid %}
+            <div class="alert alert-error">
+                Something went wrong, please re-add comment.
+            </div>
+        {% else %}
+            <div class="alert alert-success">
+                Comment successfully!
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-error">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </div>
+    {% endif %}
+
+    <form action="/add/comment/{{ service.id }}/" method="POST">
+
+        <div class="well">
+
+            {% csrf_token %}
+
+            {{ form.as_table }}
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <input type="submit" value="Comment"
+                           class="btn btn-primary" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>
+{% endblock %}

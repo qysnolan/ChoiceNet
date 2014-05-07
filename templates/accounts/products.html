@@ -27,7 +27,7 @@
 .order-action-box {
     border-left: 1px solid lightgrey;
     padding-left: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 </style>
 {% endblock %}
@@ -85,8 +85,12 @@
         </div>
         <div class="span2 order-action-box">
             <h5>Action: </h5>
+            <a href="/add/comment/{{ service.id }}" class="btn btn-success"
+               style="margin-bottom: 5px">
+                Comment
+            </a>
             <a href="/services#/detail/{{ service.id }}" class="btn btn-info"
-               style="margin-bottom: 10px">
+               style="margin-bottom: 5px">
                 View Service
             </a>
             <a href="/edit/service/{{ service.id }}" class="btn btn-warning"

@@ -168,34 +168,62 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
 
 def AddComment(request, serviceId):
 
-    from .forms import CommentForm
+    from .forms import CommentForm, ProviderCommentForm
 
     is_submit = False
     service = Service.objects.all().get(id=serviceId)
 
-    if request.method == 'GET':
+    if request.user.is_staff:
+        if request.method == 'GET':
 
-        form = CommentForm()
+            form = ProviderCommentForm()
 
-        return render_with_user(request, 'choiceNet/add_comment.html',
-                                {"form": form, "is_submit": is_submit,
-                                 "service": service})
+            return render_with_user(request,
+                                    'choiceNet/provider_add_comment.html',
+                                    {"form": form, "is_submit": is_submit,
+                                     "service": service})
 
-    if request.method == 'POST':
+        if request.method == 'POST':
 
-        form = CommentForm(request.POST)
-        form_valid = False
-        is_submit = True
-        service = Service.objects.all().get(id=serviceId)
+            form = ProviderCommentForm(request.POST)
+            form_valid = False
+            is_submit = True
+            service = Service.objects.all().get(id=serviceId)
 
-        if form.is_valid():
-            form_valid = True
-            form.save(request.user, service)
+            if form.is_valid():
+                form_valid = True
+                form.save(request.user, service)
 
-        return render_with_user(request, 'choiceNet/add_comment.html',
-                                {"form": form, "is_submit": is_submit,
-                                 "form_valid": form_valid,
-                                 "service": service})
+            return render_with_user(request,
+                                    'choiceNet/provider_add_comment.html',
+                                    {"form": form, "is_submit": is_submit,
+                                     "form_valid": form_valid,
+                                     "service": service})
+
+    else:
+        if request.method == 'GET':
+
+            form = CommentForm()
+
+            return render_with_user(request, 'choiceNet/add_comment.html',
+                                    {"form": form, "is_submit": is_submit,
+                                     "service": service})
+
+        if request.method == 'POST':
+
+            form = CommentForm(request.POST)
+            form_valid = False
+            is_submit = True
+            service = Service.objects.all().get(id=serviceId)
+
+            if form.is_valid():
+                form_valid = True
+                form.save(request.user, service)
+
+            return render_with_user(request, 'choiceNet/add_comment.html',
+                                    {"form": form, "is_submit": is_submit,
+                                     "form_valid": form_valid,
+                                     "service": service})
 
 
 def user_help(request):

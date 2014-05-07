@@ -24,5 +24,22 @@ class CommentForm(forms.Form):
                                    service=service,
                                    comment=self.cleaned_data['comment'],
                                    created_date=datetime.datetime.now(),
-                                   is_provider=user.is_staff, )
+                                   is_provider=False, )
+        c.save()
+
+
+class ProviderCommentForm(forms.Form):
+
+    comment = forms.CharField(required=False, widget=widgets.TextInput())
+
+    def save(self, user, service):
+        from .models import Comment
+        import datetime
+
+        c = Comment.objects.create(rate=3,
+                                   user=user,
+                                   service=service,
+                                   comment=self.cleaned_data['comment'],
+                                   created_date=datetime.datetime.now(),
+                                   is_provider=True, )
         c.save()
