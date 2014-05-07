@@ -213,11 +213,18 @@ def sales(request):
 def products_list(request):
 
     from service.models import Service
+    from choiceNet.models import Invoice
 
     user = request.user
 
     services = Service.objects.all().filter(owner=user)
     count = len(services)
+
+    for s in services:
+        invoices = Invoice.objects.all().filter(service=s, is_active=True,
+                                                is_paid=True)
+        s_count = len(invoices)
+        s.count = s_count
 
     context = {"services": services, "count": count}
 

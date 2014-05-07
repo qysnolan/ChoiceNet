@@ -50,6 +50,11 @@ urlpatterns = patterns(
         ServicesPayment, name="service_payment"),
     url(r'^pay_with_balance/service/$', ServicePayWithBalance,
         name="pay_with_balance"),
+    url(r'^sales/service/(?P<serviceId>\d+)/$', ServiceSalesNumber,
+        name="sales_service"),
+    url(r'^add/comment/(?P<serviceId>\d+)/(?P<formType>\d+)/$', AddComment,
+        name="add_comment"),
+    url(r'^get/comment/(?P<serviceId>\d+)/$', GetComments, name="get_comment"),
 
     # Balance related
     url(r'^add_balance', AddBalance, name="add_balance"),

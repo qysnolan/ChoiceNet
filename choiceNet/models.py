@@ -27,6 +27,25 @@ class Invoice(models.Model):
         return u'%s' % self.number
 
 
+class Comment(models.Model):
+
+    service = models.ForeignKey("service.Service", blank=False, null=False,
+                                related_name="comment_service")
+    user = models.ForeignKey("accounts.User", blank=False, null=False,
+                             related_name='comment_user')
+    rate = models.IntegerField(blank=False, null=False, default=3)
+    comment = models.CharField(max_length=4096, blank=True, default="0",
+                               null=True)
+    created_date = models.DateTimeField(blank=False, null=False)
+    is_provider = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ["created_date", "user"]
+
+    def __unicode__(self):
+        return u'%s' % self.user
+
+
 class Balance(models.Model):
 
     user = models.ForeignKey("accounts.User", blank=False, null=False,

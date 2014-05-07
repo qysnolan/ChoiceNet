@@ -135,12 +135,28 @@ serviceControllers.controller('ServiceListCtrl', function ($scope, $http) {
 });
 
 serviceControllers.controller('ServiceDetailCtrl',
-    ['$scope', '$routeParams', 'Service',
-    function($scope, $routeParams, Service) {
+    ['$scope', '$routeParams', '$http', 'Service',
+    function($scope, $routeParams, $http, Service) {
         $scope.service = Service.get({serviceId: $routeParams.serviceId},
             function(service) {
                 $scope.serviceName = service.name;
                 $scope.csrf = csrf;
                 $scope.date_created = Date.now()
-    });
+            });
+
+        var checkSalesNumber = function(serviceId) {
+            $http.get('/sales/service/'+serviceId).success(function(data) {
+                $scope.sales_number = data;
+            });
+        };
+        checkSalesNumber($routeParams.serviceId);
+
+        var getComment = function(serviceId) {
+            $http.get('/get/comment/'+serviceId).success(function(data) {
+                $scope.comment_count = data.count;
+                $scope.rate = data.rate;
+                $scope.comments = data.comments;
+            });
+        };
+        getComment($routeParams.serviceId);
 }]);

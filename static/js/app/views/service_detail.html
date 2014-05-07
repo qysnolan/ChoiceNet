@@ -26,8 +26,25 @@
         </div>
     </div>
     <div class="span8 pull-right" style="margin-top: 100px;">
-        <h4><i class="icon-hand-right"></i> {{service.name}}</h4>
-        <h5><i class="icon-hand-right"></i> Description:</h5>
+        <h4><i class="icon-hand-right"></i> Sales Number:
+            <b ng-show="sales_number == undefined">
+                <i class="icon-refresh icon-large icon-spin"></i>
+                Loading number ...
+            </b>
+            <b ng-show="sales_number!=null" style="color: darkred">
+                {{ sales_number }}
+            </b>
+        </h4>
+        <h4><i class="icon-hand-right"></i> Rate:
+            <b ng-show="rate == undefined">
+                <i class="icon-refresh icon-large icon-spin"></i>
+                Loading rate ...
+            </b>
+            <b ng-show="rate!=null" style="color: darkorange">
+                {{ rate }}/5
+            </b>
+        </h4>
+        <h4><i class="icon-hand-right"></i> Description:</h4>
         <p style="padding-left: 30px; padding-right: 30px">{{ service.description }}</p>
         <div >
             <h5><i class="icon-hand-right"></i> Specification: </h5>
@@ -42,6 +59,20 @@
                 <li>Controller ID: {{service.controller_id }} </li>
                 <li>Date Added: {{service.date_created | date:'medium'}}</li>
             </ul>
+        </div>
+        <h3>Total comments:
+            <b ng-show="comment_count == undefined">
+                <i class="icon-refresh icon-large icon-spin"></i>
+                Loading comments ...
+            </b>
+            <b ng-show="comment_count!=null">
+                {{ comment_count }}
+            </b>
+        </h3>
+        <div ng-show="comment_count!=null" ng-repeat="c in comments"
+             class="span8 pull-right nav-button" style="margin-right: 30px; margin-bottom: 5px">
+            <h5>{{ c.date }}, by <i style="color: darkgray">{{ c.user }}</i> <b ng-show="!c.is_provider">, Rate: {{ c.rate }}/5</b></h5>
+            <p>Comment: {{ c.comment }}</p>
         </div>
     </div>
 </div>

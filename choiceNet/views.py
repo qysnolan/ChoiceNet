@@ -166,6 +166,91 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
     return render_with_user(request, "paypal/balance_payment.html", context)
 
 
+def AddComment(request, serviceId, formType):
+
+    from .forms import CommentForm, ProviderCommentForm
+
+    is_submit = False
+    service = Service.objects.all().get(id=serviceId)
+
+    if formType == "0":
+        if request.method == 'GET':
+
+            form = ProviderCommentForm()
+
+            return render_with_user(request,
+                                    'choiceNet/provider_add_comment.html',
+                                    {"form": form, "is_submit": is_submit,
+                                     "service": service})
+
+        if request.method == 'POST':
+
+            form = ProviderCommentForm(request.POST)
+            form_valid = False
+            is_submit = True
+            service = Service.objects.all().get(id=serviceId)
+
+            if form.is_valid():
+                form_valid = True
+                form.save(request.user, service)
+
+            return render_with_user(request,
+                                    'choiceNet/provider_add_comment.html',
+                                    {"form": form, "is_submit": is_submit,
+                                     "form_valid": form_valid,
+                                     "service": service})
+
+    else:
+        if request.method == 'GET':
+
+            form = CommentForm()
+
+            return render_with_user(request, 'choiceNet/add_comment.html',
+                                    {"form": form, "is_submit": is_submit,
+                                     "service": service})
+
+        if request.method == 'POST':
+
+            form = CommentForm(request.POST)
+            form_valid = False
+            is_submit = True
+            service = Service.objects.all().get(id=serviceId)
+
+            if form.is_valid():
+                form_valid = True
+                form.save(request.user, service)
+
+            return render_with_user(request, 'choiceNet/add_comment.html',
+                                    {"form": form, "is_submit": is_submit,
+                                     "form_valid": form_valid,
+                                     "service": service})
+
+
+def GetComments(request, serviceId):
+
+    service = Service.objects.all().get(id=serviceId)
+    rate = 0
+    comments = Comment.objects.all().filter(service=service).\
+        order_by('created_date')
+    data = []
+    count = 0
+    from django.utils.timezone import localtime
+    for c in comments:
+        data.append({"rate": c.rate, "comment": c.comment,
+                     "date": str(localtime(c.created_date)),
+                     "user": str(c.user), "is_provider": c.is_provider})
+        if not c.is_provider:
+            rate += c.rate
+            count += 1
+
+    total_rate = float(rate)/float(count)
+
+    jsonData = json.dumps({"rate": str(round(total_rate, 2)),
+                           "count": len(data), "comments": data}, )
+
+    return HttpResponse(jsonData)
+
+
 def user_help(request):
 
     return HttpResponse("We are working hard on this function now!")
