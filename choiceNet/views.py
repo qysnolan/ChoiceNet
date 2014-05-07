@@ -166,6 +166,38 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
     return render_with_user(request, "paypal/balance_payment.html", context)
 
 
+def AddComment(request, serviceId):
+
+    from .forms import CommentForm
+
+    is_submit = False
+    service = Service.objects.all().get(id=serviceId)
+
+    if request.method == 'GET':
+
+        form = CommentForm()
+
+        return render_with_user(request, 'choiceNet/add_comment.html',
+                                {"form": form, "is_submit": is_submit,
+                                 "service": service})
+
+    if request.method == 'POST':
+
+        form = CommentForm(request.POST)
+        form_valid = False
+        is_submit = True
+        service = Service.objects.all().get(id=serviceId)
+
+        if form.is_valid():
+            form_valid = True
+            form.save(request.user, service)
+
+        return render_with_user(request, 'choiceNet/add_comment.html',
+                                {"form": form, "is_submit": is_submit,
+                                 "form_valid": form_valid,
+                                 "service": service})
+
+
 def user_help(request):
 
     return HttpResponse("We are working hard on this function now!")

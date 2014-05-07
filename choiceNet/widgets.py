@@ -120,6 +120,10 @@ class NumberInput(Input, widgets.NumberInput):
     input_type = "number"
 
 
+class IntegerInput(TextInput):
+    input_type = 'number'
+
+
 class PasswordInput(TextInput):
     input_type = "password"
 

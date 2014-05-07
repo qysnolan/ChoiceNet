@@ -27,7 +27,7 @@
 .order-action-box {
     border-left: 1px solid lightgrey;
     padding-left: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
 }
 </style>
 {% endblock %}
@@ -90,7 +90,11 @@
         </div>
         <div class="span2 order-action-box">
             <h5>Action: </h5>
-            <button class="btn btn-info" style="margin-bottom: 10px"
+            <a class="btn btn-success" style="margin-bottom: 5px"
+               href="/add/comment/{{ order.service.id }}">
+                Rate and Comment
+            </a>
+            <button class="btn btn-info" style="margin-bottom: 5px"
                     {% if order.is_paid %}disabled{% endif %}>
                 Pay this order
             </button>
