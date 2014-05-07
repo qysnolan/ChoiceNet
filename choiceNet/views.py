@@ -166,14 +166,14 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
     return render_with_user(request, "paypal/balance_payment.html", context)
 
 
-def AddComment(request, serviceId):
+def AddComment(request, serviceId, formType):
 
     from .forms import CommentForm, ProviderCommentForm
 
     is_submit = False
     service = Service.objects.all().get(id=serviceId)
 
-    if request.user.is_staff:
+    if formType == "0":
         if request.method == 'GET':
 
             form = ProviderCommentForm()
@@ -224,6 +224,26 @@ def AddComment(request, serviceId):
                                     {"form": form, "is_submit": is_submit,
                                      "form_valid": form_valid,
                                      "service": service})
+
+
+def GetComments(request, serviceId):
+
+    service = Service.objects.all().get(id=serviceId)
+    rate = 0
+    comments = Comment.objects.all().filter(service=service).\
+        order_by('created_date')
+    data = []
+    for c in comments:
+        data.append({"rate": c.rate, "comment": c.comment,
+                     "date": str(c.created_date), "user": str(c.user),
+                     "is_provider": c.is_provider})
+        if not c.is_provider:
+            rate += c.rate
+
+    jsonData = json.dumps({"rate": rate, "count": len(data),
+                           "comments": data}, )
+
+    return HttpResponse(jsonData)
 
 
 def user_help(request):
