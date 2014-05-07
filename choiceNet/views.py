@@ -243,7 +243,10 @@ def GetComments(request, serviceId):
             rate += c.rate
             count += 1
 
-    total_rate = float(rate)/float(count)
+    if count > 0:
+        total_rate = float(rate)/float(count)
+    else:
+        total_rate = 0
 
     jsonData = json.dumps({"rate": str(round(total_rate, 2)),
                            "count": len(data), "comments": data}, )
