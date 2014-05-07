@@ -3,7 +3,7 @@
 {% load url from future %}
 
 {% block title %}
-    Products
+    Sales
 {% endblock %}
 
 {% block page-css %}
@@ -40,55 +40,58 @@
 <div class="container">
     <div class="page-header">
         <h1>
-            Products
+            Sales
         </h1>
     </div>
 
     <div>
-        <a href="{% url "add_service" %}" class="btn btn-primary pull-right"
-           style="margin-bottom: 10px">
-            <i class="icon-plus"></i> Add Service
-        </a>
+        <h4>
+            Paid total: <b style="color: darkred">USD${{ paid_sales|floatformat:"-4" }}</b>
+            Unpaid total: <b style="color: darkred">USD${{ unpaid_sales|floatformat:"-4"}}</b>
+        </h4>
     </div>
 
-    {% for service in services %}
+    {% for order in orders %}
 
     <div class="span12 well" style="margin-left: 0;">
         <div class="span2 order-info-box">
             <p>
-                Order uploaded: <br/>
-                <b>{{ service.date_created |date:"M d, Y"}}</b><br/>
-                {{ service.date_created |time:"h:i:s a"}}
+                Order placed: <br/>
+                <b>{{ order.date_created |date:"M d, Y"}}</b><br/>
+                {{ order.date_created |time:"h:i:s a"}}
             </p>
-            <p>Price: <br />
-            <b style="color: darkred">USD${{ service.service_cost|floatformat:"-4" }}</b>
+            <p>Total: <br />
+            <b style="color: darkred">USD${{ order.service.service_cost|floatformat:"-4" }}</b>
             </p>
 
         </div>
         <div class="span2 order-payment-picture-frame">
-            {% if service.picture %}
+            {% if order.service.picture %}
             <img class="order-payment-picture"
-                 src="/static/media/{{ service.picture }}"
-                 alt="{{ service.name }}">
+                 src="/static/media/{{ order.service.picture }}"
+                 alt="{{ order.service.name }}">
             {% else %}
             <img class="order-payment-picture"
                  src="/static/imgs/network.gif"
-                 alt="{{ service.name }}">
+                 alt="{{ order.service.name }}">
             {% endif %}
         </div>
         <div class="span6">
-            <a href="/edit/service/{{ service.id }}/">
-                <h3>{{ service.name }}</h3>
+            <a href="/services#/detail/{{order.service.id}}">
+                <h3>{{order.service.name}}</h3>
             </a>
-            <p>Service ID: {{ service.service_id }}</p>
+            <p>Status: <b style="color: darkgoldenrod">
+                {% if order.is_paid %}PAID{% else %}NOT PAID{% endif %}</b>
+            </p>
+            <p>Reciept Number: {{ order.number }}</p>
         </div>
         <div class="span2 order-action-box">
             <h5>Action: </h5>
-            <a href="/services#/detail/{{ service.id }}" class="btn btn-info"
+            <a href="/services#/detail/{{ order.service.id }}" class="btn btn-info"
                style="margin-bottom: 10px">
                 View Service
             </a>
-            <a href="/edit/service/{{ service.id }}" class="btn btn-warning"
+            <a href="/edit/service/{{ order.service.id }}" class="btn btn-warning"
                style="margin: 0">
                 Edit Service
             </a>
@@ -96,7 +99,7 @@
     </div>
     {% endfor %}
     {% if count == 0 %}
-        <h3>No service found...</h3>
+        <h3>No order found...</h3>
     {% endif %}
 
 </div>

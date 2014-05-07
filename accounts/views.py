@@ -186,6 +186,30 @@ def orders(request):
 
 
 @login_required
+def sales(request):
+
+    from choiceNet.models import Invoice
+
+    orders = Invoice.objects.all().\
+        filter(service__owner=request.user, is_active=True).\
+        exclude(service_id=56)
+    count = len(orders)
+    paid_sales = 0
+    unpaid_sales = 0
+
+    for o in orders:
+        if o.is_paid:
+            paid_sales += o.amount*o.service.service_cost
+        else:
+            unpaid_sales += o.amount*o.service.service_cost
+
+    context = {"orders": orders, "count": count, "paid_sales": paid_sales,
+               "unpaid_sales": unpaid_sales}
+
+    return render_with_user(request, 'accounts/sales.html', context)
+
+
+@login_required
 def products_list(request):
 
     from service.models import Service
