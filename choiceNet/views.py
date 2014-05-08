@@ -112,7 +112,7 @@ def BalancePayment(request, amount, csrf, payStatus, date_created):
 
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "amount": service.service_cost,
+        "amount": int(amount)/100,
         "item_name": service.name,
         "invoice": invoice_number,
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
