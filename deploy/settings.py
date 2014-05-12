@@ -160,7 +160,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'debug_toolbar',
     'rest_framework',
-    'south',
     'paypal.standard.ipn',
     'accounts',
     'choiceNet',
