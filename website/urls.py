@@ -57,11 +57,13 @@ urlpatterns = patterns(
     url(r'^get/comment/(?P<serviceId>\d+)/$', GetComments, name="get_comment"),
 
     # Balance related
-    url(r'^add_balance', AddBalance, name="add_balance"),
+    url(r'^add_balance/', AddBalance, name="add_balance"),
     url(r'^paypal/payment/balance/(?P<amount>\d+)/'
         r'(?P<payStatus>\d+)/(?P<csrf>\w+)/(?P<date_created>\w+)/$',
         BalancePayment, name="balance_payment"),
-    url(r'^withdraw', ProviderWithdraw, name="withdraw"),
+    url(r'^withdraw/', ProviderWithdraw, name="withdraw"),
+    url(r'^balance/withdraw/', ProviderWithdrawToBalance,
+        name="withdraw_to_balance"),
 
     # Just for testing
     url(r'^hello/', hello),

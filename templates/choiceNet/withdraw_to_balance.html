@@ -28,13 +28,12 @@
     </div>
 
     <div>
-        You have withdrawn <b style="color: darkred">USD${{ amount }}</b> to
-        your provider account. <br/>
+        Your new balance is <b style="color: darkred">USD${{ new_balance }}</b>. <br/>
         Your new provider balance is
         <b style="color: darkred">USD${{ new_income }}</b>.
     </div>
 
-    <a href="{% url "sales" %}">Return to sales list.</a>
+    <a href="{% url "add_balance" %}">Return to add balance.</a>
 
 </div>
 {% endblock %}

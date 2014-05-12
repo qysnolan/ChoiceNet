@@ -69,6 +69,12 @@ def AddBalance(request):
 
     user = request.user
 
+    incomes = Income.objects.all().filter(provider=request.user)
+    if len(incomes) == 0:
+        income = 0
+    else:
+        income = Income.objects.all().get(provider=request.user).income
+
     if request.method == 'GET':
 
         balance = 0
@@ -80,7 +86,8 @@ def AddBalance(request):
             balance = b.balance
 
         return render_with_user(request, 'paypal/add_balance.html',
-                                {'balance': balance, 'amount_valid': 1})
+                                {'balance': balance, 'amount_valid': 1,
+                                 'income': income})
 
     if request.method == 'POST':
 
@@ -96,7 +103,8 @@ def AddBalance(request):
             b = Balance.objects.all().get(user=user)
             balance = b.balance
             return render_with_user(request, 'paypal/add_balance.html',
-                                    {'balance': balance, 'amount_valid': 0})
+                                    {'balance': balance, 'amount_valid': 0,
+                                     'income': income})
 
         return redirect(redirect_to)
 
@@ -290,6 +298,38 @@ def ProviderWithdraw(request):
     context = {"amount": amount, "new_income": income.income}
 
     return render_with_user(request, 'choiceNet/withdraw.html', context)
+
+
+def ProviderWithdrawToBalance(request):
+
+    provider = request.user
+
+    income = Income.objects.all().filter(provider=provider)
+
+    if len(income) == 0:
+        income = Income.objects.create(provider=provider, income=0,)
+        income.save()
+    else:
+        income = Income.objects.all().get(provider=provider)
+
+    balance = Balance.objects.all().filter(user=provider)
+
+    if len(balance) == 0:
+        balance = Balance.objects.create(user=provider, balance=0,)
+        balance.save()
+    else:
+        balance = Balance.objects.all().get(user=provider)
+
+    balance.balance += income.income
+    balance.save()
+
+    income.income = 0
+    income.save()
+
+    context = {"new_balance": balance.balance, "new_income": income.income}
+
+    return render_with_user(request, 'choiceNet/withdraw_to_balance.html',
+                            context)
 
 
 def user_help(request):
