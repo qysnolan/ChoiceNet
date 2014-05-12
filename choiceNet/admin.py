@@ -23,6 +23,12 @@ class BalanceAdmin(admin.ModelAdmin):
     search_fields = ("user", )
 
 
+class IncomeAdmin(admin.ModelAdmin):
+
+    list_display = ("provider", "income", "updated_time")
+    search_fields = ("provider", )
+
+
 class SessionAdmin(admin.ModelAdmin):
 
     list_display = ("user", "session", "start_time", "end_time", "is_login")
@@ -32,4 +38,5 @@ class SessionAdmin(admin.ModelAdmin):
 admin.site.register(Invoice, InvoiceAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Balance, BalanceAdmin)
+admin.site.register(Income, IncomeAdmin)
 admin.site.register(Session, SessionAdmin)

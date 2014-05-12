@@ -60,6 +60,21 @@ class Balance(models.Model):
         return u'%s' % self.user
 
 
+class Income(models.Model):
+
+    provider = models.ForeignKey("accounts.User", blank=False, null=False,
+                                 related_name='income_user')
+    income = models.DecimalField(max_digits=64, decimal_places=12, default=0,
+                                 blank=True, null=True)
+    updated_time = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        ordering = ["provider"]
+
+    def __unicode__(self):
+        return u'%s' % self.provider
+
+
 class Session(models.Model):
 
     session = models.IntegerField(blank=False, default=0, null=False)
