@@ -188,7 +188,7 @@ def orders(request):
 @login_required
 def sales(request):
 
-    from choiceNet.models import Invoice
+    from choiceNet.models import Invoice, Income
 
     orders = Invoice.objects.all().\
         filter(service__owner=request.user, is_active=True).\
@@ -203,8 +203,14 @@ def sales(request):
         else:
             unpaid_sales += o.amount*o.service.service_cost
 
+    incomes = Income.objects.all().filter(provider=request.user)
+    if len(incomes) == 0:
+        income = 0
+    else:
+        income = Income.objects.all().get(provider=request.user).income
+
     context = {"orders": orders, "count": count, "paid_sales": paid_sales,
-               "unpaid_sales": unpaid_sales}
+               "unpaid_sales": unpaid_sales, "income": income}
 
     return render_with_user(request, 'accounts/sales.html', context)
 

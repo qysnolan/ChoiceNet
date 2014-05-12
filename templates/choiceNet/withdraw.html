@@ -1,0 +1,40 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block title %}
+    Rate
+{% endblock %}
+
+{% block page-css %}
+<style type="text/css">
+.login-container
+    {
+        max-width: 600px;
+    }
+</style>
+{% endblock %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1>
+            Withdraw
+        </h1>
+    </div>
+
+    <div>
+        You have withdrawn <b style="color: darkred">USD${{ amount }}</b> to
+        your provider account. <br/>
+        Your new provider balance is
+        <b style="color: darkred">USD${{ new_income }}</b>.
+    </div>
+
+    <a href="{% url "sales" %}">Return to sales list.</a>
+
+</div>
+{% endblock %}

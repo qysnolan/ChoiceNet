@@ -61,6 +61,7 @@ urlpatterns = patterns(
     url(r'^paypal/payment/balance/(?P<amount>\d+)/'
         r'(?P<payStatus>\d+)/(?P<csrf>\w+)/(?P<date_created>\w+)/$',
         BalancePayment, name="balance_payment"),
+    url(r'^withdraw', ProviderWithdraw, name="withdraw"),
 
     # Just for testing
     url(r'^hello/', hello),

@@ -254,6 +254,44 @@ def GetComments(request, serviceId):
     return HttpResponse(jsonData)
 
 
+def ProviderWithdraw(request):
+
+    provider = request.user
+    income = Income.objects.all().filter(provider=provider)
+
+    if len(income) == 0:
+        income = Income.objects.create(provider=provider, income=0,)
+        income.save()
+    else:
+        income = Income.objects.all().get(provider=provider)
+
+    if income.updated_time is None:
+        from django.utils import timezone
+        updated_date = datetime.datetime(1970, 1, 1, 20, 0, 0, 0, timezone.utc)
+    else:
+        updated_date = income.updated_time
+
+    orders = Invoice.objects.all().\
+        filter(service__owner=provider, is_active=True, ).\
+        exclude(service_id=56)
+
+    amount = 0
+    count = 0
+
+    for o in orders:
+        if o.date_created > updated_date:
+            amount += o.amount*o.service.service_cost
+            count += 1
+
+    income.updated_time = datetime.datetime.now()
+    income.income += amount
+    income.save()
+
+    context = {"amount": amount, "new_income": income.income}
+
+    return render_with_user(request, 'choiceNet/withdraw.html', context)
+
+
 def user_help(request):
 
     return HttpResponse("We are working hard on this function now!")
@@ -273,7 +311,7 @@ def KeyExchange(request):
     # Create new session
     session = 0
     start_time = datetime.datetime.utcnow().replace(tzinfo=utc)
-    end_time = start_time + datetime.timedelta(0, 60)
+    end_time = start_time + datetime.timedelta(0, 360)
 
     s = Session.objects.create(session=session, start_time=start_time,
                                end_time=end_time, key=key)

@@ -44,11 +44,16 @@
         </h1>
     </div>
 
-    <div>
+    <div style="margin: 5px">
         <h4>
             Paid total: <b style="color: darkred">USD${{ paid_sales|floatformat:"-4" }}</b>
             Unpaid total: <b style="color: darkred">USD${{ unpaid_sales|floatformat:"-4"}}</b>
         </h4>
+    </div>
+
+    <div style="margin: 5px">
+        You have <b style="color: darkred">USD${{ income }}</b> in your provider account.
+        <a href="{% url "withdraw" %}" class="btn btn-success">Withdraw more to your provider account</a>
     </div>
 
     {% for order in orders %}
