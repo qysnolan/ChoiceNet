@@ -5,7 +5,7 @@ import json
 from function import *
 
 ##### Global variables #####
-url_root = 'http://nslab.ecs.umass.edu:8000/client/'
+url_root = 'http://nslab.ecs.umass.edu:8000/new/client/'
 key = None
 session_id = 0
 session = 0

@@ -522,3 +522,47 @@ def RequestRefund(request):
             "is_refund": is_refund}
 
     return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def RequestServiceWithPayPal(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    service_id = plain_text["service_id"]
+    amount = plain_text["amount"]
+    user = Session.objects.all().get(id=session_id).user
+    invoice_number = None
+    is_service = False
+    balance = -1
+    sufficient_balance = False
+
+    try:
+        s = Service.objects.all().get(service_id=service_id)
+        is_service = True
+        i = create_invoice(s, amount, user)
+        b = Balance.objects.all().get(user=user)
+        invoice_number = i.number
+        if s.service_cost * amount <= b.balance:
+            sufficient_balance = True
+            invoice_number = i.number
+            i.is_paid = True
+            i.save()
+            b.balance = b.balance - s.service_cost * amount
+            b.save()
+            balance = b.balance
+    except:
+        pass
+
+    data = {"balance": str(balance), "is_service": is_service,
+            "invoice_number": invoice_number,
+            "sufficient_balance": sufficient_balance}
+
+    return render_with_session(session_id, data)
