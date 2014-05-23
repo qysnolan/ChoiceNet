@@ -29,6 +29,8 @@ balance = 0
 # Get client public key
 crypto = DiffieHellman()
 send_data = {'publicKey': str(crypto.publicKey)}
+print "Request a new session"
+print "Client public key: " + str(crypto.publicKey)
 
 # Get server public key and session id
 receive = requests.post(url_root + 'key/exchange/', send_data)
@@ -36,11 +38,15 @@ received_data = json.loads(receive.text)
 
 serverKey = long(received_data["publicKey"])
 session_id = received_data["session_id"]
+print "Server public key: " + str(serverKey)
+print "Session ID: " + str(session_id)
 
 # Get crypto key
 crypto.genKey(serverKey)
 crypto.getKey()
 key = hexlify(crypto.key)
+print "Encryption key: " + key
+print 
 
 ##### User login #####
 # Data send to User login:
@@ -64,13 +70,18 @@ key = hexlify(crypto.key)
 # Get username and password
 # username = raw_input("Please enter username: ")
 # password = raw_input("Please enter password: ")
+print "User login"
 username = "yunsheng@umass.edu"
 password = "yunsheng"
 hash_password = hashlib.sha1(password).hexdigest()
 data = {'username': username, 'password': hash_password, }
+print "Password (plain text): " + password
+print "Password (hashed text): " + hash_password
+print "Client plain text data: " + str(data)
 
 # Encrypt data
 bin_data = encrypt(data, key)
+print "Client cipher data: " + bin_data
 
 # Request session number and login
 send_data = {"data": bin_data, 'session_id': session_id}
@@ -80,8 +91,9 @@ data = decrypt(received_data["data"], key)
 
 session = data["session"]
 balance = data['balance']
-
-print data
+print "Server cipher data: " + str(received_data)
+print "Deciphered server data: " + str(data)
+print
 
 ##### Request service #####
 # Data send to Request Service:
@@ -105,7 +117,7 @@ print data
 # is_service: if service does not exist, return false
 # invoice_number: the invoice of transaction
 # sufficient_balance: return True if balance is sufficient
-
+print "User request service"
 service_id = "56-add-balance"
 amount = 1
 
@@ -113,6 +125,8 @@ data = {"service_id": service_id, "session": session, "amount": amount}
 
 # Encrypt data
 bin_data = encrypt(data, key)
+print "Client plain text data: " + str(data)
+print "Client cipher data: " + bin_data
 
 # Request service
 send_data = {"data": bin_data, 'session_id': session_id}
@@ -124,7 +138,9 @@ invoice_number = data["invoice_number"]
 if float(data["balance"]) >= 0:
     balance = data["balance"]
 
-print data
+print "Server cipher data: " + str(received_data)
+print "Deciphered server data: " + str(data)
+print 
 
 
 ##### Pay unpaid order #####
@@ -141,7 +157,7 @@ print data
 # is_session: a boolean shows the session is set up or not
 # expire: a boolean shows the session is expired or not
 # data: cipher text, if session is not created, data = None
-# data = {"balance": balance, "is_invoice": is_service,
+# data = {"balance": balance, "is_invoice": is_invoice,
 #         "invoice_number": invoice_number,
 #         "sufficient_balance": sufficient_balance,
 #         "previous_paid": previous_paid}
@@ -150,11 +166,13 @@ print data
 # invoice_number: the invoice of transaction
 # sufficient_balance: return True if balance is sufficient
 # previous_paid: if the order is already paid, return true
-
+print "Pay unpaid order"
 data = {"invoice_number": invoice_number, "session": session, }
 
 # Encrypt data
 bin_data = encrypt(data, key)
+print "Client plain text data: " + str(data)
+print "Client cipher data: " + bin_data
 
 # Request service
 send_data = {"data": bin_data, 'session_id': session_id}
@@ -164,8 +182,10 @@ data = decrypt(received_data["data"], key)
 
 if float(data["balance"]) >= 0:
     balance = data["balance"]
-
-print data
+    
+print "Server cipher data: " + str(received_data)
+print "Deciphered server data: " + str(data)
+print 
 
 ##### Request refund #####
 # Data send to Request refund:
@@ -181,16 +201,18 @@ print data
 # is_session: a boolean shows the session is set up or not
 # expire: a boolean shows the session is expired or not
 # data: cipher text, if session is not created, data = None
-# data = {"balance": balance, "is_invoice": is_service,
+# data = {"balance": balance, "is_invoice": is_invoice,
 #         "is_refund": is_refund, }
 # balance: the new balance if transaction is not successful return -1
 # is_invoice: if invoice does not exist, return false
 # is_refund: return false, if refund is unsuccessful
-
+print "Request refund"
 data = {"invoice_number": invoice_number, "session": session, }
 
 # Encrypt data
 bin_data = encrypt(data, key)
+print "Client plain text data: " + str(data)
+print "Client cipher data: " + bin_data
 
 # Request service
 send_data = {"data": bin_data, 'session_id': session_id}
@@ -201,4 +223,6 @@ data = decrypt(received_data["data"], key)
 if float(data["balance"]) >= 0:
     balance = data["balance"]
 
-print data
+print "Server cipher data: " + str(received_data)
+print "Deciphered server data: " + str(data)
+print 
