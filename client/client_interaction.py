@@ -5,7 +5,7 @@ import json
 from function import *
 
 ##### Global variables #####
-url_root = 'http://nslab.ecs.umass.edu:8000/new/client/'
+url_root = 'http://0.0.0.0:8008/new/client/'
 key = None
 session_id = 0
 session = 0
@@ -103,20 +103,18 @@ print
 # data = {"service_id": service_id, "session": session, "amount": amount}
 # service_id: the id of service request
 # session: the number of session
-# amount: the amount of request service
+# amount: the amount of request service (amount doesn't have any effect)
 #
 # Data received from Request service:
 # received_data = {"is_session": is_session, "expire": expire, "data": data, }
 # is_session: a boolean shows the session is set up or not
 # expire: a boolean shows the session is expired or not
 # data: cipher text, if session is not created, data = None
-# data = {"balance": balance, "is_service": is_service,
-#         "invoice_number": invoice_number,
-#         "sufficient_balance": sufficient_balance}
-# balance: the new balance if transaction is not successful return -1
+# data = {"is_service": is_service, "invoice_number": invoice_number,
+#         'payment_url': payment_url}
 # is_service: if service does not exist, return false
 # invoice_number: the invoice of transaction
-# sufficient_balance: return True if balance is sufficient
+# payment_url: the url redirect user to make payment by PayPal
 print "User request service"
 service_id = "56-add-balance"
 amount = 1
@@ -135,12 +133,15 @@ received_data = json.loads(receive.text)
 data = decrypt(received_data["data"], key)
 
 invoice_number = data["invoice_number"]
-if float(data["balance"]) >= 0:
-    balance = data["balance"]
+payment_url = data["payment_url"]
+print payment_url
 
 print "Server cipher data: " + str(received_data)
 print "Deciphered server data: " + str(data)
-print 
+print
+
+# Pause for waiting payment
+foo = raw_input("After successful payment, enter anything: ")
 
 
 ##### Pay unpaid order #####
@@ -166,26 +167,26 @@ print
 # invoice_number: the invoice of transaction
 # sufficient_balance: return True if balance is sufficient
 # previous_paid: if the order is already paid, return true
-print "Pay unpaid order"
-data = {"invoice_number": invoice_number, "session": session, }
-
-# Encrypt data
-bin_data = encrypt(data, key)
-print "Client plain text data: " + str(data)
-print "Client cipher data: " + bin_data
-
-# Request service
-send_data = {"data": bin_data, 'session_id': session_id}
-receive = requests.post(url_root + 'pay/order/', send_data)
-received_data = json.loads(receive.text)
-data = decrypt(received_data["data"], key)
-
-if float(data["balance"]) >= 0:
-    balance = data["balance"]
-    
-print "Server cipher data: " + str(received_data)
-print "Deciphered server data: " + str(data)
-print 
+# print "Pay unpaid order"
+# data = {"invoice_number": invoice_number, "session": session, }
+#
+# # Encrypt data
+# bin_data = encrypt(data, key)
+# print "Client plain text data: " + str(data)
+# print "Client cipher data: " + bin_data
+#
+# # Request service
+# send_data = {"data": bin_data, 'session_id': session_id}
+# receive = requests.post(url_root + 'pay/order/', send_data)
+# received_data = json.loads(receive.text)
+# data = decrypt(received_data["data"], key)
+#
+# if float(data["balance"]) >= 0:
+#     balance = data["balance"]
+#
+# print "Server cipher data: " + str(received_data)
+# print "Deciphered server data: " + str(data)
+# print
 
 ##### Request refund #####
 # Data send to Request refund:
@@ -206,23 +207,23 @@ print
 # balance: the new balance if transaction is not successful return -1
 # is_invoice: if invoice does not exist, return false
 # is_refund: return false, if refund is unsuccessful
-print "Request refund"
-data = {"invoice_number": invoice_number, "session": session, }
-
-# Encrypt data
-bin_data = encrypt(data, key)
-print "Client plain text data: " + str(data)
-print "Client cipher data: " + bin_data
-
-# Request service
-send_data = {"data": bin_data, 'session_id': session_id}
-receive = requests.post(url_root + 'request/refund/', send_data)
-received_data = json.loads(receive.text)
-data = decrypt(received_data["data"], key)
-
-if float(data["balance"]) >= 0:
-    balance = data["balance"]
-
-print "Server cipher data: " + str(received_data)
-print "Deciphered server data: " + str(data)
-print 
+# print "Request refund"
+# data = {"invoice_number": invoice_number, "session": session, }
+#
+# # Encrypt data
+# bin_data = encrypt(data, key)
+# print "Client plain text data: " + str(data)
+# print "Client cipher data: " + bin_data
+#
+# # Request service
+# send_data = {"data": bin_data, 'session_id': session_id}
+# receive = requests.post(url_root + 'request/refund/', send_data)
+# received_data = json.loads(receive.text)
+# data = decrypt(received_data["data"], key)
+#
+# if float(data["balance"]) >= 0:
+#     balance = data["balance"]
+#
+# print "Server cipher data: " + str(received_data)
+# print "Deciphered server data: " + str(data)
+# print

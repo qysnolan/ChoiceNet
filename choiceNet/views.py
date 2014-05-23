@@ -541,28 +541,71 @@ def RequestServiceWithPayPal(request):
     user = Session.objects.all().get(id=session_id).user
     invoice_number = None
     is_service = False
-    balance = -1
-    sufficient_balance = False
+    payment_url = None
+    print service_id
 
     try:
         s = Service.objects.all().get(service_id=service_id)
         is_service = True
-        i = create_invoice(s, amount, user)
-        b = Balance.objects.all().get(user=user)
-        invoice_number = i.number
-        if s.service_cost * amount <= b.balance:
-            sufficient_balance = True
-            invoice_number = i.number
-            i.is_paid = True
-            i.save()
-            b.balance = b.balance - s.service_cost * amount
-            b.save()
-            balance = b.balance
+        date_created = str(int(float(time.time()*1000)))
+        invoice_number = date_created + '-service-' + str(s.id) + '-' \
+                         + str(user.id)
+        dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
+        i = Invoice.objects.create(date_created=dateTime, service=s,
+                                   buyer=user, amount=amount, is_paid=False,
+                                   number=invoice_number)
+        i.save()
+        payment_url = 'paypal/payment/service/' + str(s.id) + '/2/' \
+                      + date_created + '/' + str(user.id) + '/'
+        print payment_url
     except:
         pass
 
-    data = {"balance": str(balance), "is_service": is_service,
-            "invoice_number": invoice_number,
-            "sufficient_balance": sufficient_balance}
+    data = {"is_service": is_service, "invoice_number": invoice_number,
+            "payment_url": payment_url}
 
     return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def ClientServicesPayment(request, serviceId, payStatus, date_created, userId):
+
+    service = Service.objects.all().get(id=int(serviceId))
+    if date_created == "0":
+        date_created = str(time.time())
+    invoice_number = date_created + '-service-' + str(serviceId) + "-" \
+                     + str(userId)
+
+    i = None
+
+    if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
+        payStatus = "3"
+    else:
+        i = Invoice.objects.all().get(number=invoice_number)
+
+    paypal_dict = {
+        "business": settings.PAYPAL_RECEIVER_EMAIL,
+        "amount": service.service_cost,
+        "item_name": service.name,
+        "invoice": invoice_number,
+        "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
+        "return_url": settings.SITE_NAME + "new/client/paypal/payment/service/"
+                      + serviceId + "/1/" + date_created + "/" + userId + '/',
+        "cancel_return": settings.SITE_NAME
+                         + "new/client/paypal/payment/service/" + serviceId
+                         + "/0/" + date_created + "/" + userId + '/',
+    }
+
+    if payStatus == "1":
+        i.is_paid = True
+        i.save()
+    if payStatus == "0":
+        i.is_paid = False
+        i.save()
+
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form.sandbox(), "service": service,
+               "payStatus": payStatus, "invoice_number": invoice_number,
+               "date_created": date_created, "serviceId": serviceId, }
+
+    return render_with_user(request, "client/payment.html", context)

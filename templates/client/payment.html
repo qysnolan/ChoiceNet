@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>
+        PayPal Payment
+    </title>
+
+    <style>
+    .service-payment-picture {
+        width: 95px;
+        height: 88px;
+    }
+    .service-payment-picture-frame {
+        margin: 5px;
+        padding: 5px;
+        width: 100px;
+        height: 100px;
+        border: 1px solid darkgray;
+    }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Check out</h1>
+    </div>
+    {% if payStatus == '1'%}
+    <div class="alert alert-info">
+        You have paid successfully. Please close the browser and follow the
+        instructions in App.
+    </div>
+    {% endif %}
+    {% if payStatus == '0'%}
+    <div class="alert alert-danger">
+        You cancelled payment. You have paid <b>unsuccessfully</b>!
+    </div>
+    {% endif %}
+    {% if payStatus == '3'%}
+    <div class="alert alert-danger">
+        Something went wrong, please click close browser and redo the payment.
+    </div>
+    {% elif payStatus == '2' or payStatus == '0' %}
+    <div class="span12 well" style="margin-left: 0;">
+        <div class="span2 service-payment-picture-frame">
+            {% if service.picture %}
+            <img class="service-payment-picture"
+                 src="/static/media/{{ service.picture }}"
+                 alt="{{ service.name }}">
+            {% else %}
+            <img class="service-payment-picture"
+                 src="/static/imgs/network.gif"
+                 alt="{{ service.name }}">
+            {% endif %}
+        </div>
+        <div class="span7">
+            <a href="/services#/detail/{{service.id}}">
+                <h3>{{service.name}}</h3>
+            </a>
+        </div>
+        <div class="span3 pull-right center">
+            <h4 style="color: darkred;">USD${{ service.service_cost|floatformat:"-12" }}</h4>
+            {{ form }}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+</body>

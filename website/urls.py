@@ -103,6 +103,8 @@ urlpatterns = patterns(
         name="request_new_session"),
     url(r'^new/client/request/service', RequestServiceWithPayPal,
         name="request_service"),
-
+    url(r'^new/client/paypal/payment/service/(?P<serviceId>\d+)/'
+        r'(?P<payStatus>\d+)/(?P<date_created>\w+)/(?P<userId>\d+)/$',
+        ClientServicesPayment, name="client_service_payment"),
 
 )
