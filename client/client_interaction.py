@@ -134,7 +134,6 @@ data = decrypt(received_data["data"], key)
 
 invoice_number = data["invoice_number"]
 payment_url = data["payment_url"]
-print payment_url
 
 print "Server cipher data: " + str(received_data)
 print "Deciphered server data: " + str(data)
@@ -142,6 +141,9 @@ print
 
 # Pause for waiting payment
 foo = raw_input("After successful payment, enter anything: ")
+
+# User will redirect to a payment page and follow instructions to finish
+# payment by PayPal
 
 
 ##### Pay unpaid order #####
@@ -158,35 +160,82 @@ foo = raw_input("After successful payment, enter anything: ")
 # is_session: a boolean shows the session is set up or not
 # expire: a boolean shows the session is expired or not
 # data: cipher text, if session is not created, data = None
-# data = {"balance": balance, "is_invoice": is_invoice,
+# data = {"is_invoice": is_invoice,
 #         "invoice_number": invoice_number,
-#         "sufficient_balance": sufficient_balance,
-#         "previous_paid": previous_paid}
-# balance: the new balance if transaction is not successful return -1
-# is_invoice: if invoice does not exist, return false
+#         'payment_url': payment_url, "previous_paid": previous_paid}
 # invoice_number: the invoice of transaction
-# sufficient_balance: return True if balance is sufficient
+# is_invoice: if invoice does not exist, return false
+# payment_url: the url redirect user to make payment by PayPal if order is paid
+# or order can't be found, payment_url = None
 # previous_paid: if the order is already paid, return true
-# print "Pay unpaid order"
+print "Pay unpaid order"
+data = {"invoice_number": invoice_number, "session": session, }
+
+# Encrypt data
+bin_data = encrypt(data, key)
+print "Client plain text data: " + str(data)
+print "Client cipher data: " + bin_data
+
+# Request service
+send_data = {"data": bin_data, 'session_id': session_id}
+receive = requests.post(url_root + 'pay/order/', send_data)
+received_data = json.loads(receive.text)
+data = decrypt(received_data["data"], key)
+
+invoice_number = data["invoice_number"]
+payment_url = data["payment_url"]
+
+print "Server cipher data: " + str(received_data)
+print "Deciphered server data: " + str(data)
+print
+
+# Pause for waiting payment
+foo = raw_input("After successful payment, enter anything: ")
+
+# User will redirect to a payment page and follow instructions to finish
+# payment by PayPal
+
+##### Check Payment Status #####
+# Data send to Request refund:
+# send_data = {"data": data, 'session_id': session_id}
+# session_id: the id of session
+# data: cipher text
 # data = {"invoice_number": invoice_number, "session": session, }
+# invoice_number: the order to refund
+# session: the number of session
 #
-# # Encrypt data
-# bin_data = encrypt(data, key)
-# print "Client plain text data: " + str(data)
-# print "Client cipher data: " + bin_data
-#
-# # Request service
-# send_data = {"data": bin_data, 'session_id': session_id}
-# receive = requests.post(url_root + 'pay/order/', send_data)
-# received_data = json.loads(receive.text)
-# data = decrypt(received_data["data"], key)
-#
-# if float(data["balance"]) >= 0:
-#     balance = data["balance"]
-#
-# print "Server cipher data: " + str(received_data)
-# print "Deciphered server data: " + str(data)
-# print
+# Data received from Request refund:
+# received_data = {"is_session": is_session, "expire": expire, "data": data, }
+# is_session: a boolean shows the session is set up or not
+# expire: a boolean shows the session is expired or not
+# data: cipher text, if session is not created, data = None
+# data = {"is_invoice": is_invoice, "invoice_number": invoice_number,
+#         'payment_status': payment_status}
+# invoice_number: the invoice of transaction
+# is_invoice: if invoice does not exist, return false
+# payment_status: payment_status
+
+print "Check payment status"
+data = {"invoice_number": invoice_number, "session": session, }
+
+# Encrypt data
+bin_data = encrypt(data, key)
+print "Client plain text data: " + str(data)
+print "Client cipher data: " + bin_data
+
+# Request service
+send_data = {"data": bin_data, 'session_id': session_id}
+receive = requests.post(url_root + 'check/payment/status/', send_data)
+received_data = json.loads(receive.text)
+data = decrypt(received_data["data"], key)
+
+invoice_number = data["invoice_number"]
+payment_status = data["payment_status"]
+
+print "Server cipher data: " + str(received_data)
+print "Deciphered server data: " + str(data)
+print
+
 
 ##### Request refund #####
 # Data send to Request refund:

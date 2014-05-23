@@ -459,7 +459,6 @@ def PayOrder(request):
 
     try:
         i = Invoice.objects.all().get(number=invoice_number)
-        print i.is_active
         if i.is_active:
             s = i.service
             is_invoice = True
@@ -557,7 +556,6 @@ def RequestServiceWithPayPal(request):
         i.save()
         payment_url = 'paypal/payment/service/' + str(s.id) + '/2/' \
                       + date_created + '/' + str(user.id) + '/'
-        print payment_url
     except:
         pass
 
@@ -609,3 +607,73 @@ def ClientServicesPayment(request, serviceId, payStatus, date_created, userId):
                "date_created": date_created, "serviceId": serviceId, }
 
     return render_with_user(request, "client/payment.html", context)
+
+
+@csrf_exempt
+def PayOrderWithPayPal(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    invoice_number = plain_text["invoice_number"]
+    user = Session.objects.all().get(id=session_id).user
+    is_invoice = False
+    previous_paid = True
+    payment_url = None
+
+    try:
+        i = Invoice.objects.all().get(number=invoice_number)
+        if i.is_active:
+            s = i.service
+            is_invoice = True
+            if not i.is_paid:
+                previous_paid = False
+                date_created = invoice_number.split('-')[0]
+                payment_url = 'paypal/payment/service/' + str(s.id) + '/2/' \
+                      + date_created + '/' + str(user.id) + '/'
+    except:
+        pass
+
+    data = {"is_invoice": is_invoice,
+            "invoice_number": invoice_number, "previous_paid": previous_paid,
+            "payment_url": payment_url}
+
+    return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def CheckPaymentStatus(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    invoice_number = plain_text["invoice_number"]
+    user = Session.objects.all().get(id=session_id).user
+    is_invoice = False
+    payment_status = False
+
+    try:
+        i = Invoice.objects.all().get(number=invoice_number)
+        if i.is_active:
+            is_invoice = True
+            if i.is_paid:
+                payment_status = True
+    except:
+        pass
+
+    data = {"is_invoice": is_invoice, "invoice_number": invoice_number,
+            "payment_status": payment_status}
+
+    return render_with_session(session_id, data)
