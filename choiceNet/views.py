@@ -581,16 +581,17 @@ def ClientServicesPayment(request, serviceId, payStatus, date_created, userId):
     else:
         i = Invoice.objects.all().get(number=invoice_number)
 
+    cost = int(service.service_cost * 100) / 100.0
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "amount": service.service_cost,
+        "amount": cost,
         "item_name": service.name,
         "invoice": invoice_number,
         "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
-        "return_url": settings.SITE_NAME + "new/client/paypal/payment/service/"
+        "return_url": settings.SITE_NAME + "/new/client/paypal/payment/service/"
                       + serviceId + "/1/" + date_created + "/" + userId + '/',
         "cancel_return": settings.SITE_NAME
-                         + "new/client/paypal/payment/service/" + serviceId
+                         + "/new/client/paypal/payment/service/" + serviceId
                          + "/0/" + date_created + "/" + userId + '/',
     }
 

@@ -116,7 +116,7 @@ print
 # invoice_number: the invoice of transaction
 # payment_url: the url redirect user to make payment by PayPal
 print "User request service"
-service_id = "56-add-balance"
+service_id = "10.5.0.1_0_10.4.0.2"
 amount = 1
 
 data = {"service_id": service_id, "session": session, "amount": amount}
