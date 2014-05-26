@@ -190,6 +190,18 @@ def sales(request):
 
     from choiceNet.models import Invoice, Income
 
+    refund_approved = 2
+
+    if request.method == "POST":
+        try:
+            orderId = request.POST["orderId"]
+            order = Invoice.objects.all().get(id=orderId)
+            order.refund_status = "approved"
+            order.save()
+            refund_approved = 1
+        except:
+            refund_approved = 0
+
     orders = Invoice.objects.all().\
         filter(service__owner=request.user, is_active=True).\
         exclude(service_id=56)
@@ -210,7 +222,8 @@ def sales(request):
         income = Income.objects.all().get(provider=request.user).income
 
     context = {"orders": orders, "count": count, "paid_sales": paid_sales,
-               "unpaid_sales": unpaid_sales, "income": income}
+               "unpaid_sales": unpaid_sales, "income": income,
+               "refund_approved": refund_approved}
 
     return render_with_user(request, 'accounts/sales.html', context)
 

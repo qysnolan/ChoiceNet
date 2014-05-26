@@ -44,6 +44,16 @@
         </h1>
     </div>
 
+    {% if refund_approved == 1 %}
+    <div class="alert alert-info">
+        Refund approved successfully
+    </div>
+    {% elif refund_approved == 0 %}
+    <div class="alert alert-danger">
+        Something went wrong, please re-do your action
+    </div>
+    {% endif %}
+
     <div style="margin: 5px">
         <h4>
             Paid total: <b style="color: darkred">USD${{ paid_sales|floatformat:"-4" }}</b>
@@ -88,7 +98,15 @@
                 <h3>{{order.service.name}}</h3>
             </a>
             <p>Status: <b style="color: darkgoldenrod">
-                {% if order.is_paid %}PAID{% else %}NOT PAID{% endif %}</b>
+                {% if order.refund_status == "request" %}
+                Requested Refund
+                {% elif order.refund_status == "approved" %}
+                Refund Request is Approved
+                {% elif order.refund_status == "refunded" %}
+                Refunded
+                {% else %}
+                {% if order.is_paid %}PAID{% else %}NOT PAID{% endif %}
+                {% endif %}</b>
             </p>
             <p>Reciept Number: {{ order.number }}</p>
         </div>
@@ -103,14 +121,18 @@
                 View Service
             </a>
             <a href="/edit/service/{{ order.service.id }}" class="btn btn-warning"
-               style="margin: 0">
+               style="margin-bottom: 5px">
                 Edit Service
             </a>
             {% if order.refund_status == "request" %}
-            <a href="/approve/refund/{{ order.service.id }}" class="btn btn-info"
-               style="margin-bottom: 5px">
-                Approve Refund
-            </a>
+            <form action="/sales/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="orderId" value="{{ order.id }}">
+                <button class="btn btn-info" style="margin: 0px">
+                    <input class="hidden" style="margin: 0" type="submit">
+                    Approve Refund
+                </button>
+            </form>
             {% endif %}
         </div>
     </div>
