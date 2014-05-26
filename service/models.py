@@ -51,6 +51,9 @@ class Service(models.Model):
     controller_id = models.CharField(max_length=255, blank=True, null=True)
     controller_ip = models.CharField(max_length=255, blank=True, null=True)
     service_listings = models.CharField(max_length=1024, blank=True, null=True)
+    # "request": user request refund; "approved": service provider approved
+    # refund; "refunded": manager refunded to user
+    refund_status = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         ordering = ["name", "service_id"]
