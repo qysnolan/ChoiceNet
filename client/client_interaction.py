@@ -115,6 +115,7 @@ print
 # is_service: if service does not exist, return false
 # invoice_number: the invoice of transaction
 # payment_url: the url redirect user to make payment by PayPal
+# (the full url must be url_root + payment_url)
 print "User request service"
 service_id = "10.5.0.1_0_10.4.0.2"
 amount = 1
@@ -166,6 +167,7 @@ foo = raw_input("After successful payment, enter anything: ")
 # invoice_number: the invoice of transaction
 # is_invoice: if invoice does not exist, return false
 # payment_url: the url redirect user to make payment by PayPal if order is paid
+# (the full url must be url_root + payment_url)
 # or order can't be found, payment_url = None
 # previous_paid: if the order is already paid, return true
 print "Pay unpaid order"
