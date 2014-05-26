@@ -459,7 +459,6 @@ def PayOrder(request):
 
     try:
         i = Invoice.objects.all().get(number=invoice_number)
-        print i.is_active
         if i.is_active:
             s = i.service
             is_invoice = True
@@ -520,5 +519,195 @@ def RequestRefund(request):
 
     data = {"balance": str(balance), "is_invoice": is_invoice,
             "is_refund": is_refund}
+
+    return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def RequestServiceWithPayPal(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    service_id = plain_text["service_id"]
+    amount = plain_text["amount"]
+    user = Session.objects.all().get(id=session_id).user
+    invoice_number = None
+    is_service = False
+    payment_url = None
+    print service_id
+
+    try:
+        s = Service.objects.all().get(service_id=service_id)
+        is_service = True
+        date_created = str(int(float(time.time()*1000)))
+        invoice_number = date_created + '-service-' + str(s.id) + '-' \
+                         + str(user.id)
+        dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
+        i = Invoice.objects.create(date_created=dateTime, service=s,
+                                   buyer=user, amount=amount, is_paid=False,
+                                   number=invoice_number)
+        i.save()
+        payment_url = 'paypal/payment/service/' + str(s.id) + '/2/' \
+                      + date_created + '/' + str(user.id) + '/'
+    except:
+        pass
+
+    data = {"is_service": is_service, "invoice_number": invoice_number,
+            "payment_url": payment_url}
+
+    return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def ClientServicesPayment(request, serviceId, payStatus, date_created, userId):
+
+    service = Service.objects.all().get(id=int(serviceId))
+    if date_created == "0":
+        date_created = str(time.time())
+    invoice_number = date_created + '-service-' + str(serviceId) + "-" \
+                     + str(userId)
+
+    i = None
+
+    if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
+        payStatus = "3"
+    else:
+        i = Invoice.objects.all().get(number=invoice_number)
+
+    cost = int(service.service_cost * 100) / 100.0
+    paypal_dict = {
+        "business": settings.PAYPAL_RECEIVER_EMAIL,
+        "amount": cost,
+        "item_name": service.name,
+        "invoice": invoice_number,
+        "notify_url": "%s%s" % (settings.SITE_NAME, reverse('paypal-ipn')),
+        "return_url": settings.SITE_NAME + "/new/client/paypal/payment/service/"
+                      + serviceId + "/1/" + date_created + "/" + userId + '/',
+        "cancel_return": settings.SITE_NAME
+                         + "/new/client/paypal/payment/service/" + serviceId
+                         + "/0/" + date_created + "/" + userId + '/',
+    }
+
+    if payStatus == "1":
+        i.is_paid = True
+        i.save()
+    if payStatus == "0":
+        i.is_paid = False
+        i.save()
+
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {"form": form.sandbox(), "service": service,
+               "payStatus": payStatus, "invoice_number": invoice_number,
+               "date_created": date_created, "serviceId": serviceId, }
+
+    return render_with_user(request, "client/payment.html", context)
+
+
+@csrf_exempt
+def PayOrderWithPayPal(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    invoice_number = plain_text["invoice_number"]
+    user = Session.objects.all().get(id=session_id).user
+    is_invoice = False
+    previous_paid = True
+    payment_url = None
+
+    try:
+        i = Invoice.objects.all().get(number=invoice_number)
+        if i.is_active:
+            s = i.service
+            is_invoice = True
+            if not i.is_paid:
+                previous_paid = False
+                date_created = invoice_number.split('-')[0]
+                payment_url = 'paypal/payment/service/' + str(s.id) + '/2/' \
+                      + date_created + '/' + str(user.id) + '/'
+    except:
+        pass
+
+    data = {"is_invoice": is_invoice,
+            "invoice_number": invoice_number, "previous_paid": previous_paid,
+            "payment_url": payment_url}
+
+    return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def CheckPaymentStatus(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    invoice_number = plain_text["invoice_number"]
+    user = Session.objects.all().get(id=session_id).user
+    is_invoice = False
+    payment_status = False
+
+    try:
+        i = Invoice.objects.all().get(number=invoice_number)
+        if i.is_active:
+            is_invoice = True
+            if i.is_paid:
+                payment_status = True
+    except:
+        pass
+
+    data = {"is_invoice": is_invoice, "invoice_number": invoice_number,
+            "payment_status": payment_status}
+
+    return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def RequestRefundToOwner(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    invoice_number = plain_text["invoice_number"]
+    user = Session.objects.all().get(id=session_id).user
+    is_invoice = False
+    is_refund = False
+
+    try:
+        i = Invoice.objects.all().get(number=invoice_number)
+        if i.is_active:
+            is_invoice = True
+            if i.refund_status is None and i.is_paid:
+                i.refund_status = "request"
+                i.save()
+                is_refund = True
+    except:
+        pass
+
+    data = {"is_invoice": is_invoice, "is_refund": is_refund}
 
     return render_with_session(session_id, data)

@@ -19,6 +19,9 @@ class Invoice(models.Model):
     amount = models.IntegerField(max_length=1000, blank=True, null=True)
     is_paid = models.BooleanField(default=False, blank=False, null=False)
     is_active = models.BooleanField(default=True)
+    # "request": user request refund; "approved": service provider approved
+    # refund; "refunded": manager refunded to user
+    refund_status = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         ordering = ["date_created", "number"]

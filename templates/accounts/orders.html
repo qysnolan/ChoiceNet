@@ -84,7 +84,15 @@
                 <h3>{{order.service.name}}</h3>
             </a>
             <p>Status: <b style="color: darkgoldenrod">
-                {% if order.is_paid %}PAID{% else %}NOT PAID{% endif %}</b>
+                {% if order.refund_status == "request" %}
+                Requested Refund
+                {% elif order.refund_status == "approved" %}
+                Refund Request is Approved
+                {% elif order.refund_status == "refunded" %}
+                Refunded
+                {% else %}
+                {% if order.is_paid %}PAID{% else %}NOT PAID{% endif %}
+                {% endif %}</b>
             </p>
             <p>Reciept Number: {{ order.number }}</p>
         </div>
@@ -98,14 +106,19 @@
                     {% if order.is_paid %}disabled{% endif %}>
                 Pay this order
             </button>
-            <form action="/orders/" id="searchField" method="POST">
+            <form action="/orders/" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="orderId" value="{{ order.id }}">
-                <button class="btn btn-warning" style="margin: 0">
+                <button class="btn btn-warning" style="margin: 0px">
                     <input class="hidden" style="margin: 0" type="submit">
                     Delete this order
                 </button>
             </form>
+            {% if order.refund_status == None %}
+            <button class="btn btn-info" style="margin-bottom: 5px">
+                Request Refund
+            </button>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

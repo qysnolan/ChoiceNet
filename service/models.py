@@ -70,3 +70,19 @@ class ServiceType(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.name
+
+
+class ServiceOwner(models.Model):
+
+    owner = models.ForeignKey("accounts.User", blank=True, null=True,
+                              related_name='service_owner_owner')
+    service = models.ForeignKey("service.Service", blank=True, null=True,
+                                related_name='service_owner_service')
+    share_cost = models.DecimalField(max_digits=64, decimal_places=12,
+                                     blank=False, null=False, default=0.0)
+
+    class Meta:
+        ordering = ["owner"]
+
+    def __unicode__(self):
+        return u'%s' % self.owner

@@ -96,4 +96,20 @@ urlpatterns = patterns(
     url(r'^client/pay/order', PayOrder, name="pay_order"),
     url(r'^client/request/refund', RequestRefund, name="request_refund"),
     url(r'^auth/login/$', login, name="auth_login"),
+
+    # New Interaction with Client App
+    url(r'^new/client/key/exchange', KeyExchange, name="key_exchange"),
+    url(r'^new/client/request/new/session', NewSession,
+        name="request_new_session"),
+    url(r'^new/client/request/service', RequestServiceWithPayPal,
+        name="request_service"),
+    url(r'^new/client/paypal/payment/service/(?P<serviceId>\d+)/'
+        r'(?P<payStatus>\d+)/(?P<date_created>\w+)/(?P<userId>\d+)/$',
+        ClientServicesPayment, name="client_service_payment"),
+    url(r'^new/client/pay/order', PayOrderWithPayPal, name="pay_order_paypal"),
+    url(r'^new/client/check/payment/status', CheckPaymentStatus,
+        name="check_payment_status"),
+    url(r'^new/client/request/refund', RequestRefundToOwner,
+        name="request_refund_to_owner"),
+
 )

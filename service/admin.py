@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, ServiceType
+from .models import Service, ServiceType, ServiceOwner
 
 
 class ServiceAdmin(admin.ModelAdmin):
@@ -16,5 +16,11 @@ class ServiceTypeAdmin(admin.ModelAdmin):
     search_fields = ("name", "category", "description")
 
 
+class ServiceOwnerAdmin(admin.ModelAdmin):
+    list_display = ("owner", "service", "share_cost")
+    search_fields = ("owner", "service")
+
+
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceType, ServiceTypeAdmin)
+admin.site.register(ServiceOwner, ServiceOwnerAdmin)
