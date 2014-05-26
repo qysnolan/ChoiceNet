@@ -678,3 +678,36 @@ def CheckPaymentStatus(request):
             "payment_status": payment_status}
 
     return render_with_session(session_id, data)
+
+
+@csrf_exempt
+def RequestRefundToOwner(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    invoice_number = plain_text["invoice_number"]
+    user = Session.objects.all().get(id=session_id).user
+    is_invoice = False
+    is_refund = False
+
+    try:
+        i = Invoice.objects.all().get(number=invoice_number)
+        if i.is_active:
+            is_invoice = True
+            if i.refund_status is None and i.is_paid:
+                i.refund_status = "request"
+                i.save()
+                is_refund = True
+    except:
+        pass
+
+    data = {"is_invoice": is_invoice, "is_refund": is_refund}
+
+    return render_with_session(session_id, data)

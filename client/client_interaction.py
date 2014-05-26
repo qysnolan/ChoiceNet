@@ -251,28 +251,23 @@ print
 # is_session: a boolean shows the session is set up or not
 # expire: a boolean shows the session is expired or not
 # data: cipher text, if session is not created, data = None
-# data = {"balance": balance, "is_invoice": is_invoice,
-#         "is_refund": is_refund, }
-# balance: the new balance if transaction is not successful return -1
+# data = {"is_invoice": is_invoice,  "is_refund": is_refund, }
 # is_invoice: if invoice does not exist, return false
-# is_refund: return false, if refund is unsuccessful
-# print "Request refund"
-# data = {"invoice_number": invoice_number, "session": session, }
-#
-# # Encrypt data
-# bin_data = encrypt(data, key)
-# print "Client plain text data: " + str(data)
-# print "Client cipher data: " + bin_data
-#
-# # Request service
-# send_data = {"data": bin_data, 'session_id': session_id}
-# receive = requests.post(url_root + 'request/refund/', send_data)
-# received_data = json.loads(receive.text)
-# data = decrypt(received_data["data"], key)
-#
-# if float(data["balance"]) >= 0:
-#     balance = data["balance"]
-#
-# print "Server cipher data: " + str(received_data)
-# print "Deciphered server data: " + str(data)
-# print
+# is_refund: return false, if request is unsuccessful
+print "Request refund"
+data = {"invoice_number": invoice_number, "session": session, }
+
+# Encrypt data
+bin_data = encrypt(data, key)
+print "Client plain text data: " + str(data)
+print "Client cipher data: " + bin_data
+
+# Request service
+send_data = {"data": bin_data, 'session_id': session_id}
+receive = requests.post(url_root + 'request/refund/', send_data)
+received_data = json.loads(receive.text)
+data = decrypt(received_data["data"], key)
+
+print "Server cipher data: " + str(received_data)
+print "Deciphered server data: " + str(data)
+print
