@@ -3,7 +3,7 @@
 {% load url from future %}
 
 {% block title %}
-    Orders
+    Refund Requests
 {% endblock %}
 
 {% block page-css %}
@@ -40,15 +40,15 @@
 <div class="container">
     <div class="page-header">
         <h1>
-            Orders
+            Refund Requests
         </h1>
     </div>
 
-    {% if isDeleted == 1 %}
+    {% if refund_status == 1 %}
     <div class="alert alert-info">
-        Order cancelled successfully
+        Refund approved successfully
     </div>
-    {% elif isDeleted == 0 %}
+    {% elif refund_status == 0 %}
     <div class="alert alert-danger">
         Something went wrong, please re-do your action
     </div>
@@ -98,32 +98,19 @@
         </div>
         <div class="span2 order-action-box">
             <h5>Action: </h5>
-            <a class="btn btn-success" style="margin-bottom: 5px"
-               href="/add/comment/{{ order.service.id }}/1/">
-                Rate and Comment
-            </a>
-            <button class="btn btn-info" style="margin-bottom: 5px"
-                    {% if order.is_paid %}disabled{% endif %}>
-                Pay this order
-            </button>
-            <form action="/orders/" method="POST">
+            <form action="/check/refund/request/" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="orderId" value="{{ order.id }}">
-                <button class="btn btn-warning" style="margin: 0px">
+                <button class="btn btn-info" style="margin: 0px">
                     <input class="hidden" style="margin: 0" type="submit">
-                    Delete this order
+                    Refund
                 </button>
             </form>
-            {% if order.refund_status == None %}
-            <a href="/request/refund/{{ order.id }}" class="btn btn-info" style="margin-bottom: 5px">
-                Request Refund
-            </a>
-            {% endif %}
         </div>
     </div>
     {% endfor %}
     {% if count == 0 %}
-        <h3>No order found...</h3>
+        <h3>No request found...</h3>
     {% endif %}
 
 </div>

@@ -3,7 +3,7 @@ from django.shortcuts import redirect, HttpResponse
 
 from choiceNet.functions import render_with_user
 from choiceNet.decorators import *
-from choiceNet.models import Income
+from choiceNet.models import Income, Invoice
 
 class LoginView(View):
     """
@@ -292,3 +292,44 @@ def request_withdraw(request, incomeId):
 
     return HttpResponse(
         "Request is successfully sent to Manager, please return.")
+
+
+@login_required
+def refund_request(request):
+
+    refund_status = 2
+
+    if request.method == "POST":
+        try:
+            orderId = request.POST["orderId"]
+            order = Invoice.objects.all().get(id=orderId)
+            order.refund_status = "refunded"
+            order.is_paid = False
+            order.save()
+            refund_status = 1
+        except:
+            refund_status = 0
+
+    orders = Invoice.objects.all().filter(refund_status="approved")
+    count = len(orders)
+
+    context = {"orders": orders, "refund_status": refund_status,
+               "count": count}
+
+    return render_with_user(request, 'accounts/refund_request.html', context)
+
+
+@login_required
+def request_refund(request, orderId):
+
+    orders = Invoice.objects.all().filter(id=orderId)
+
+    if len(orders) == 0:
+        return HttpResponse("Something went wrong.")
+
+    order = Invoice.objects.all().get(id=orderId)
+    order.refund_status = "request"
+    order.save()
+
+    return HttpResponse(
+        "Request is successfully sent to Provider, please return.")

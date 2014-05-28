@@ -44,10 +44,12 @@ urlpatterns = patterns(
     url(r'^add/service/$', AddService, name="add_service"),
     url(r'^check/withdraw/request/$', withdraw_request,
         name="withdraw_request"),
-    url(r'^check/refund/request/$', withdraw_request,
+    url(r'^check/refund/request/$', refund_request,
         name="refund_request"),
     url(r'^request/withdraw/(?P<incomeId>\d+)/$', request_withdraw,
         name="request_withdraw"),
+    url(r'^request/refund/(?P<orderId>\d+)/$', request_refund,
+        name="request_refund"),
 
     # Shopping part
     url(r'^services', ServicesList, name="services"),
