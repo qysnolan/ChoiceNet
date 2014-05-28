@@ -70,6 +70,9 @@ class Income(models.Model):
     income = models.DecimalField(max_digits=64, decimal_places=12, default=0,
                                  blank=True, null=True)
     updated_time = models.DateTimeField(blank=True, null=True)
+    withdraw_status = models.CharField(max_length=128, blank=True,
+                                       default=None, null=True)
+    withdraw_date = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         ordering = ["provider"]

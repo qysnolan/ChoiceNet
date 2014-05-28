@@ -25,7 +25,8 @@ class BalanceAdmin(admin.ModelAdmin):
 
 class IncomeAdmin(admin.ModelAdmin):
 
-    list_display = ("provider", "income", "updated_time")
+    list_display = ("provider", "income", "updated_time", "withdraw_status",
+                    "withdraw_date")
     search_fields = ("provider", )
 
 
