@@ -46,6 +46,8 @@ urlpatterns = patterns(
         name="withdraw_request"),
     url(r'^check/refund/request/$', withdraw_request,
         name="refund_request"),
+    url(r'^request/withdraw/(?P<incomeId>\d+)/$', request_withdraw,
+        name="request_withdraw"),
 
     # Shopping part
     url(r'^services', ServicesList, name="services"),

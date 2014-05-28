@@ -3,7 +3,7 @@ from django.shortcuts import redirect, HttpResponse
 
 from choiceNet.functions import render_with_user
 from choiceNet.decorators import *
-
+from choiceNet.models import Income
 
 class LoginView(View):
     """
@@ -219,7 +219,7 @@ def sales(request):
     if len(incomes) == 0:
         income = 0
     else:
-        income = Income.objects.all().get(provider=request.user).income
+        income = Income.objects.all().get(provider=request.user)
 
     context = {"orders": orders, "count": count, "paid_sales": paid_sales,
                "unpaid_sales": unpaid_sales, "income": income,
@@ -253,7 +253,6 @@ def products_list(request):
 @login_required
 def withdraw_request(request):
 
-    from choiceNet.models import Income
     import datetime
 
     withdraw_status = 2
@@ -276,4 +275,20 @@ def withdraw_request(request):
     context = {"incomes": incomes, "withdraw_status": withdraw_status,
                "count": count}
 
-    return render_with_user(request, 'accounts/refund_request.html', context)
+    return render_with_user(request, 'accounts/withdraw_request.html', context)
+
+
+@login_required
+def request_withdraw(request, incomeId):
+
+    incomes = Income.objects.all().filter(id=incomeId)
+
+    if len(incomes) == 0:
+        return HttpResponse("Something went wrong.")
+
+    income = Income.objects.all().get(id=incomeId)
+    income.withdraw_status = "request"
+    income.save()
+
+    return HttpResponse(
+        "Request is successfully sent to Manager, please return.")

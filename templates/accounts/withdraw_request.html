@@ -60,8 +60,8 @@
         <div class="span2 order-info-box">
             <p>
                 Last Update: <br/>
-                <b>{{ income.date_created |date:"M d, Y"}}</b><br/>
-                {{ income.date_created |time:"h:i:s a"}}
+                <b>{{ income.withdraw_date |date:"M d, Y"}}</b><br/>
+                {{ income.withdraw_date |time:"h:i:s a"}}
             </p>
             <p>Total: <br />
             <b style="color: darkred">USD${{ income.income|floatformat:"-4" }}</b>

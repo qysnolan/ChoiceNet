@@ -62,9 +62,16 @@
     </div>
 
     <div style="margin: 5px">
-        You have <b style="color: darkred">USD${% if income == 0 %}0{% else %}{{ income }}{% endif %}</b> in your provider account.
+        You have <b style="color: darkred">USD${% if income == 0 %}0{% else %}{{ income.income }}{% endif %}</b> in your provider account.
         {% if income != 0 %}
-        <a href="{% url "withdraw" %}" class="btn btn-success">Withdraw more to your provider account</a>
+        <br />
+        <a href="{% url "withdraw" %}" >Withdraw more to your provider account</a>
+            {% if income.withdraw_status != "request" %}
+            <br/>
+            <a href="/request/withdraw/{{ income.id }}">Request withdraw to PayPal account</a>
+            {% else %}
+            <p>You have request to withdraw to PayPal account.</p>
+            {% endif %}
         {% endif %}
     </div>
 
