@@ -1,0 +1,92 @@
+{% extends "Base.html" %}
+
+{% load url from future %}
+
+{% block title %}
+    Withdraw Requests
+{% endblock %}
+
+{% block page-css %}
+<style type="text/css">
+.order-payment-picture {
+    width: 95px;
+    height: 88px;
+}
+.order-payment-picture-frame {
+    margin: 5px;
+    padding: 5px;
+    width: 100px;
+    height: 100px;
+    border: 1px solid darkgray;
+}
+.order-info-box {
+    margin-right: 10px;
+    width: 150px;
+    border-right: 1px solid lightgrey
+}
+.order-action-box {
+    border-left: 1px solid lightgrey;
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+</style>
+{% endblock %}
+
+{% block page-js %}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="page-header">
+        <h1>
+            Withdraw Requests
+        </h1>
+    </div>
+
+    {% if withdraw_status == 1 %}
+    <div class="alert alert-info">
+        Withdraw approved successfully
+    </div>
+    {% elif withdraw_status == 0 %}
+    <div class="alert alert-danger">
+        Something went wrong, please re-do your action
+    </div>
+    {% endif %}
+
+    {% for income in incomes %}
+
+    <div class="span12 well" style="margin-left: 0;">
+        <div class="span2 order-info-box">
+            <p>
+                Last Update: <br/>
+                <b>{{ income.date_created |date:"M d, Y"}}</b><br/>
+                {{ income.date_created |time:"h:i:s a"}}
+            </p>
+            <p>Total: <br />
+            <b style="color: darkred">USD${{ income.income|floatformat:"-4" }}</b>
+            </p>
+
+        </div>
+        <div class="span6">
+            <h3>{{income.provider}}</h3>
+        </div>
+        <div class="span2 order-action-box">
+            <h5>Action: </h5>
+            <form action="/check/withdraw/request/" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="incomeId" value="{{ income.id }}">
+                <button class="btn btn-info" style="margin: 0px">
+                    <input class="hidden" style="margin: 0" type="submit">
+                    Approve Withdraw
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+    {% if count == 0 %}
+        <h3>No order found...</h3>
+    {% endif %}
+
+</div>
+{% endblock %}

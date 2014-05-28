@@ -248,3 +248,32 @@ def products_list(request):
     context = {"services": services, "count": count}
 
     return render_with_user(request, 'accounts/products.html', context)
+
+
+@login_required
+def withdraw_request(request):
+
+    from choiceNet.models import Income
+    import datetime
+
+    withdraw_status = 2
+
+    if request.method == "POST":
+        try:
+            incomeId = request.POST["incomeId"]
+            income = Income.objects.all().get(id=incomeId)
+            income.withdraw_status = None
+            income.income = 0
+            income.withdraw_date = datetime.datetime.now()
+            income.save()
+            withdraw_status = 1
+        except:
+            withdraw_status = 0
+
+    incomes = Income.objects.all().filter(withdraw_status="request")
+    count = len(incomes)
+
+    context = {"incomes": incomes, "withdraw_status": withdraw_status,
+               "count": count}
+
+    return render_with_user(request, 'accounts/refund_request.html', context)

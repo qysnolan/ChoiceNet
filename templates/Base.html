@@ -325,6 +325,28 @@
                                     </li>
                                     {% endif %}
                                     {% endif %}
+                                    {% if user.isSuper %}
+                                    <li>
+                                        <a href="/check/refund/request"
+                                           data-event-trigger="click"
+                                           data-event-category="navbar"
+                                           data-event-action="click"
+                                           data-event-label="Help">
+                                            <i class="icon-exchange"></i>
+                                               Refund Request
+                                        </a>
+                                    </li>
+                                    <li>
+                                         <a href="/check/withdraw/request"
+                                           data-event-trigger="click"
+                                           data-event-category="navbar"
+                                           data-event-action="click"
+                                           data-event-label="Help">
+                                            <i class="icon-credit-card"></i>
+                                               Withdraw Request
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     <li>
                                         <a href={% if user %}
                                                        "{% url "settings" %}"
