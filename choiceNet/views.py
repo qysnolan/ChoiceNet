@@ -581,7 +581,7 @@ def ClientServicesPayment(request, serviceId, payStatus, date_created, userId):
     else:
         i = Invoice.objects.all().get(number=invoice_number)
 
-    cost = int(service.service_cost * 100) / 100.0
+    cost = i.amount
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "amount": cost,
@@ -605,9 +605,56 @@ def ClientServicesPayment(request, serviceId, payStatus, date_created, userId):
     form = PayPalPaymentsForm(initial=paypal_dict)
     context = {"form": form.sandbox(), "service": service,
                "payStatus": payStatus, "invoice_number": invoice_number,
-               "date_created": date_created, "serviceId": serviceId, }
+               "date_created": date_created, "serviceId": serviceId,
+               "cost": cost}
 
     return render_with_user(request, "client/payment.html", context)
+
+
+@csrf_exempt
+def PayOrderTogetherWithPayPal(request):
+
+    session_id = request.POST["session_id"]
+    s = Session.objects.all().get(id=session_id)
+
+    data = request.POST["data"]
+    plain_text = decrypt(data, s.key)
+
+    session = plain_text["session"]
+    check_session(session_id, session)
+
+    invoice_number_list = plain_text["invoice_number_list"]
+    user = Session.objects.all().get(id=session_id).user
+    payment_url = None
+    total_amount = 0
+    invoice_number_together = None
+
+    try:
+        title_service = Invoice.objects.all().\
+            get(number=invoice_number_list[0]).service
+
+        for invoice_number in invoice_number_list:
+            i = Invoice.objects.all().get(number=invoice_number)
+            total_amount += i.service.service_cost
+
+        date_created = str(int(float(time.time()*1000)))
+        invoice_number_together = date_created + '-service-' \
+                                  + str(title_service.id) + '-' + str(user.id)
+        dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
+        i = Invoice.objects.create(date_created=dateTime,
+                                   service=title_service, buyer=user,
+                                   amount=total_amount, is_paid=False,
+                                   number=invoice_number_together)
+        i.save()
+        payment_url = 'paypal/payment/service/' + str(title_service.id) \
+                      + '/2/' + date_created + '/' + str(user.id) + '/'
+    except:
+        pass
+
+    data = {"invoice_number_together": invoice_number_together,
+            "payment_url": payment_url}
+
+    return render_with_session(session_id, data)
 
 
 @csrf_exempt
