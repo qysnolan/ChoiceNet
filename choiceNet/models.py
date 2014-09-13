@@ -30,6 +30,19 @@ class Invoice(models.Model):
         return u'%s' % self.number
 
 
+class InvoiceCollection(models.Model):
+
+    invoice = models.ForeignKey("choiceNet.Invoice", blank=False, null=False,
+                                related_name='collection_invoice')
+    collection = models.ManyToManyField(Invoice)
+
+    class Meta:
+        ordering = ["invoice"]
+
+    def __unicode__(self):
+        return u'%s' % self.invoice
+
+
 class Comment(models.Model):
 
     service = models.ForeignKey("service.Service", blank=False, null=False,

@@ -10,6 +10,12 @@ class InvoiceAdmin(admin.ModelAdmin):
     search_fields = ("date_created", "buyer", "service", )
 
 
+class InvoiceCollectionAdmin(admin.ModelAdmin):
+
+    list_display = ("invoice", )
+    search_fields = ("invoice", "collection")
+
+
 class CommentAdmin(admin.ModelAdmin):
 
     list_display = ("user", "service", "created_date", "rate", "is_provider")
@@ -37,6 +43,7 @@ class SessionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Invoice, InvoiceAdmin)
+admin.site.register(InvoiceCollection, InvoiceCollectionAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Balance, BalanceAdmin)
 admin.site.register(Income, IncomeAdmin)
