@@ -12,7 +12,6 @@ session = 0
 balance = 0
 
 ##### Key exchange #####
-
 # Data send to Key exchange:
 # send_data = {'publicKey': publicKey}
 # publicKey: the client publicKey for server to obtain crypto key
@@ -117,10 +116,11 @@ print
 # payment_url: the url redirect user to make payment by PayPal
 # (the full url must be url_root + payment_url)
 print "User request service"
-service_id = "10.5.0.1_0_10.4.0.2"
-amount = 1
+service_id_1 = "10.5.0.1_0_10.4.0.2"
+service_id_2 = "10.3.0.2_0_10.6.0.2"
+service_id_list = [service_id_1, service_id_2]
 
-data = {"service_id": service_id, "session": session, "amount": amount}
+data = {"service_id_list": service_id_list, "session": session}
 
 # Encrypt data
 bin_data = encrypt(data, key)
@@ -145,56 +145,6 @@ foo = raw_input("After successful payment, enter anything: ")
 
 # User will redirect to a payment page and follow instructions to finish
 # payment by PayPal
-
-##### Pay order together#####
-# Data send to Pay order together:
-# send_data = {"data": data, 'session_id': session_id}
-# session_id: the id of session
-# data: cipher text
-# data = {"invoice_number_list": invoice_number_list, "session": session, }
-# invoice_number_list: the list of invoice number pay together
-# session: the number of session
-#
-# Data received from Pay unpaid order:
-# received_data = {"is_session": is_session, "expire": expire, "data": data, }
-# is_session: a boolean shows the session is set up or not
-# expire: a boolean shows the session is expired or not
-# data: cipher text, if session is not created, data = None
-# data = {"invoice_number_together": invoice_number_together,
-#         'payment_url': payment_url}
-# invoice_number_together: the combination of invoice numbers
-# payment_url: the url redirect user to make payment by PayPal if order is paid
-# (the full url must be url_root + payment_url)
-# or order can't be found, payment_url = None
-print "Pay order together"
-# Create a list with all invoice numbers should pay
-invoice_number_list = [invoice_number, invoice_number]
-data = {"invoice_number_list": invoice_number_list, "session": session, }
-
-# Encrypt data
-bin_data = encrypt(data, key)
-print "Client plain text data: " + str(data)
-print "Client cipher data: " + bin_data
-
-# Request service
-send_data = {"data": bin_data, 'session_id': session_id}
-receive = requests.post(url_root + 'together/pay/order/', send_data)
-received_data = json.loads(receive.text)
-data = decrypt(received_data["data"], key)
-
-invoice_number_together = data["invoice_number_together"]
-payment_url = data["payment_url"]
-
-print "Server cipher data: " + str(received_data)
-print "Deciphered server data: " + str(data)
-print
-
-# Pause for waiting payment
-foo = raw_input("After successful payment, enter anything: ")
-
-# User will redirect to a payment page and follow instructions to finish
-# payment by PayPal
-
 
 ##### Pay unpaid order #####
 # Data send to Pay unpaid order:

@@ -43,6 +43,7 @@
     </div>
     {% elif payStatus == '2' or payStatus == '0' %}
     <div class="span12 well" style="margin-left: 0;">
+        {% for service in services %}
         <div class="span2 service-payment-picture-frame">
             {% if service.picture %}
             <img class="service-payment-picture"
@@ -59,8 +60,9 @@
                 <h3>{{service.name}}</h3>
             </a>
         </div>
+        {% endfor %}
         <div class="span3 pull-right center">
-            <h4 style="color: darkred;">USD${{ cost|floatformat:"-12" }}</h4>
+            <h4 style="color: darkred;">Total: USD${{ cost|floatformat:"-12" }}</h4>
             {{ form }}
         </div>
     </div>

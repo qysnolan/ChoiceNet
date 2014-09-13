@@ -535,31 +535,47 @@ def RequestServiceWithPayPal(request):
     session = plain_text["session"]
     check_session(session_id, session)
 
-    service_id = plain_text["service_id"]
-    amount = plain_text["amount"]
+    service_id_list = plain_text["service_id_list"]
     user = Session.objects.all().get(id=session_id).user
-    invoice_number = None
     is_service = False
     payment_url = None
-    print service_id
+
+    service_collection = Service.objects.\
+        all().get(service_id="999.999.999.999_999_999.999.999.999")
+    date_created = str(int(float(time.time()*1000)))
+    dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
+    invoice_collection_number = date_created + '-service-' \
+                                + str(service_collection.id) + '-' \
+                                + str(user.id)
+    invoice_collection = Invoice.objects.create(date_created=dateTime,
+                                                service=service_collection,
+                                                buyer=user, amount=1,
+                                                is_paid=False,
+                                                number=invoice_collection_number)
+    invoice_collection.save()
+    collection = InvoiceCollection.objects.create(invoice=invoice_collection)
+    collection.save()
 
     try:
-        s = Service.objects.all().get(service_id=service_id)
+        for service_id in service_id_list:
+            s = Service.objects.all().get(service_id=service_id)
+            invoice_number = date_created + '-service-' + str(s.id) + '-' \
+                             + str(user.id)
+            i = Invoice.objects.create(date_created=dateTime, service=s,
+                                       buyer=user, amount=1,
+                                       is_paid=False, number=invoice_number)
+            i.save()
+            collection.collection.add(i)
+            collection.save()
+
         is_service = True
-        date_created = str(int(float(time.time()*1000)))
-        invoice_number = date_created + '-service-' + str(s.id) + '-' \
-                         + str(user.id)
-        dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
-        i = Invoice.objects.create(date_created=dateTime, service=s,
-                                   buyer=user, amount=amount, is_paid=False,
-                                   number=invoice_number)
-        i.save()
-        payment_url = 'paypal/payment/service/' + str(s.id) + '/2/' \
-                      + date_created + '/' + str(user.id) + '/'
+        payment_url = 'paypal/payment/service/' + str(service_collection.id) \
+                      + '/2/' + date_created + '/' + str(user.id) + '/'
     except:
         pass
 
-    data = {"is_service": is_service, "invoice_number": invoice_number,
+    data = {"is_service": is_service,
+            "invoice_number": invoice_collection_number,
             "payment_url": payment_url}
 
     return render_with_session(session_id, data)
@@ -574,14 +590,22 @@ def ClientServicesPayment(request, serviceId, payStatus, date_created, userId):
     invoice_number = date_created + '-service-' + str(serviceId) + "-" \
                      + str(userId)
 
-    i = None
+    invoice_collection = None
+    service_collection = []
+    cost = 0
 
     if len(Invoice.objects.all().filter(number=invoice_number)) == 0:
         payStatus = "3"
     else:
-        i = Invoice.objects.all().get(number=invoice_number)
+        invoice_collection = Invoice.objects.all().get(number=invoice_number)
 
-    cost = i.amount
+    collection = InvoiceCollection.objects.\
+        all().get(invoice=invoice_collection)
+
+    for i in collection.collection.all():
+        cost = cost + i.service.service_cost
+        service_collection.append(i.service)
+
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "amount": cost,
@@ -596,65 +620,24 @@ def ClientServicesPayment(request, serviceId, payStatus, date_created, userId):
     }
 
     if payStatus == "1":
-        i.is_paid = True
-        i.save()
+        invoice_collection.is_paid = True
+        invoice_collection.save()
+        for i in collection.collection.all():
+            i.is_paid = True
+            i.save()
     if payStatus == "0":
-        i.is_paid = False
-        i.save()
-
+        invoice_collection.is_paid = False
+        invoice_collection.save()
+        for i in collection.collection.all():
+            i.is_paid = False
+            i.save()
     form = PayPalPaymentsForm(initial=paypal_dict)
-    context = {"form": form.sandbox(), "service": service,
+    context = {"form": form.sandbox(), "services": service_collection,
                "payStatus": payStatus, "invoice_number": invoice_number,
                "date_created": date_created, "serviceId": serviceId,
                "cost": cost}
 
     return render_with_user(request, "client/payment.html", context)
-
-
-@csrf_exempt
-def PayOrderTogetherWithPayPal(request):
-
-    session_id = request.POST["session_id"]
-    s = Session.objects.all().get(id=session_id)
-
-    data = request.POST["data"]
-    plain_text = decrypt(data, s.key)
-
-    session = plain_text["session"]
-    check_session(session_id, session)
-
-    invoice_number_list = plain_text["invoice_number_list"]
-    user = Session.objects.all().get(id=session_id).user
-    payment_url = None
-    total_amount = 0
-    invoice_number_together = None
-
-    try:
-        title_service = Invoice.objects.all().\
-            get(number=invoice_number_list[0]).service
-
-        for invoice_number in invoice_number_list:
-            i = Invoice.objects.all().get(number=invoice_number)
-            total_amount += i.service.service_cost
-
-        date_created = str(int(float(time.time()*1000)))
-        invoice_number_together = date_created + '-service-' \
-                                  + str(title_service.id) + '-' + str(user.id)
-        dateTime = datetime.datetime.fromtimestamp(float(date_created)/1000)
-        i = Invoice.objects.create(date_created=dateTime,
-                                   service=title_service, buyer=user,
-                                   amount=total_amount, is_paid=False,
-                                   number=invoice_number_together)
-        i.save()
-        payment_url = 'paypal/payment/service/' + str(title_service.id) \
-                      + '/2/' + date_created + '/' + str(user.id) + '/'
-    except:
-        pass
-
-    data = {"invoice_number_together": invoice_number_together,
-            "payment_url": payment_url}
-
-    return render_with_session(session_id, data)
 
 
 @csrf_exempt

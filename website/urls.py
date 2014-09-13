@@ -115,8 +115,6 @@ urlpatterns = patterns(
         r'(?P<payStatus>\d+)/(?P<date_created>\w+)/(?P<userId>\d+)/$',
         ClientServicesPayment, name="client_service_payment"),
     url(r'^new/client/pay/order', PayOrderWithPayPal, name="pay_order_paypal"),
-    url(r'^new/client/together/pay/order', PayOrderTogetherWithPayPal,
-        name="together_pay_order_paypal"),
     url(r'^new/client/check/payment/status', CheckPaymentStatus,
         name="check_payment_status"),
     url(r'^new/client/request/refund', RequestRefundToOwner,
