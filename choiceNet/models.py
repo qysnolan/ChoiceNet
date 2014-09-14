@@ -32,8 +32,7 @@ class Invoice(models.Model):
 
 class InvoiceCollection(models.Model):
 
-    invoice = models.ForeignKey("choiceNet.Invoice", blank=False, null=False,
-                                related_name='collection_invoice')
+    invoice = models.ForeignKey("choiceNet.Invoice", blank=False, null=False, related_name='collection_invoice')
     collection = models.ManyToManyField(Invoice)
 
     class Meta:
